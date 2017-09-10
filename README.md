@@ -1,1 +1,1 @@
-# hexo_jiexiao
+用于多终端同步hexo后端
