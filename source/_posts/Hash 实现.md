@@ -6,7 +6,11 @@ tags:
   - c语言
 ---
 
-# Hash 实现
+{% note default %}
+C语言标准库中未实现hashtable, 在编程练习时经常使用该数据结构，以备不时之需
+{% endnote %}
+
+<!--more-->
 
 ```c
 #include <stdio.h>
