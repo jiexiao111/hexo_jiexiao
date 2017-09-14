@@ -28,6 +28,9 @@ Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [docume
 ``` bash
 $ hexo new "My New Post"
 ```
+{% fi http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg, alt, title %}
+
+<img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" class="full-image" />
 
 More info: [Writing](https://hexo.io/docs/writing.html)
 
