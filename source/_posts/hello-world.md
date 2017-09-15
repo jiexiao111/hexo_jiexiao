@@ -18,11 +18,23 @@ photos:
 
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
+<!-- 显示本地图片 -->
+{% img  '/images/github-page.png' %}
+
+<!-- 以 120% 的尺寸显示图片 -->
+{% fi http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg, alt, title %}
+
 <!-- 引号包围，居中 -->
 {% cq %} blah blah blah {% endcq %}
 
 <!-- 斜体 -->
 *斜体字*
+
+<!-- 博客内部跳转 -->
+{% post_link "Hash\ 实现" %}
+
+<!-- 博客内部跳转 -->
+{% post_link "hello-world" "Deploy to remote sites" %}
 
 ## Quick Start
 
@@ -31,9 +43,6 @@ Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [docume
 ``` bash
 $ hexo new "My New Post"
 ```
-{% fi http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg, alt, title %}
-
-<img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" class="full-image" />
 
 More info: [Writing](https://hexo.io/docs/writing.html)
 
