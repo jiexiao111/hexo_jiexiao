@@ -6,9 +6,9 @@ tags:
   - 博客
 ---
 
-{% cq %} 
+{% note default %}
 Github 让个人技术博客的创建变得异常简单，Hexo 框架 + Next 主题提供了高度定制且美观的个人博客，本文记录了搭建过程 
-{% endcq %}
+{% endnote %}
 
 <!--more-->
 
