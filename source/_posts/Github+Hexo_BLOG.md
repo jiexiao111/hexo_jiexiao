@@ -12,6 +12,8 @@ Github 让个人技术博客的创建变得异常简单，Hexo 框架 + Next 主
 
 <!--more-->
 
+---
+
 # Hexo 与 jekyll 框架的选择
 {% note default %}
 经过两天的折腾，彻底放弃使用 jekyll 搭建自己的技术 Blog，究其原因就是目录、sitemap无法自动生成，一个没有前端开发经验的我最终发现Hexo。
