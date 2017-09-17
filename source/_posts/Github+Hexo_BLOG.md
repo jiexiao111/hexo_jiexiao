@@ -22,6 +22,8 @@ Hexo能够满足我对Blog的所有想法：
 2、文章要有一个漂亮的内容导航栏，开发做多了，对始终能在一屏内了解当前文件的整体结构有着某种偏执
 3、sitemap、文章目录最好能够复用网页位置，以便留出更多的位置显示正文，尽量少的翻页绝对能提升生产效率
 
+---
+
 # 个人博客搭建
 {% note default %}
 依次安装 git、node.js、hexo、next主题
@@ -78,6 +80,8 @@ git clone https://github.com/iissnan/hexo-theme-next themes/next
 {% img  '/images/github-page.png' %}
 创建成功后，就可以通过 https://用户名.github.io/ 访问了, 比如我就是通过 https://jiexiao111.github.io/ 访问
 
+---
+
 # 站点配置文件修改
 {% note default %}
 在 hexo 安装目录下可以找到 _config.yml 文件, 这个文件就是站点配置文件, 修改站点配置文件后，需要重起 hexo 服务，才能生效
@@ -107,6 +111,8 @@ http://localhost:4000/
  author: JIE XIAO
  language: zh-Hans
 ```
+
+---
 
 # 主题配置文件修改
 {% note default %}
@@ -211,6 +217,8 @@ busuanzi_count:
    page_pv_footer:
 ```
 
+---
+
 # 第三方插件安装
 {% note default %}
 主要包括本地搜索服务、git部署
@@ -287,10 +295,17 @@ neat_js:
     - '*.min.js'
 ```
 
+## 留言插件
+<http://barrysite.me/2017/05/08/hexo%E7%BD%91%E7%AB%99NexT%E4%B8%BB%E9%A2%98%E5%A2%9E%E5%8A%A0%E7%95%99%E8%A8%80%E9%A1%B5/>
+
+---
+
 # 多平台共同编辑博客
+
 {% note default %}
 通常我们需要在多个环境下，编辑/发布博客
 {% endnote %}
+
 ## 生成秘钥
 * [git 官方帮助](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/) 描述的非常清楚, 如果是 Linux 系统, 首先通过命令生成秘钥, 注意下面命令中的 jiexiao111@gmail.com 是你注册 github 时的邮箱
 ```python
@@ -365,6 +380,8 @@ npm install
 hexo d -g
 ```
 
+---
+
 # 其他设置及常用操作
 {% note default %}
 一些不好分类但是非常有用的设置及操作
@@ -416,10 +433,15 @@ type: "categories"
 在 chrome 流量器中按 F12 或者单击鼠标右键->检查, 打开调试栏->Network, 刷新网页就可以看到以下信息了
 {% img  '/images/chrome_perf.png' %}
 
+---
+
 # Hexo 框架及 Next 主题相关文档链接
+
 {% note default %}
 提供一些高质量的链接，便于参考
 {% endnote %}
+
 [Hexo 的官方文档](https://hexo.io/zh-cn/docs/)，满满的诚意
 [next 官方文档](http://theme-next.iissnan.com/getting-started.html)，进去就充满了好感 
 从 jekyll 转换到 hexo 多亏了下面这篇[文章](https://www.ezlippi.com/blog/2016/02/jekyll-to-hexo.html)
+---
