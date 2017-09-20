@@ -339,7 +339,7 @@ themes
 * 第一步, fork Next 主题
 * 第二步, 进入 hexo 的安装目录, 将 fork 好的 Next 主题 clone 到本地, 注意 hexo 目录下应该是默认存在 themes 目录的
 ```python
-git clone git@github.com:jiexiao111/hexo-theme-next.git themes/next
+git submodule add git@github.com:jiexiao111/hexo-theme-next.git themes/next
 ```
 * 第三步, 进入 themes/next 目录, 增加上游仓库
 ```python
@@ -366,15 +366,11 @@ git push origin master
 * 安装 git、node.js、hexo 后
 * clone hexo相关配置
 ```python
-git clone git@github.com:jiexiao111/hexo_jiexiao.git
-cd hexo_jiexiao
-```
-* clone hexo相关配置
-```pythhon
-git clone git@github.com:jiexiao111/hexo-theme-next.git themes/next
+git clone --recursive git@github.com:jiexiao111/hexo_jiexiao.git
 ```
 * 安装相关插件
 ```pythhon
+cd hexo_jiexiao
 npm install  
 ```
 * 测试新环境的部署功能
