@@ -40,6 +40,11 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'TagHighlight'
 " C 标准库高亮
 Plugin 'c-standard-functions-highlight'
+" Markdown
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+" python
+Plugin 'Python-mode-klen'
 
 " END 定义需要的插件
 call vundle#end()            
@@ -262,3 +267,9 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 " Move to word
 map  <Leader>W <Plug>(easymotion-bd-w)
 nmap <Leader>W <Plug>(easymotion-overwin-w)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" => vim-markdown 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vim_markdown_folding_disabled = 0
+let g:vim_markdown_folding_style_pythonic = 1

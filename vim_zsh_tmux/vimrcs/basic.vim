@@ -418,7 +418,3 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
-
-" 自动保存书签
-au BufWinLeave *.* mkview
-au BufWinEnter *.* silent loadview
