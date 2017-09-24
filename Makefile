@@ -13,3 +13,4 @@ all:
 	# 安装 tmux 状态栏, 需要手工执行, Ctrl + b, i
 	-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 	tmux source ~/.tmux.conf
+	apt-get install xsel

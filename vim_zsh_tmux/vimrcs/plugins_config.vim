@@ -100,7 +100,6 @@ let g:airline_powerline_fonts = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colorscheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable
 set background=dark
 colorscheme solarized
 
@@ -278,3 +277,32 @@ let g:vim_markdown_folding_style_pythonic = 1
 "" => Python-mode-klen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_lint_ignore = "E221,W"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => ag.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ag 搜索高亮文本
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+
+" Ag 搜索
+map <leader>g :Ag
+
+" 使用 %s/ 替换高亮文本
+vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+
+" Do :help cope if you are unsure what cope is. It's super useful!
+"
+" When you search with Ag, display your results in cope by doing:
+"   <leader>cc
+"
+" To go to the next search result do:
+"   <leader>n
+"
+" To go to the previous search results do:
+"   <leader>p
+"
+" TODO
+map <leader>cc :botright cope<cr>
+map <leader>n :cn<cr>
+map <leader>p :cp<cr>
+

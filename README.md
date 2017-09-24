@@ -11,3 +11,7 @@ bundle/Python-mode-klen/pymode/libs/pylama/lint/pylama_pep8/pep8.py
 ```
 MAX_LINE_LENGTH = 79
 ```
+
+mac 系统中, 如果 tmux 下 vim 和系统的剪切板无法通用, 可以通过以下命令查看是否启用 ``reattach-to-user-namespace``
+$ tmux show-option -gv default-command
+reattach-to-user-namespace -l /bin/zsh
