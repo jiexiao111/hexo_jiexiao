@@ -7,4 +7,4 @@ _ipynb/.ipynb_checkpoints
 log
 .ropeproject/
 .DS_Store
-vim_zsh_tmux/vimrcs/undodir/
+vim_zsh_tmux/vimrcs/undodir/*
