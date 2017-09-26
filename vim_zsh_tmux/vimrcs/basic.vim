@@ -141,10 +141,6 @@ set cursorline
 hi CursorColumn cterm=NONE ctermbg=black guibg=NONE guifg=NONE
 hi CursorLine   cterm=NONE ctermbg=black guibg=NONE guifg=NONE
 
-" 光标悬停处自动高亮
-hi CursorHightlight term=reverse cterm=reverse ctermfg=115 guifg=Black guibg=Yellow
-autocmd CursorMoved * silent! exe printf('match CursorHightlight /\<%s\>/', expand('<cword>'))
-
 " vim 使用系统剪切板
 set clipboard^=unnamed
 

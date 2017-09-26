@@ -10,39 +10,55 @@ call vundle#begin()
 
 " 插件管理
 Plugin 'VundleVim/Vundle.vim'
+
 " vim 主题颜色
 Plugin 'altercation/vim-colors-solarized'
+
 " 文件查找
 Plugin 'ctrlp.vim'
+
 " 好看的状态栏
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+
 " 保存多个剪切项
 Plugin 'YankRing.vim'
-" 函数导航
-Plugin 'Tagbar'
+
 " 代码片段
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+
 " 快速注释
 Plugin 'commentary.vim'
+
 " 目录导航
 Plugin 'scrooloose/nerdtree'
+
 " 快速对齐
 Plugin 'junegunn/vim-easy-align'
+
 " 动态编译补全及语法高亮
 Plugin 'Valloric/YouCompleteMe'
+
 " 快速查找
 Plugin 'rking/ag.vim'
+
 " 快速跳转
 Plugin 'easymotion/vim-easymotion'
+
 " 根据 cscopy/ctag 高亮显示代码
 Plugin 'TagHighlight'
+
 " C 标准库高亮
 Plugin 'c-standard-functions-highlight'
+
+" 函数导航
+Plugin 'Tagbar'
+
 " Markdown
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+
 " python
 Plugin 'Python-mode-klen'
 Plugin 'SimpylFold'
@@ -104,6 +120,10 @@ let g:airline_powerline_fonts = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
 colorscheme solarized
+
+" 光标悬停处自动高亮
+hi CursorHightlight term=reverse cterm=reverse ctermfg=115 guifg=Black guibg=Yellow
+autocmd CursorMoved * silent! exe printf('match CursorHightlight /\<%s\>/', expand('<cword>'))
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Nerdtree
