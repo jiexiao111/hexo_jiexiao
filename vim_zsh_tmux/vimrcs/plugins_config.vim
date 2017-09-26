@@ -45,6 +45,8 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 " python
 Plugin 'Python-mode-klen'
+Plugin 'SimpylFold'
+Plugin 'Yggdroot/indentLine' 
 
 " END 定义需要的插件
 call vundle#end()            
@@ -277,4 +279,6 @@ let g:vim_markdown_folding_style_pythonic = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Python-mode-klen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:pymode_lint_ignore = "E221,W"
+let g:pymode_lint_ignore = "E221,E111,E114"
+let g:pymode_lint_on_write = 0
+let g:pymode_folding = 0
