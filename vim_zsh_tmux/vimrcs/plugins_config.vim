@@ -136,6 +136,7 @@ let NERDTreeWinPos="right"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <F9> :TagbarToggle<CR>
 let g:tagbar_left = 1
+autocmd VimEnter * nested :TagbarOpen
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Snippets
@@ -301,6 +302,7 @@ let g:vim_markdown_folding_style_pythonic = 1
 let g:pymode_lint_ignore = "E221,E111,E114,W"
 let g:pymode_lint_on_write = 0
 let g:pymode_folding = 0
+let g:pymode_rope = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ag.vim
