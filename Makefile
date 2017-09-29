@@ -15,3 +15,7 @@ all:
 	tmux source ~/.tmux.conf
 	apt-get install xsel
 	pip install yapf
+	pip install pylint
+	pip install mypy
+	pip install flake8
+
