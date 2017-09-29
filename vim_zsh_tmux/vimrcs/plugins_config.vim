@@ -63,6 +63,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'Python-mode-klen'
 Plugin 'SimpylFold'
 Plugin 'Yggdroot/indentLine' 
+Plugin 'w0rp/ale'
 
 " END 定义需要的插件
 call vundle#end()            
@@ -299,10 +300,11 @@ let g:vim_markdown_folding_style_pythonic = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Python-mode-klen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:pymode_lint_ignore = "E221,E111,E114,W"
-let g:pymode_lint_on_write = 0
+let g:pymode_lint = 0
 let g:pymode_folding = 0
 let g:pymode_rope = 0
+let g:pymode_virtualenv = 0
+let g:pymode_rope_completion = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ag.vim
@@ -331,3 +333,4 @@ vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 map <leader>cc :botright cope<cr>
 map <leader>n :cn<cr>
 map <leader>p :cp<cr>
+
