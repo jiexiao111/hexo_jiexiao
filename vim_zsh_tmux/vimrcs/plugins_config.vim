@@ -92,7 +92,7 @@ map <leader>t         :CtrlPBufTag<cr>
 map <leader>tt        :CtrlPTag<cr>
 map <leader><leader>t :CtrlPBufTagAll<cr>
 map <leader>c         :CtrlPChange<cr>
-map <leader>cc        :CtrlPChangeAll<cr>
+" map <leader>cc        :CtrlPChangeAll<cr>
 map <leader><leader>m :CtrlPMRUFiles<cr>
 map <leader>mm        :CtrlPMixed<cr>
 map <leader>q         :CtrlPQuickfix<cr>
@@ -130,13 +130,17 @@ autocmd CursorMoved * silent! exe printf('match CursorHightlight /\<%s\>/', expa
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <Leader>nn :NERDTreeToggle<CR>
 let NERDTreeWinPos="right"
+let NERDTreeShowHidden=1
+let g:NERDTreeQuitOnOpen=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Tagbar
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <F9> :TagbarToggle<CR>
 let g:tagbar_left = 1
-autocmd VimEnter * nested :TagbarOpen
+autocmd FileType * nested :call tagbar#autoopen(0)
+autocmd BufEnter * nested :call tagbar#autoopen(0)
+autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Snippets
@@ -303,6 +307,7 @@ let g:pymode_lint_ignore = "E221,E111,E114,W"
 let g:pymode_lint_on_write = 0
 let g:pymode_folding = 0
 let g:pymode_rope = 0
+nmap <F8> :PymodeLint<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ag.vim
