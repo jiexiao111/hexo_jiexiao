@@ -58,6 +58,7 @@ Plugin 'Tagbar'
 " Markdown
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'hotoo/pangu.vim'
 
 " python
 Plugin 'Python-mode-klen'
@@ -242,6 +243,7 @@ nnoremap <leader>gq :YcmCompleter GetDoc<CR>
 "nnoremap <leader>jd :YcmCompleter GoToImplementation<CR>
 "nnoremap <leader>jd :YcmCompleter GoToImplementationElseDeclaration<CR>
 
+let g:ycm_show_diagnostics_ui = 0
 function! SWITCH_CHECK()
     if g:ycm_show_diagnostics_ui
         let g:ycm_show_diagnostics_ui = 0
@@ -300,6 +302,11 @@ nmap <Leader>W <Plug>(easymotion-overwin-w)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_markdown_folding_disabled = 0
 let g:vim_markdown_folding_style_pythonic = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" => hotoo/pangu.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Python-mode-klen
