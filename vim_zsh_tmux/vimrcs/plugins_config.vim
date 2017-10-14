@@ -362,3 +362,17 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 0
 let g:ale_lint_on_filetype_changed = 0
 nmap <F7> :ALEToggle<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => SimpylFold
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 规避打开相同文件无法折叠的 bug
+autocmd BufEnter * nested :call Fold_Bug()
+function! Fold_Bug()
+    setlocal foldexpr=SimpylFold(v:lnum)
+    setlocal foldmethod=expr
+
+    if exists('SimpylFold_docstring_preview') && SimpylFold_docstring_preview
+        setlocal foldtext=foldtext()\ .\ SimpylFoldText()
+    endif
+endfunction
