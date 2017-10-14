@@ -29,6 +29,9 @@ jupyter notebook --generate --allow-root
 ```shell
 c.NotebookApp.token = '';
 ```
+## 主题设置
+jt -t grade3 -fs 11 -nfs 12 -tfs 12 -tf sourcesans -nf sourcesans -cellw 88% -altp -f source
+
 ## 显示多行结果
 * 修改前
 ```python
