@@ -85,9 +85,11 @@ git clone https://github.com/iissnan/hexo-theme-next themes/next
 ---
 
 # 站点配置文件修改
+
 {% note default %}
-在 hexo 安装目录下可以找到 _config.yml 文件，这个文件就是站点配置文件，修改站点配置文件后，需要重起 hexo 服务，才能生效
+在 hexo 安装目录下可以找到 config.yml 文件，这个文件就是站点配置文件，修改站点配置文件后，需要重起 hexo 服务，才能生效
 {% endnote %}
+
 ```python
 hexo s
 ```
@@ -118,7 +120,7 @@ http://localhost:4000/
 
 # 主题配置文件修改
 {% note default %}
-hexo 目录下的 themes/next/ 子目录中也有一个 _config.yml 文件，这个文件就是主题配置文件，修改主题配置文件后立即生效，无需重启 hexo 服务
+hexo 目录下的 themes/next/ 子目录中也有一个  config.yml 文件，这个文件就是主题配置文件，修改主题配置文件后立即生效，无需重启 hexo 服务
 {% endnote %}
 
 ## 修改 Next 主题风格
@@ -442,4 +444,5 @@ type: "categories"
 [Hexo 的官方文档](https://hexo.io/zh-cn/docs/)，满满的诚意
 [next 官方文档](http://theme-next.iissnan.com/getting-started.html)，进去就充满了好感
 从 jekyll 转换到 hexo 多亏了下面这篇[文章](https://www.ezlippi.com/blog/2016/02/jekyll-to-hexo.html)
+
 ---

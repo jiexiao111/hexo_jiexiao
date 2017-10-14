@@ -302,6 +302,8 @@ nmap <Leader>W <Plug>(easymotion-overwin-w)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_markdown_folding_disabled = 0
 let g:vim_markdown_folding_style_pythonic = 1
+map <F4> :Toc<CR>:vertical res40<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => hotoo/pangu.vim
