@@ -59,3 +59,8 @@ source activate py2
 * 选取苹果菜单 >“系统偏好设置”，然后点按“键盘”。
 * 点按“修饰键”按钮。
 * 从想要更改的修饰键旁边的弹出式菜单中选取一项操作，然后点按“好”。
+
+# python3 import docx 错误
+* pip uninstall docx
+* 下载 [python_docx-0.8.6-py2.py3-none-any.whl](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
+* pip install python_docx-0.8.6-py2.py3-none-any.whl
