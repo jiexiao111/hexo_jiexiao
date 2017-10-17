@@ -13,6 +13,12 @@ tags:
 
 ---
 
+# mac
+## 窗口切换
+原生的 MAC 窗口切换简直无法直视，最简单的一点，多个 Chrome 窗口都无法切换，于是找到两款不错的工具
+``snap``: 实现 ``Command + num`` 打开 Dock
+``HyperSwitch``: 实现 ``Command + ` `` 切换同一个进程的多个窗口
+
 # jupyter
 ## .ipynb 转 .md
 ```shell
