@@ -71,9 +71,8 @@ python -m tensorflow.python.debug.examples.debug_mnist --debug
             V2 = tf.Variable(shape)
             V3 = tf.Variable(shape)
     ```
-    这段代码中，V1/V2/V3 对应的 Tensor 的名字分别为：``Any_Scope/First_Scope/First`` 、 ``Any_Scope/Second_Scope/Variable``、 ``Any_Scope/Second_Scope/Variable_1`` 可以看出，如果不指定 ``name 参数`` 则默认为 Tensor/Option 的类名，如果相同 Scope 中有相同 name 的 Tensor/Option 则自动为名称添加序号
+    这段代码中，V1/V2/V3 对应的 Tensor 的名字分别为：``Any_Scope/First_Scope/First``、``Any_Scope/Second_Scope/Variable``、``Any_Scope/Second_Scope/Variable_1`` 可以看出，如果不指定 ``name 参数`` 则默认为 Tensor/Option 的类名，如果相同 Scope 中有相同 name 的 Tensor/Option 则自动为名称添加序号
     在问题一中，``layer_name`` 为 ``hidden``，所以 ``preactivate = tf.matmul(input_tensor, weights) + biases`` 的名称就是 ``hidden/Wx_plus_b/MatMuls:0``
-
 
 
 ## node_info
