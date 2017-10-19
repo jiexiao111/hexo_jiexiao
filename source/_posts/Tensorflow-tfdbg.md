@@ -76,14 +76,45 @@ python -m tensorflow.python.debug.examples.debug_mnist --debug
 
 
 ## node_info
+### 输入及输出信息
 点击 ``hidden/Wx_plus_b/MatMuls:0`` 后默认显示的就是上一小节提到的 ``print_tensor``，此时我们可以点击 ``node_info``，点击后显示以下信息：
+![node_info](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_4.png)
+红框中的信息包括：1、MatMul 操作通过 cpu 执行 2、两个操作数分别为训练的输入数据 ``x-input`` 和表示权重的 ``Variable`` 3、输出的结果被用于加法操作
+### 调用栈信息
+此时可以按 ``pagedown`` 向下滑动，查看代码调用栈：
+![callstack](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_5.png)
+清晰的展示出，``main`` 函数调用了 ``nn_layer`` 函数，然后执行了 87 行的 MatMuls 操作，同时，如果不清楚库函数定义所在的文件，也可以在这里找到。
+### 当前代码行对应的其他 Tensor/Option
+此时，可以点击 ``Line:  87``, 就可以看到 87 行相关的其他 Tensor/Option 的信息了
+![other_tensor](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_6.png)
+``nn_layer`` 一共被调用了两次，且 87 行包含了两个操作 （MatMuls、add）, 所以一共是四个 Option 信息，此时，点击 ``softmax/Wx_plus_b/MatMuls:0`` 可以看到以下信息：
+![list_inputs](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_7.png)
 
 ## list_inputs
+点击 ``list_inputs`` 可以看到 ``softmax/Wx_plus_b/MatMuls:0`` 详细输入：
+![list_inputs](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_8.png)
+可以看出，``softmax/Wx_plus_b/MatMuls:0`` 的左操作数是 ``hidden/Relu``， 右操作数是 ``softmax/weights/Variable/read``，``hidden/Relu`` 只有一个操作数 ``hidden/Wx_plus_b/add``, 依次类推，可以查看计算 ``softmax/Wx_plus_b/MatMuls:0`` 的每一步操作
 
 ## list_outputs
+点击 ``list_outputs`` 可以看到 ``softmax/Wx_plus_b/MatMuls:0`` 的输出的详细用途：
+![list_output](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_9.png)
+首先，输出被用于 ``softmax/Wx_plus_b/MatMuls``，依次类推，最终被用于加权平均
 
 ## run_info
+点击 ``run_info`` 可以看到以下信息：
+![run_info](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_10.png)
+这里可以点击红框部分查看训练 / 测试样本的输入 / 输出
 
-## 单步运行
+# 单步运行
+输入 ``s`` 就可以但不调试了，``s -t 10`` 可以执行 10 步，需要注意的是，一定是执行 ``run`` 命令后才可以执行 ``s`` 命令
+![step](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_11.png)
 
-## 理解记忆调试命令
+# 理解记忆调试命令
+鼠标点击能查看的信息毕竟有限，直接看 help 又不好理解，好在 tfdbg 中始终会显示当前显示信息所对应的命令：
+![step](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_13.png)
+很明显 ``pt`` 就表示 ``print_tensor``，如果需要了解 ``pt`` 的更多参数，就可以执行 ``help pt``
+![step](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_12.png)
+我们可以试试 ``pt -a accuracy/accuracy/Cast:0``
+![step](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_14.png)
+
+
