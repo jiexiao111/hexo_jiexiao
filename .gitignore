@@ -10,3 +10,6 @@ log
 vim_zsh_tmux/vimrcs/undodir/*
 hyTest
 zqmillet/
+gif
+tmp*
+log*
