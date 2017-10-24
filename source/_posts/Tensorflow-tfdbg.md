@@ -5,7 +5,7 @@ tags:
 ---
 
 {% note default %}
-Tensorflow 中使用 python 描述计算图，在使用 C++ 后端进行训练时就非常不容跟踪调试，
+Tensorflow 中使用 python 描述计算图，再使用 C++ 后端进行训练时就非常不容跟踪调试，
 Tensorflow 提供了 tfdbg 模块用于解决这个问题，但是网上的资料较少，所以将自己的一些理解写出来供参考
 {% endnote %}
 
@@ -106,7 +106,7 @@ python -m tensorflow.python.debug.examples.debug_mnist --debug
 这里可以点击红框部分查看训练 / 测试样本的输入 / 输出
 
 # 单步运行
-输入 ``s`` 就可以但不调试了，``s -t 10`` 可以执行 10 步，需要注意的是，一定是执行 ``run`` 命令后才可以执行 ``s`` 命令
+输入 ``s`` 就可以单步调试了，``s -t 10`` 可以执行 10 步，需要注意的是，一定是执行 ``run`` 命令后才可以执行 ``s`` 命令
 ![step](/images/Tensorflow-tfdbg/Tensorflow-tfdbg_11.png)
 
 # 理解记忆调试命令
