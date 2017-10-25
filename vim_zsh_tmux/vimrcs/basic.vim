@@ -142,7 +142,9 @@ hi CursorColumn cterm=NONE ctermbg=black guibg=NONE guifg=NONE
 hi CursorLine   cterm=NONE ctermbg=black guibg=NONE guifg=NONE
 
 " vim 使用系统剪切板
+if has('mac')
 set clipboard^=unnamed
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 颜色和字体
