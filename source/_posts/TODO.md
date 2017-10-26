@@ -55,6 +55,37 @@ source activate py2
 0010 3A 00 1D 00 00 00 00 00
 0018
 
+前两行和最后一行，都是固定的，全部为 0。第三行，表示你修改了几个键，其实我们只是改了两个键，不过最后那一行也要算进去，所以是 3。
+重点是在第四行和第五行。3A00，代表 Caps Lock， 1D00，代表 Ctrl。这一行，意思即为，将 Caps Lock 映射为 Ctrl
+第五行，就不用说了，意思刚好相反。
+修改完毕后，重新登录 Windows 即可生效！
+下面附上各个键位值的参考：
+
+```
+Escape 01 00
+Tab 0F 00
+Caps Lock 3A 00
+Left Alt 38 00
+Left Ctrl 1D 00
+Left Shift 2A 00
+Left Windows 5B E0
+Right Alt 38 E0
+Right Ctr l1D E0
+Right Shift 36 00
+Right Windows 5C E0
+Backspace 0E 00
+Delete 53 E0
+Enter 1C 00
+Space 39 00
+Insert 52 E0
+HOME 47 E0
+End 4F E0
+Num Lock 45 00
+Page Down 51 E0
+Page Up 49 E0
+Scroll Lock 46 00
+```
+
 ## MAC
 * 选取苹果菜单 >“系统偏好设置”，然后点按“键盘”。
 * 点按“修饰键”按钮。
@@ -64,3 +95,24 @@ source activate py2
 * pip uninstall docx
 * 下载 [python_docx-0.8.6-py2.py3-none-any.whl](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
 * pip install python_docx-0.8.6-py2.py3-none-any.whl
+
+# ubuntu 设置 ntp 服务器
+## ntp 服务方式：
+* 编辑 ``/etc/ntp.conf`` 中的 ``pool 10.169.103.58 iburst`` 行，指定需要同步的 IP
+* service ntp start
+
+## crontab 方式：
+1. 通过开始菜单，输入 regedit 命令后打开注册表设定画面，此时请一定备份注册表文件。
+2. 修改以下选项的键值  HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\  NtpServer 内的「Enabled」设定为 1，打开 NTP 服务器功能
+3. 修改以下键值  HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\Config\  AnnounceFlags 设定为 5, 该设定强制主机将它自身宣布为可靠的时间源，从而使用内置的互补金属氧化物半导体 (CMOS) 时钟。
+4. 在 dos 命令行执行以下命令，确保以上修改起作用
+net stop w32time
+net start w32time
+5. linux 下执行 crontab -e
+6. 输入：``*/1 * * * * /usr/sbin/ntpdate 192.168.255.55 > /var/log/cron 2>&1``
+注： 2>&1 表示将错误信息也打印至文件
+7. 执行 crontab -l 查看是否设置成功
+8. service cron restart 重启服务
+9. ps -A|grep cron 查看进程
+10. tail /var/log/cron 查看对时结果
+
