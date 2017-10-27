@@ -105,3 +105,4 @@ x&#124;y   | 匹配 x 或 y
 
 # 参考资料
 [正则表达式 30 分钟入门教程](http://deerchao.net/tutorials/regex/regex.htm#resources)
+[菜鸟教程——正则表达式](http://www.runoob.com/regexp/regexp-intro.html)
