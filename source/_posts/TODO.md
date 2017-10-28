@@ -115,4 +115,8 @@ net start w32time
 8. service cron restart 重启服务
 9. ps -A|grep cron 查看进程
 10. tail /var/log/cron 查看对时结果
+11. ``apt install sysv-rc-conf`` 安装服务管理工具
+12. 关闭 ntp 服务
 
+# python 性能分析
+(http://python.jobbole.com/87621/)
