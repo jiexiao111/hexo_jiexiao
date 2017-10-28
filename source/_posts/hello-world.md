@@ -9,9 +9,9 @@ photos:
   - http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg
 ---
 
-<!-- 文章开头都用它了, 整齐才好看 -->
+<!-- 文章开头都用它了，整齐才好看 -->
 {% note default %}
-本篇博文不仅仅包含 Markdown 基础语法, 也有 Hexo 定义的一些标签, 主要是自己 copy 起来方便, 所有的章节一定是语法+示例, 不用怀疑
+本篇博文不仅仅包含 Markdown 基础语法，也有 Hexo 定义的一些标签，主要是自己 copy 起来方便，所有的章节一定是语法 + 示例，不用怀疑
 {% endnote %}
 
 <!--more-->
@@ -20,7 +20,7 @@ photos:
 
 # 标题
 
-markdown 标题语法, ``#`` 号个数代表标题级别
+markdown 标题语法，``#`` 号个数代表标题级别
 
 ```
 ## 二级标题示例
@@ -44,7 +44,7 @@ markdown 标题语法, ``#`` 号个数代表标题级别
 
 ## 无序列表
 
-懒得记, 无序列表我只用 ``*`` 开头  
+懒得记，无序列表我只用 ``*`` 开头
 
 ```
 * 一级无序列表
@@ -62,7 +62,7 @@ markdown 标题语法, ``#`` 号个数代表标题级别
 
 ## 有序列表
 
-有序列表以 ``1. 2. 3.`` 开头, 注意第四行, 真实显示的需要是自动生成的
+有序列表以 ``1. 2. 3.`` 开头，注意第四行，真实显示的需要是自动生成的
 
 ```
 1. 一级有序列表
@@ -100,7 +100,7 @@ markdown 标题语法, ``#`` 号个数代表标题级别
 
 ## 标准引用
 
-引用以一个或多个 ``>`` 开头, 注意第四行的空行, 如果没有空行第五行也会是三级引用
+引用以一个或多个 ``>`` 开头，注意第四行的空行，如果没有空行第五行也会是三级引用
 ```
 > 这是一级引用
 >> 这是二级引用
@@ -116,7 +116,7 @@ markdown 标题语法, ``#`` 号个数代表标题级别
 
 ## centerquote 标签
 
-非常适合单行的引用, 比较好看
+非常适合单行的引用，比较好看
 ```
 {% cq %} blah blah blah {% endcq %}
 ```
@@ -159,7 +159,7 @@ Every interaction is both precious and an opportunity to delight.
 
 # 代码块
 
-用 \`\`\` 包围起来的就是代码块, 这个没法演示, 这里展示使用标签的方式, 下面是代码标签的语法
+用 \`\`\` 包围起来的就是代码块，这个没法演示，这里展示使用标签的方式，下面是代码标签的语法
 
 ```
 {% codeblock [title] [lang:language] [url] [link text] %}
@@ -167,29 +167,29 @@ code snippet
 {% endcodeblock %}
 ```
 
-举两个例子:
+举两个例子：
 
-1. 最简单的例子 
+1. 最简单的例子
 ```
 {% codeblock %}
 print('Hello World!');
 {% endcodeblock %}
 ```
 
-    * 效果如下:
+    * 效果如下：
     {% codeblock %}
     print('Hello World!');
     {% endcodeblock %}
 
-2. 附加说明和网址, 其中 [title] 是 ``_.compact``, [lang:language] 是 ``lang:objc``, [url] 是 ``http://underscorejs.org/#compact``  [link text] 是 ``Underscore.js``
+2. 附加说明和网址，其中 [title] 是 ``compact``, [lang:language] 是 ``lang:objc``, [url] 是 ``http://underscorejs.org/#compact``  [link text] 是 ``Underscore.js``
 ```
-{% codeblock lang:objc _.compact http://underscorejs.org/#compact Underscore.js %}
+{% codeblock lang:objc compact http://underscorejs.org/#compact Underscore.js %}
 [rectangle setX: 10 y: 10 width: 20 height: 20];
 {% endcodeblock %}
 ```
 
-    * 效果如下:
-    {% codeblock _.compact lang:objc  http://underscorejs.org/#compact Underscore.js %}
+    * 效果如下：
+    {% codeblock compact lang:objc  http://underscorejs.org/#compact Underscore.js %}
     [rectangle setX: 10 y: 10 width: 20 height: 20];
     {% endcodeblock %}
 
@@ -221,7 +221,7 @@ print('Hello World!');
 
 ## 自动链接
 
-用 ``<>`` 包围的就是自动链接, 没有 http 就不会显示
+用 ``<>`` 包围的就是自动链接，没有 http 就不会显示
 
 ```
 <http://example.com/>
@@ -265,11 +265,11 @@ print('Hello World!');
 
 # 图片
 
-插入图片与插入链接的语法很像，区别在一个!号，而且也有行内式和参考式两种。
+插入图片与插入链接的语法很像，区别在一个！号，而且也有行内式和参考式两种。
 
 ## 行内式图片
 
-行内式优势在于简单, 图片语法为：``![无法显示图片时的说明](图片地址或者链接 "鼠标悬停提示")``
+行内式优势在于简单，图片语法为：``![无法显示图片时的说明](图片地址或者链接 "鼠标悬停提示")``
 
 * 显示链接图片
 ```
@@ -291,7 +291,7 @@ print('Hello World!');
 
 ## 参考式图片
 
-参考式优势在于可以多次引用网址, 类似声明 Constant 变量, 参考式图片我没有找到使用本地图片的办法
+参考式优势在于可以多次引用网址，类似声明 Constant 变量，参考式图片我没有找到使用本地图片的办法
 ```
 ![链接图片][3]
 [3]: http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg
@@ -324,9 +324,9 @@ print('Hello World!');
 
 ---
 
-# 字体/行内代码/删除线
+# 字体 / 行内代码 / 删除线
 
-使用``**``表示粗体, 使用``*``表示斜体。符号和文字间不能有空格
+使用``**``表示粗体，使用``*``表示斜体。符号和文字间不能有空格
 使用 \`\` 包围表示行内代码
 使用 ``~~`` 包围表示删除线
 
@@ -350,14 +350,14 @@ print('Hello World!');
 
 # 表格
 
-用|表示表格纵向边界，表头和表内容用-隔开，并可用:进行对齐设置，两边都有:则表示居中，若不加:则默认左对齐。
+用|表示表格纵向边界，表头和表内容用 - 隔开，并可用：进行对齐设置，两边都有：则表示居中，若不加：则默认左对齐。
 详细说明：
 ``----:``为右对齐
 ``:----``为左对齐
 ``:---:``为居中对齐
 ``-----``为默认左对齐
 
-* 正常的表格
+## 正常的表格
 ```
 dog | bird | cat
 ----|------|----
@@ -372,7 +372,7 @@ foo | foo  | foo
 bar | bar  | bar
 baz | baz  | baz
 
-* 复杂的表格
+## 复杂的表格
 ```
 | 序号 | 交易名 | 交易说明 | 备注 |
 | ---: | :----: | :------- | ---- |
@@ -386,12 +386,19 @@ baz | baz  | baz
 |   1  | prfcfg | 菜单配置 | 可以通过此交易查询到所有交易码和菜单的对应关系 |
 |   2  | gentmo | 编译所有交易 |  |
 |   100000  | sysdba | 数据库表模型汇总 |  |
+
+## 表格中插入 | 和代码块
+语法                      | 说明
+-----                     | -----
+`a += x;`                 | 表格中插入代码
+a &#124;= y;              | 表格中插入 &#124;
+<code>a &#124;= y;</code> | 表格代码中插入 &#124;
 
 ---
 
 # 分割线
 
-使用``---``表示分割线, 其他形式不管
+使用``---``表示分割线，其他形式不管
 
 ```
 ---
@@ -407,9 +414,9 @@ baz | baz  | baz
 
 $ 表示行内公式
 ```
-质能方程 $E=mc^2$ 
+质能方程 $E=mc^2$
 ```
-质能方程 $E=mc^2$ 
+质能方程 $E=mc^2$
 
 ## 整行公式
 
@@ -424,15 +431,15 @@ $$\sum_{i=1}^n a_i=0$$
 ---
 
 # 暂不使用的高级特性
-1. 内嵌图标, 更多的图标和玩法可以参看 [font-awesome](http://fortawesome.github.io/Font-Awesome/3.2.1/icons/) 官方网站。
+1. 内嵌图标，更多的图标和玩法可以参看 [font-awesome](http://fortawesome.github.io/Font-Awesome/3.2.1/icons/) 官方网站。
 
 2. 定义型列表
 
 3. 注脚
 
-4. 流程图, 更多语法参考：[流程图语法参考](http://adrai.github.io/flowchart.js/)
+4. 流程图，更多语法参考：[流程图语法参考](http://adrai.github.io/flowchart.js/)
 
-5. 序列图, 更多语法参考：[序列图语法参考](http://bramp.github.io/js-sequence-diagrams/)
+5. 序列图，更多语法参考：[序列图语法参考](http://bramp.github.io/js-sequence-diagrams/)
 
 ---
 
