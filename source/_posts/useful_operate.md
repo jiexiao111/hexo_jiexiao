@@ -199,4 +199,30 @@ au BufWinEnter *.* silent loadview
 ```
 ls |xsel
 ```
+
+# python
+
+## 查看 python 版本信息
+在未进行 Python Shell 之前：
+```
+python –version
+```
+进入 Python Shell 之后，有两种方法
+```
+help()
+import sys sys.version
+```
+
+## pip 安装超时
+```shell
+$ cat > ~/.pip/pip.conf
+[global]
+timeout = 6000
+index-url = http://pypi.douban.com/simple/
+[install]
+use-mirrors = true
+mirrors = http://pypi.douban.com/simple/
+trusted-host = pypi.douban.com
+```
+
 ---
