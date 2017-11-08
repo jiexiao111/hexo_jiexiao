@@ -14,6 +14,8 @@ tags:
 ---
 
 # cProfile 使用
+
+## 装饰器实现
 以下是从网上抄的装饰器
 
 ```python
@@ -46,6 +48,7 @@ def do_cprofile(filename):
     return wrapper
 ```
 
+## 装饰器使用
 装饰器的使用，下面的修改将使程序的 perf 信息保存至 mkm_run.prof 文件
 
 ```python
@@ -59,10 +62,8 @@ def do_cprofile(filename):
 export PROFILING=y
 ```
 
-之前遇到一个实际的问题，我在读取 5W 个脚本进行预处理的时候，预计执行时间为 80 小时，
-使用 cProfile 分析后，发现根因是因为 5W 个文件是 mount 的远程目录，网络条件不好，导
-致处理非常缓慢，下面是我用于复现的简化代码，借此我们看看用 cProfile 是怎么描述这个
-问题的
+# 实际问题举例
+之前遇到一个实际的问题，我在读取 5W 个脚本进行预处理的时候，预计执行时间为 80 小时，使用 cProfile 分析后，发现根因是因为 5W 个文件是 mount 的远程目录，网络条件不好，导致处理非常缓慢，下面是我用于复现的简化代码，借此我们看看用 cProfile 是怎么描述这个问题的
 ```python
 import os
 
@@ -126,8 +127,7 @@ def test(dir_path):
 test('/root/workspace/ruby_data/')
 ```
 
-执行 ``export PROFILING=y; python tmp.py``, 执行后，会生成分析文件 ``mkm_run.prof``,
-然后启动 ipython 查看具体信息：
+执行 ``export PROFILING=y; python tmp.py``, 执行后，会生成分析文件 ``mkm_run.prof``, 然后启动 ipython 查看具体信息：
 ```
 In [1]: import pstats
 
@@ -176,9 +176,34 @@ tmp.py:30(test)  ->       1    0.000    0.000  {built-in method builtins.len}
 * percall：（第二个 percall）即函数运行一次的平均时间，等于 cumtime/ncalls；
 * filename:lineno(function)：每个函数调用的具体信息
 
-可以看出 tmp.py 文件中的第 30 行的 test 函数占用了 5.813s 时间，然后，执行
-``p.print_callees("test")`` 查看 test 函数调用了哪些函数，发现耗时的就是 walk 函数
-返回的迭代器的 next 调用，于是就找到了性能瓶颈
+可以看出 tmp.py 文件中的第 30 行的 test 函数占用了 5.813s 时间，然后，执行 ``p.print_callees("test")`` 查看 test 函数调用了哪些函数，发现耗时的就是 walk 函数 返回的迭代器的 next 调用，于是就找到了性能瓶颈。
+
+# pstats 使用举例：
+```python
+import pstats
+
+# 创建 Stats 对象
+p = pstats.Stats("result.out")
+
+# strip_dirs(): 去掉无关的路径信息
+# sort_stats(): 排序，支持的方式和上述的一致
+# print_stats(): 打印分析结果，可以指定打印前几行
+
+# 和直接运行 cProfile.run("test()") 的结果是一样的
+p.strip_dirs().sort_stats(-1).print_stats()
+
+# 按照函数名排序，只打印前 3 行函数的信息，参数还可为小数，表示前百分之几的函数信息
+p.strip_dirs().sort_stats("name").print_stats(3)
+
+# 按照运行时间和函数名进行排序
+p.strip_dirs().sort_stats("cumulative", "name").print_stats(0.5)
+
+# 如果想知道有哪些函数调用了 sum_num
+p.print_callers(0.5, "sum_num")
+
+# 查看 test() 函数中调用了哪些函数
+p.print_callees("test")
+```
 
 # 参考
 [http://python.jobbole.com/87621/]
