@@ -204,6 +204,17 @@ p.print_callers(0.5, "sum_num")
 # 查看 test() 函数中调用了哪些函数
 p.print_callees("test")
 ```
+# 分析数据可视化
+首先，安装两个包
+* ``pip install gprof2dot``
+* ``brew install graphviz``
+如果是 Ubuntu 的话就是 apt-get
+* ``apt-get install graphviz``
+
+接下来就可以执行 ``gprof2dot -f pstats mkm_run.prof | dot -Tpng -o mkm_run.png``, 得到下面这幅图了
+![1.png](/images/python_perf/1.png)
+
 
 # 参考
-[http://python.jobbole.com/87621/]
+[Python 优化第一步：性能分析实践](http://python.jobbole.com/87621/)
+[Python 性能分析工具简介](http://www.jianshu.com/p/1b3b1696cc81)
