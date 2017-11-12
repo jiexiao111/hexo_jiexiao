@@ -90,7 +90,6 @@ python tmp.py  0.07s user 0.01s system 1% cpu 5.675 total
 import os
 import cProfile
 import pstats
-import os
 
 # 性能分析装饰器定义
 def do_cprofile(filename):
@@ -214,7 +213,48 @@ p.print_callees("test")
 接下来就可以执行 ``gprof2dot -f pstats mkm_run.prof | dot -Tpng -o mkm_run.png``, 得到下面这幅图了
 ![1.png](/images/python_perf/1.png)
 
+# line_profiler
+第一步，安装 ``pip install line_profiler``
+
+第二步，在代码中加入 ``@profile`` 装饰器，完整代码如下：
+```python
+import os
+
+@profile
+def test(dir_path):
+    tmp = []
+    dir_child = os.walk(dir_path)
+    for x in range(10):
+        tmp.append(next(dir_child))
+    print(len(tmp))
+
+test('/root/workspace/ruby_data/')
+```
+
+第三步，执行 ``kernprof.py -l -v tmp.py``
+
+```
+$ kernprof -l -v tmp.py
+Wrote profile results to tmp.py.lprof
+Timer unit: 1e-06 s
+
+Total time: 5.1088 s
+File: tmp.py
+Function: test at line 30
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    30                                           @profile
+    31                                           def test(dir_path):
+    32         1            4      4.0      0.0      tmp = []
+    33         1           12     12.0      0.0      dir_child = os.walk(dir_path)
+    34        11           76      6.9      0.0      for x in range(10):
+    35        10      5108549 510854.9    100.0          tmp.append(next(dir_child))
+    36         1          159    159.0      0.0      print(len(tmp))
+```
+可以很明显的看出 35 行为主要的性能瓶颈
 
 # 参考
 [Python 优化第一步：性能分析实践](http://python.jobbole.com/87621/)
 [Python 性能分析工具简介](http://www.jianshu.com/p/1b3b1696cc81)
+
