@@ -53,8 +53,8 @@ def do_cprofile(filename):
 
 ```python
 # 应用装饰器来分析函数
-    @do_cprofile("./mkm_run.prof")
-    def run(self, **kwargs):
+@do_cprofile("./mkm_run.prof")
+def run(self, **kwargs):
 ```
 
 需要注意的是，使用前需要导入环境变量，即，执行 pytyon 脚本前，执行一下 shell 指令
@@ -178,7 +178,7 @@ tmp.py:30(test)  ->       1    0.000    0.000  {built-in method builtins.len}
 
 可以看出 tmp.py 文件中的第 30 行的 test 函数占用了 5.813s 时间，然后，执行 ``p.print_callees("test")`` 查看 test 函数调用了哪些函数，发现耗时的就是 walk 函数 返回的迭代器的 next 调用，于是就找到了性能瓶颈。
 
-# pstats 使用举例：
+# pstats 使用
 ```python
 import pstats
 
