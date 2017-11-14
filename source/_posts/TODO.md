@@ -120,3 +120,7 @@ net start w32time
 
 # python 性能分析
 (http://python.jobbole.com/87621/)
+
+# ubunt 无法 mount 文件
+apt-get install -y cifs-utils
+
