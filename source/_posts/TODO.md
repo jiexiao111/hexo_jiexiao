@@ -124,3 +124,12 @@ net start w32time
 # ubunt 无法 mount 文件
 apt-get install -y cifs-utils
 
+# 机器学习教程
+[斯坦福大学 CS231n 卷积神经网络与图像识别](http://cs231n.stanford.edu/)
+[吴恩达 Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning)
+[Udacity 免费深度学习课程](https://www.udacity.com/course/deep-learning—ud730)
+[Geoffrey Hinton 的 Neural Networks For Machine Learning](https://www.coursera.org/learn/neural-networks)
+[斯坦福大学 CS224d 自然语言处理深度学习](http://cs224d.stanford.edu/)
+[Ian Goodfellow 的 DeepLearning 书籍](https://exacity.github.io/deeplearningbook-chinese/)
+[良心 GitHub 项目：各种机器学习任务的顶级结果（论文）汇总）](https://github.com//RedditSota/state-of-the-art-result-for-machine-learning-problems)
+
