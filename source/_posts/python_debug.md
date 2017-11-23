@@ -31,7 +31,7 @@ sys.excepthook = ExceptionHook()
 ```
 
 使用时，仅需要 ``import my_crash`` 即可
-以下为完整示例，代码一共就两行，第一行导入 ``my_crash``, 第二行制造异常，然后运行就出现以下错误
+以下为完整示例，代码一共就两行，第一行导入 ``my_crash``, 第二行制造异常，运行后就自动进入 ipdb 了
 ```shell
 $ python /tmp/tmp.py
 Traceback (most recent call last):
