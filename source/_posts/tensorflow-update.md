@@ -31,10 +31,12 @@ pip install --ignore-installed --upgrade tensorflow-1.4.0rc1-cp36-cp36m-linux_x8
 # 升级 1.4 问题二
 运行后出现错误 ``GLIBCXX_3.4.22' not found``
 ```
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get dist-upgrade
-sudo apt-get install libstdc++6
+add-apt-repository ppa:ubuntu-toolchain-r/test
+apt-get update       # 更新源
+apt-get upgrade      # 更新已安装的包
+apt-get dist-upgrade # 升级系统
+apt-get install build-essential
+apt-get install aptitude
+apt-get install libstdc++6
 ```
 通过``strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX`` 检查下``GLIBCXX_3.4.22``是否存在

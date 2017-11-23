@@ -133,3 +133,5 @@ apt-get install -y cifs-utils
 [Ian Goodfellow 的 DeepLearning 书籍](https://exacity.github.io/deeplearningbook-chinese/)
 [良心 GitHub 项目：各种机器学习任务的顶级结果（论文）汇总）](https://github.com//RedditSota/state-of-the-art-result-for-machine-learning-problems)
 
+# apt-get 非正常退出后，出现 dpkg –configure -a 时，暴力解决
+rm /var/lib/dpkg/updates/*
