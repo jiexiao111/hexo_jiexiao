@@ -45,3 +45,64 @@ ZeroDivisionError: division by zero
 
 ipdb>
 ```
+
+# ipython 中快速调试函数
+进入 ipython 的配置目录
+```shell
+cd `ipython locate profile`/startup
+```
+创建 tool.py 文件，然后把以下代码粘贴进去
+```python
+def debug(f, *args, **kwargs):
+    from IPython.core.debugger import Pdb
+    pdb = Pdb(color_scheme='Linux')
+    return pdb.runcall(f, *args, **kwargs)
+```
+然后就可以在 ipython 中快速 debug 了。 下面这个例子中， ``f`` 函数接受三个参数，于是我就可以通过 ``debug(f, 1, 2, 3)`` 直接进行调试了
+```shell
+$ ipython
+Python 3.6.1 |Anaconda custom (64-bit)| (default, May 11 2017, 13:09:58)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 6.2.0 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: cat /tmp/tmp.py
+def f(x, y, z):
+    tmp = x + y
+    return  tmp / z
+
+In [2]: %load /tmp/tmp.py
+
+In [3]: # %load /tmp/tmp.py
+   ...: def f(x, y, z):
+   ...:     tmp = x + y
+   ...:     return  tmp / z
+   ...:
+
+In [4]: debug(f, 1, 2, 3)
+/root/anaconda3/bin/ipython:3: DeprecationWarning: The `color_scheme` argument is deprecated since version 5.1
+  # -*- coding: utf-8 -*-
+> <ipython-input-3-586af56f5d02>(3)f()
+      1 # %load /tmp/tmp.py
+      2 def f(x, y, z):
+----> 3     tmp = x + y
+      4     return  tmp / z
+
+ipdb> a
+x = 1
+y = 2
+z = 3
+ipdb>
+```
+
+# 触发断点后进入 ipython
+优势是，ipython 中可以非常方便的编写包含嵌套的代码，而且可以方便的引用全局 / 局部变量
+```python
+def _start_shell(local_ns=None):
+    # An interactive shell is useful for debugging/development.
+    import IPython
+    user_ns = {}
+    if local_ns:
+        user_ns.update(local_ns)
+    user_ns.update(globals())
+    IPython.start_ipython(argv=[], user_ns=user_ns)
+```
