@@ -135,3 +135,10 @@ apt-get install -y cifs-utils
 
 # apt-get 非正常退出后，出现 dpkg –configure -a 时，暴力解决
 rm /var/lib/dpkg/updates/*
+
+# latex
+如果你只用 latex 画图的话，可以只看 pgfmanual 这个宏包就行了，安装完 texlive，文档都会一起安装了
+[安装](https://liam0205.me/texlive/)
+[在线体验](https://www.sharelatex.com/project)
+《102 分钟学会 latex》
+
