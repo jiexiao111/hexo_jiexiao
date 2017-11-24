@@ -52,32 +52,25 @@ nmt
 ```
 
 # 函数调用关系
-nmt.py
-train.py
-model.py
-model_helper.py
-utils
-attention_model.py
-
 main
-run_main
-create_or_load_hparams
-train
-create_train_model
-create_vocab_tables
-get_iterator
-AttentionModel:__init__
-BaseModel:__init__
-get_initializer
-BaseModel:init_embeddings
-BaseModel:build_graph
-BaseModel:_get_learning_rate_warmup
-BaseModel:_get_learning_rate_decay
-gradient_clip
-Model:_build_encoder
-BaseModel:_build_decoder
-get_device_str
-BaseModel:_compute_loss
+    run_main
+        create_or_load_hparams
+        train
+            create_train_model
+                create_vocab_tables
+                get_iterator
+                AttentionModel:__init__
+                    BaseModel:__init__
+                        get_initializer
+                        BaseModel:init_embeddings
+                        BaseModel:build_graph
+                            Model:_build_encoder
+                            BaseModel:_build_decoder
+                            get_device_str
+                            BaseModel:_compute_loss
+                        BaseModel:_get_learning_rate_warmup
+                        BaseModel:_get_learning_rate_decay
+                        gradient_clip
 
 
 ```
