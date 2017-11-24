@@ -14,13 +14,13 @@ tags:
 
 # 目录结构
 [Tensorflow 的 NMT 项目 github 地址](https://github.com/tensorflow/nmt#encoder)
-```
+```python
 nmt
 ->  nmt.py                       === >  训练入口文件
 ->  train.py                     === >
 ->  model.py                     === >  不带 Attention 结构的模型
 ->  attention_model.py           === >  不指定 --attention_architecture 时，带 Attention 结构的模型
-->  gnmt_model.py                === >
+->  gnmt_model.py                === >  --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
 ->  model_test.py                === >
 ->  inference_test.py            === >
 ->  model_helper.py              === >
