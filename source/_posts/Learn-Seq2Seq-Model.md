@@ -44,11 +44,12 @@ nmt
 
 # 参数说明
 ```python
-# 训练阶段参数：
 --attention              不指定时，模型将不带有 Attantion 结构
 --attention_architecture 指定 --attention 才能生效
-# 预测阶段参数：
+--share_vocab            输入输出是否使用同一个字典
 --inference_input_file   预测阶段的输入文件，用于区分训练和预测阶段
+--eos                    句子结束的标记
+--sos                    句子开始的标记
 ```
 
 # 函数调用关系
@@ -72,8 +73,27 @@ main
             BaseModel:_get_learning_rate_warmup
             BaseModel:_get_learning_rate_decay
             gradient_clip
+      create_eval_model
+      create_infer_model
+      load_data
+      get_config_proto
+      create_or_load_model
+      run_full_eval
+      init_stats
+      update_stats
+      check_stats
+      add_summary
+      run_sample_decode
+      run_internal_eval
+      run_external_eval
 
 ```
+
+# API 说明
+
+
+
+# 遗留问题
 
 # 参考资料
 论文：
