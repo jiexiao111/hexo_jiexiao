@@ -50,6 +50,13 @@ nmt
 --inference_input_file   预测阶段的输入文件，用于区分训练和预测阶段
 --eos                    句子结束的标记
 --sos                    句子开始的标记
+--src                    源文件后缀
+--tgt                    目标文件后缀
+--vocab_prefix           词典文件全路径，不包含后缀
+--train_prefix           训练数据文件全路径，不包含后缀
+--dev_prefix             验证数据文件全路径，不包含后缀
+--test_prefix            测试数据文件全路径，不包含后缀
+--out_dir                模型存放目录
 ```
 
 # 函数调用关系
