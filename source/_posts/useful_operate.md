@@ -19,6 +19,9 @@ tags:
 ``snap``: 实现 ``Command + num`` 打开 Dock
 ``HyperSwitch``: 实现 ``Command + ` `` 切换同一个进程的多个窗口
 
+## 命令结果粘贴至剪切板
+``ls |pbcopy``
+
 # jupyter
 ## .ipynb 转 .md
 ```shell
@@ -148,6 +151,9 @@ au BufWinEnter *.* silent loadview
 * 『当前行，最后一行』:           ``:.,$s/from/to/g``
 * 『标记 a 所在行，标记 b 所在行』:   ``:'a,'bs/from/to/g``
 * 所有行：``:%s/from/to/g``
+
+### 特殊情况
+* 替换空格为换行符 ``:s/ /\r/g``
 
 ### 替换命令的完整形式
 完整语法：``:[range]s/from/to/[flags]``

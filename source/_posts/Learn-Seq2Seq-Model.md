@@ -44,19 +44,72 @@ nmt
 
 # 参数说明
 ```python
---attention              不指定时，模型将不带有 Attantion 结构
---attention_architecture 指定 --attention 才能生效
---share_vocab            输入输出是否使用同一个字典
---inference_input_file   预测阶段的输入文件，用于区分训练和预测阶段
---eos                    句子结束的标记
---sos                    句子开始的标记
 --src                    源文件后缀
 --tgt                    目标文件后缀
---vocab_prefix           词典文件全路径，不包含后缀
 --train_prefix           训练数据文件全路径，不包含后缀
 --dev_prefix             验证数据文件全路径，不包含后缀
 --test_prefix            测试数据文件全路径，不包含后缀
+--vocab_prefix           词典文件全路径，不包含后缀
 --out_dir                模型存放目录
+--attention              不指定时，模型将不带有 Attantion 结构
+--attention_architecture 指定 --attention 才能生效
+--inference_input_file   预测阶段的输入文件，用于区分训练和预测阶段
+--eos                    句子结束的标记
+--sos                    句子开始的标记
+--num_buckets            训练集分桶数量，默认 5
+--share_vocab            输入输出是否使用同一个字典
+--batch_size
+--beam_width
+--check_special_token
+--ckpt
+--colocate_gradients_with_ops
+--decay_factor
+--decay_steps
+--dropout
+--encoder_type
+--forget_bias
+--hparams_path
+--infer_batch_size
+--inference_list
+--inference_output_file
+--inference_ref_file
+--init_op
+--init_weight
+--jobid
+--learning_rate
+--learning_rate_decay_scheme
+--length_penalty_weight
+--log_device_placement
+--max_gradient_norm
+--max_train
+--metrics
+--num_embeddings_partitions
+--num_gpus
+--num_layers
+--num_train_steps
+--num_translations_per_input
+--num_units
+--num_workers
+--optimizer
+--output_attention
+--override_loaded_hparams
+--pass_hidden_state
+--random_seed
+--residual
+--scope
+--source_reverse
+--src_max_len
+--src_max_len_infer
+--start_decay_step
+--steps_per_external_eval
+--steps_per_stats
+--subword_option
+--tgt_max_len
+--tgt_max_len_infer
+--time_major
+--unit_type
+--warmup_scheme
+--warmup_steps
 ```
 
 # 函数调用关系
@@ -68,6 +121,9 @@ main
       create_train_model
         create_vocab_tables
         get_iterator
+          batching_func
+          key_func
+          BatchedInput
         AttentionModel:__init__
           BaseModel:__init__
             get_initializer
@@ -97,8 +153,20 @@ main
 ```
 
 # API 说明
-
-
+## BatchedInput
+* 功能
+没有实现直接继承了 collections.namedtuple。 如果返回原始的 tuple， 则 仅能通过 index 访问 item 。collections.namedtuple 可以通过 item 的 name 进行访问。可以将 namedtuple 理解为 c 中的 struct 结构，其首先将各个 item 命名，然后对每个 item 赋予数据。
+* 示例
+```python
+$ ipython3
+In [1]: import collections
+In [2]: coordinate = collections.namedtuple('Collections', ['x', 'y'])
+In [4]: co = coordinate(10, 20)
+In [5]: co.x
+Out[5]: 10
+In [6]: co.y
+Out[6]: 20
+```
 
 # 遗留问题
 
