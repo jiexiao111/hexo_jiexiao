@@ -14,147 +14,182 @@ tags:
 
 # 目录结构
 [Tensorflow 的 NMT 项目 github 地址](https://github.com/tensorflow/nmt#encoder)
-```
+```python
 nmt
-->  nmt.py                       ===> 训练入口文件
-->  train.py                     ===>
-->  model.py                     ===> 不带 Attention 结构的模型
-->  attention_model.py           ===> 不指定 --attention_architecture 时，带 Attention 结构的模型
-->  gnmt_model.py                ===> --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
-->  model_test.py                ===>
-->  inference_test.py            ===>
-->  model_helper.py              ===>
-->  inference.py                 ===>
-->  scripts                      ===>
-    ->  bleu.py                  ===>
-    ->  rouge.py                 ===>
-->  utils                        ===>
-    ->  iterator_utils.py        ===>
-    ->  __init__.py              ===>
-    ->  misc_utils_test.py       ===>
-    ->  misc_utils.py            ===>
-    ->  vocab_utils.py           ===>
-    ->  evaluation_utils_test.py ===>
-    ->  common_test_utils.py     ===>
-    ->  iterator_utils_test.py   ===>
-    ->  vocab_utils_test.py      ===>
-    ->  nmt_utils.py             ===>
-    ->  evaluation_utils.py      ===>
+    nmt.py                       # 训练入口文件
+    train.py                     #
+    model.py                     # 不带 Attention 结构的模型
+    attention_model.py           # 不指定 --attention_architecture 时，带 Attention 结构的模型
+    gnmt_model.py                # --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
+    model_test.py                #
+    inference_test.py            #
+    model_helper.py              #
+    inference.py                 #
+    scripts                      #
+        bleu.py                  #
+        rouge.py                 #
+    utils                        #
+        iterator_utils.py        #
+        __init__.py              #
+        misc_utils_test.py       #
+        misc_utils.py            #
+        vocab_utils.py           #
+        evaluation_utils_test.py #
+        common_test_utils.py     #
+        iterator_utils_test.py   #
+        vocab_utils_test.py      #
+        nmt_utils.py             #
+        evaluation_utils.py      #
 ```
 
 # 参数说明
+
+## network
+```python
+--num_units                    # 每层网络的神经元个数，默认 32，Demo 中使用了 128
+--num_layers                   # 网络的深度，默认使用 2
+--encoder_type                 #
+--residual                     #
+--time_major                   #
+--num_embeddings_partitions    #
 ```
---src                         ===> 源文件后缀
---tgt                         ===> 目标文件后缀
---train_prefix                ===> 训练数据文件全路径，不包含后缀
---dev_prefix                  ===> 验证数据文件全路径，不包含后缀
---test_prefix                 ===> 测试数据文件全路径，不包含后缀
---vocab_prefix                ===> 词典文件全路径，不包含后缀
---out_dir                     ===> 模型存放目录
---attention                   ===> 不指定时，模型将不带有 Attantion 结构
---attention_architecture      ===> 指定 --attention 才能生效
---inference_input_file        ===> 预测阶段的输入文件，用于区分训练和预测阶段
---eos                         ===> 句子结束的标记
---sos                         ===> 句子开始的标记
---num_buckets                 ===> 训练集分桶数量，默认 5
---share_vocab                 ===> 输入输出是否使用同一个字典
---src_max_len                 ===> 输入数据的最大长度，默认 50
---tgt_max_len                 ===> 输出数据的最大长度，默认 50
---batch_size                  ===>
---beam_width                  ===>
---check_special_token         ===>
---ckpt                        ===>
---colocate_gradients_with_ops ===>
---decay_factor                ===>
---decay_steps                 ===>
---dropout                     ===>
---encoder_type                ===>
---forget_bias                 ===>
---hparams_path                ===>
---infer_batch_size            ===>
---inference_list              ===>
---inference_output_file       ===>
---inference_ref_file          ===>
---init_op                     ===>
---init_weight                 ===>
---jobid                       ===>
---learning_rate               ===>
---learning_rate_decay_scheme  ===>
---length_penalty_weight       ===>
---log_device_placement        ===>
---max_gradient_norm           ===>
---max_train                   ===>
---metrics                     ===>
---num_embeddings_partitions   ===>
---num_gpus                    ===>
---num_layers                  ===>
---num_train_steps             ===>
---num_translations_per_input  ===>
---num_units                   ===>
---num_workers                 ===>
---optimizer                   ===>
---output_attention            ===>
---override_loaded_hparams     ===>
---pass_hidden_state           ===>
---random_seed                 ===>
---residual                    ===>
---scope                       ===>
---source_reverse              ===>
---src_max_len_infer           ===>
---start_decay_step            ===>
---steps_per_external_eval     ===>
---steps_per_stats             ===>
---subword_option              ===>
---tgt_max_len_infer           ===>
---time_major                  ===>
---unit_type                   ===>
---warmup_scheme               ===>
---warmup_steps                ===>
+## attention mechanisms
+```python
+--attention                    # 不指定时，模型将不带有 Attantion 结构
+--attention_architecture       # 指定 --attention 才能生效
+--output_attention             #
+--pass_hidden_state            #
+```
+## optimizer
+```python
+--optimizer                    #
+--learning_rate                #
+--warmup_steps                 #
+--warmup_scheme                #
+--start_decay_step             #
+--decay_steps                  #
+--decay_factor                 #
+--learning_rate_decay_scheme   #
+--num_train_steps              # 训练次数，默认 12000
+--colocate_gradients_with_ops  #
+```
+## initializer
+```python
+--init_op                      # 模型初始化函数，默认 uniform, 可选 uniform | glorot_normal | glorot_uniform
+--init_weight                  # 当 --init_op 为 uniform 时生效，默认为 0.1
+```
+## data
+```python
+--src                          # 源文件后缀 #
+--tgt                          # 目标文件后缀
+--train_prefix                 # 训练数据文件全路径，不包含后缀
+--dev_prefix                   # 验证数据文件全路径，不包含后缀
+--test_prefix                  # 测试数据文件全路径，不包含后缀
+--out_dir                      # 模型存放目录
+```
+## Vocab
+```python
+--vocab_prefix                 # 词典文件全路径，不包含后缀
+--sos                          # 句子开始的标记
+--eos                          # 句子结束的标记
+--share_vocab                  # 输入输出是否使用同一个字典
+--check_special_token          #
+```
+## Sequence lengths
+```python
+--src_max_len                  # 输入数据的最大长度，默认 50
+--tgt_max_len                  # 输出数据的最大长度，默认 50
+--src_max_len_infer            #
+--tgt_max_len_infer            #
+```
+## Default settings works well (rarely need to change)
+```python
+--unit_type                    #
+--forget_bias                  #
+--dropout                      # 默认 0.2
+--max_gradient_norm            #
+--source_reverse               #
+--batch_size                   #
+--steps_per_stats              # 每训练 N 次打印一次统计信息，默认 100
+--max_train                    #
+--num_buckets                  # 训练集分桶数量，默认 5
+```
+## SPM
+```python
+--subword_option               #
+```
+## Misc
+```python
+--num_gpus                     # GPU 个数，默认 1
+--log_device_placement         #
+--metrics                      # 翻译结果的评价函数，默认 bleu，可以多选，如，(bleu,rouge,accuracy)
+--steps_per_external_eval      #
+--scope                        #
+--hparams_path                 #
+--random_seed                  #
+--override_loaded_hparams      #
+```
+## Inference
+```python
+--ckpt
+--inference_input_file         # 预测阶段的输入文件，用于区分训练和预测阶段
+--inference_list               #
+--infer_batch_size             #
+--inference_output_file        #
+--inference_ref_file           #
+--beam_width                   #
+--length_penalty_weight        #
+--num_translations_per_input   #
+```
+## Job info
+```python
+--jobid                        #
+--num_workers                  #
 ```
 
 # 函数调用关系
 ```python
 main
   run_main
-    create_or_load_hparams                      ===>
-    train                                       ===>
-      create_train_model                        ===>
-        create_vocab_tables                     ===>
-        get_iterator                            ===> 将训练数据处理成符合条件的输入输出
-          batching_func                         ===> 通过 padding 统一训练数据长度，再将元素按 batch_size 分组
-          key_func                              ===> 训练数据按 bucket 分组
-          BatchedInput                          ===> 通过 name 访问 get_iterator 返回值的便利函数
-        AttentionModel:__init__                 ===>
-          BaseModel:__init__                    ===>
-            get_initializer                     ===>
-            BaseModel:init_embeddings           ===>
-            BaseModel:build_graph               ===>
-              Model:_build_encoder              ===>
-              BaseModel:_build_decoder          ===>
-              get_device_str                    ===>
-              BaseModel:_compute_loss           ===>
-            BaseModel:_get_learning_rate_warmup ===>
-            BaseModel:_get_learning_rate_decay  ===>
-            gradient_clip                       ===>
-      create_eval_model                         ===>
-      create_infer_model                        ===>
-      load_data                                 ===>
-      get_config_proto                          ===>
-      create_or_load_model                      ===>
-      run_full_eval                             ===>
-      init_stats                                ===>
-      update_stats                              ===>
-      check_stats                               ===>
-      add_summary                               ===>
-      run_sample_decode                         ===>
-      run_internal_eval                         ===>
-      run_external_eval                         ===>
+    create_or_load_hparams                      #
+    train                                       #
+      create_train_model                        #
+        create_vocab_tables                     # 创建 token 与 id 的映射字典
+        get_iterator                            # 将训练数据处理成符合条件的输入输出
+          key_func                              # 训练数据按 bucket 分组
+          key_func                              # 训练数据按 bucket 分组
+          BatchedInput                          # 通过 name 访问 get_iterator 返回值的便利函数
+        AttentionModel:__init__                 # model_creator 可能对应不同的 BaseModel 子类
+          BaseModel:__init__                    #
+            get_initializer                     #
+            BaseModel:init_embeddings           #
+            BaseModel:build_graph               #
+              Model:_build_encoder              #
+              BaseModel:_build_decoder          #
+              get_device_str                    #
+              BaseModel:_compute_loss           #
+            BaseModel:_get_learning_rate_warmup #
+            BaseModel:_get_learning_rate_decay  #
+            gradient_clip                       #
+      create_eval_model                         #
+      create_infer_model                        #
+      load_data                                 #
+      get_config_proto                          #
+      create_or_load_model                      #
+      run_full_eval                             #
+      init_stats                                #
+      update_stats                              #
+      check_stats                               #
+      add_summary                               #
+      run_sample_decode                         #
+      run_internal_eval                         #
+      run_external_eval                         #
 ```
 
 # API 说明
 ## BatchedInput
 * 功能
-没有实现直接继承了 collections.namedtuple。 如果返回原始的 tuple， 则 仅能通过 index 访问 item 。collections.namedtuple 可以通过 item 的 name 进行访问。可以将 namedtuple 理解为 c 中的 struct 结构，其首先将各个 item 命名，然后对每个 item 赋予数据。
+没有实现直接继承了 collections.namedtuple。 如果返回原始的 tuple， 则仅能通过 index 访问 item 。collections.namedtuple 可以通过 item 的 name 进行访问。可以将 namedtuple 理解为 c 中的 struct 结构，其首先将各个 item 命名，然后对每个 item 赋予数据。
 * 示例
 ```python
 $ ipython3
