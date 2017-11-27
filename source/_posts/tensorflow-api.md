@@ -489,7 +489,7 @@ In [5]: with tf.Session() as sess:
 make_one_shot_iterator()
 ```
 * 示例
-```
+```python
 $ ipython
 In [1]: from tensorflow.python.data import Dataset
 In [2]: import tensorflow as tf
@@ -789,8 +789,34 @@ In [12]: print_dataset(Dataset.zip((a, d)))
 (2, 14)
 ```
 ## tf.data.Iterator
+
 ### get_next
-TODO
+* 功能
+通过 Iterator 从 Dataset 中取数据
+* 描述
+```
+get_next(name=None)
+
+Args:
+name: (Optional.) A name for the created operation.
+
+Returns:
+A nested structure of tf.Tensor objects.
+```
+* 示例
+```python
+$ ipython
+In [1]: from tensorflow.python.data import Dataset
+In [2]: import tensorflow as tf
+In [3]: dataset = Dataset.range(5)
+In [4]: d_iter = dataset.make_one_shot_iterator()
+In [5]: with tf.Session() as sess:
+   ...:     print(d_iter.get_next().eval())
+   ...:     print(d_iter.get_next().eval())
+0
+1
+```
+
 
 ## tf.data.TextLineDataset
 * 功能
@@ -837,7 +863,7 @@ b'palmer'
 
 ## tf.contrib.data.group_by_window
 * 功能
-TODO
+将训练数据划分为多组，然后对每组数据进行 padding、shuffle、batch 等操作
 * 描述
 ```
 group_by_window(
@@ -849,14 +875,46 @@ group_by_window(
 
 Args:
 key_func: 将 Tensor 映射为一个 ID。典型场景：根据训练数据的输入输出长度，产生一个合适的 bucket id。
-reduce_func: A function mapping a key and a dataset of up to batch_size consecutive elements matching that key to another dataset.
-window_size: A tf.int64 scalar tf.Tensor, representing the number of consecutive elements matching the same key to combine in a single batch, which will be passed to reduce_func. Mutually exclusive with window_size_func.
-window_size_func: A function mapping a key to a tf.int64 scalar tf.Tensor, representing the number of consecutive elements matching the same key to combine in a single batch, which will be passed to reduce_func. Mutually exclusive with window_size.
+reduce_func: 从 Dataset 中取出 window_size 个元素，然后对这些元素进行 padding、shuffle、batch 等操作
+window_size: 表示 window_size, 作为 reduce_func 的第一个参数传入，与 window_size_func 互斥
+window_size_func: 通过 key_func 计算的 ID 来计算 window_size, 与 window_size 参数互斥
 
 Returns:
 A Dataset transformation function, which can be passed to tf.data.Dataset.apply.
 ```
 * 示例
+```python
+$ ipython
+In [1]: load /root/workspace/tmp.py
+In [2]: # %load /root/workspace/tmp.py
+   ...: import tensorflow as tf
+   ...: from tensorflow.python.data import Dataset
+   ...: def print_dataset(d):
+   ...:     d_iter = d.make_one_shot_iterator()
+   ...:     with tf.Session() as sess:
+   ...:         while True:
+   ...:             try:
+   ...:                 print(sess.run(d_iter.get_next()))
+   ...:             except tf.errors.OutOfRangeError:
+   ...:                 break
+In [3]: dataset = Dataset.range(12)
+In [4]: dataset = dataset.apply(tf.contrib.data.group_by_window(key_func=lambda x: x%2, reduce_func=lambda x, els: els.batch(3), window_size=3))
+In [5]: print_dataset(dataset) # 这里 window_size 为 3，所以首先从双数数列取了 3 个元素，划分为 1 个大小为 3 的  batch，然后从单数数列取了 3 个元素，重复...
+[0 2 4]
+[1 3 5]
+[ 6  8 10]
+[ 7  9 11]
+In [6]: dataset = Dataset.range(12)
+In [7]: dataset = dataset.apply(tf.contrib.data.group_by_window(key_func=lambda x: x%2, reduce_func=lambda x, els: els.batch(3), window_size=5))
+In [8]: print_dataset(dataset) # 这里 window_size 为 5，所以首先从双数数列取了 5 个元素，划分为 1 个大小为 3 的 batch 和 1 个大小为 2 的 batch，然后从单数数列取了 5 个，重复...
+[0 2 4]
+[6 8]
+[1 3 5]
+[7 9]
+[10]
+[11]
+```
+	[stackoverflow 关于该函数使用的说明](https://stackoverflow.com/questions/45292517/how-do-i-use-the-group-by-window-function-in-tensorflow)
 
 # tf.contrib.lookup
 

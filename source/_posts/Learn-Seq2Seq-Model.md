@@ -166,6 +166,31 @@ Out[5]: 10
 In [6]: co.y
 Out[6]: 20
 ```
+## get_iterator
+* 功能
+产生训练数据，需要注意的是仅当调用 BatchedInput.initializer 才会重新执行 shuffle/padding/batch 等数据预处理。而每次使用 BatchedInput 的其他任意成员都会默认调用 tf.data.Iterator 的 get_next() 函数
+
+*示例
+```
+$ ipython
+In [1]: import tensorflow as tf
+In [2]: from tensorflow.python.data import Dataset
+In [3]: dataset = Dataset.range(5)
+In [4]: dataset = dataset.map(lambda x: (x, x))
+In [5]: d_iter = dataset.make_one_shot_iterator()
+In [6]: x, y = d_iter.get_next()
+In [7]: sess = tf.Session()
+In [8]: sess.run(x)
+Out[8]: 0
+In [9]: sess.run(x)
+Out[9]: 1
+In [10]: sess.run(y) # 前两次获取 x 第三次获取 y，但是 y 已经取到了 2，说明前两次 sess.run(x) 隐含调用了 get_next()
+Out[10]: 2
+In [12]: sess.run((x, y))
+Out[12]: (3, 3)
+In [13]: sess.run((x, y)) # 这里说明，每次 sess.run 才会调用一次 get_next()，而不是获取一次 x 或者 y 的值调用一次 get_next()
+Out[13]: (4, 4)
+```
 
 # 遗留问题
 
