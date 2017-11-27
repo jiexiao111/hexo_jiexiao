@@ -413,7 +413,20 @@ array([[[[ 9, 10, 11],
 ## tf.data.Dataset
 
 ### apply
-TODO
+* 功能
+对 Dataset 的元素使用一个转换函数，转换函数目前多定义于 ``tf.contrib.data``
+* 描述
+```
+apply(transformation_func)
+
+Args:
+transformation_func: A function that takes one Dataset argument and returns a Dataset.
+
+Returns:
+The Dataset returned by applying transformation_func to this dataset.
+```
+* 示例
+参考 ``tf.contrib.data.group_by_window``
 
 ### filter
 * 功能
