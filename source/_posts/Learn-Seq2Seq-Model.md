@@ -16,30 +16,30 @@ tags:
 [Tensorflow 的 NMT 项目 github 地址](https://github.com/tensorflow/nmt#encoder)
 ```python
 nmt
-->  nmt.py                       === >  训练入口文件
-->  train.py                     === >
-->  model.py                     === >  不带 Attention 结构的模型
-->  attention_model.py           === >  不指定 --attention_architecture 时，带 Attention 结构的模型
-->  gnmt_model.py                === >  --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
-->  model_test.py                === >
-->  inference_test.py            === >
-->  model_helper.py              === >
-->  inference.py                 === >
-->  scripts                      === >
-    ->  bleu.py                  === >
-    ->  rouge.py                 === >
-->  utils                        === >
-    ->  iterator_utils.py        === >
-    ->  __init__.py              === >
-    ->  misc_utils_test.py       === >
-    ->  misc_utils.py            === >
-    ->  vocab_utils.py           === >
-    ->  evaluation_utils_test.py === >
-    ->  common_test_utils.py     === >
-    ->  iterator_utils_test.py   === >
-    ->  vocab_utils_test.py      === >
-    ->  nmt_utils.py             === >
-    ->  evaluation_utils.py      === >
+->  nmt.py                       ===> 训练入口文件
+->  train.py                     ===>
+->  model.py                     ===> 不带 Attention 结构的模型
+->  attention_model.py           ===> 不指定 --attention_architecture 时，带 Attention 结构的模型
+->  gnmt_model.py                ===> --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
+->  model_test.py                ===>
+->  inference_test.py            ===>
+->  model_helper.py              ===>
+->  inference.py                 ===>
+->  scripts                      ===>
+    ->  bleu.py                  ===>
+    ->  rouge.py                 ===>
+->  utils                        ===>
+    ->  iterator_utils.py        ===>
+    ->  __init__.py              ===>
+    ->  misc_utils_test.py       ===>
+    ->  misc_utils.py            ===>
+    ->  vocab_utils.py           ===>
+    ->  evaluation_utils_test.py ===>
+    ->  common_test_utils.py     ===>
+    ->  iterator_utils_test.py   ===>
+    ->  vocab_utils_test.py      ===>
+    ->  nmt_utils.py             ===>
+    ->  evaluation_utils.py      ===>
 ```
 
 # 参数说明
@@ -58,6 +58,8 @@ nmt
 --sos                    句子开始的标记
 --num_buckets            训练集分桶数量，默认 5
 --share_vocab            输入输出是否使用同一个字典
+--src_max_len            输入数据的最大长度，默认 50
+--tgt_max_len            输出数据的最大长度，默认 50
 --batch_size
 --beam_width
 --check_special_token
@@ -98,13 +100,11 @@ nmt
 --residual
 --scope
 --source_reverse
---src_max_len
 --src_max_len_infer
 --start_decay_step
 --steps_per_external_eval
 --steps_per_stats
 --subword_option
---tgt_max_len
 --tgt_max_len_infer
 --time_major
 --unit_type
@@ -121,9 +121,9 @@ main
       create_train_model
         create_vocab_tables
         get_iterator
-          batching_func
-          key_func
-          BatchedInput
+          batching_func ===> 通过 padding 统一训练数据长度
+          key_func     ===> 训练数据分配 bucket
+          BatchedInput ===> 通过 name 访问 get_iterator 返回值的便利函数
         AttentionModel:__init__
           BaseModel:__init__
             get_initializer
@@ -149,7 +149,6 @@ main
       run_sample_decode
       run_internal_eval
       run_external_eval
-
 ```
 
 # API 说明

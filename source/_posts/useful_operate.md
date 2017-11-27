@@ -91,8 +91,9 @@ ssh-keygen -t rsa -C jiexiao111@gmail.com
 ~/.ssh/id_rsa.pub
 ```
 
-* 然后打开你的 github 主页，依次点击 Settings->SSH and GPG keys->New SSH key, 然后 Title 随便取个名字，再把 ~/.ssh/id_rsa.pub 中的内容拷贝到 Key 中，Add SSH key 完成添加
+* 然后打开你的 github 主页，依次点击 Settings->SSH and GPG keys->New SSH key, 然后 Title 随便取个名字，再把 ``~/.ssh/id_rsa.pub`` 中的内容拷贝到 Key 中，Add SSH key 完成添加
 {% img  '/images/add_ssh.png' %}
+-
 
 ## 解决 git 中文乱码
 ```python
@@ -113,10 +114,15 @@ git reset --soft [commit_id] 就可以回滚到某一个 commit，然后保留�
 ## 分析网页加载速度
 * 在 chrome 流量器中按 F12 或者单击鼠标右键 ->检查，打开调试栏 ->Network, 刷新网页就可以看到以下信息了
 {% img  '/images/chrome_perf.png' %}
-
+-
 ---
 
 # vim
+## vim 粘贴格式错误
+最方便的方法就是在.vimrc 中加一句：
+set pastetoggle=<F9>
+以后在插入模式下，只要按 F9 键就可以切换自动缩进。
+
 ## 无法 undo
 * 如果文件名中包含中文，则无法 undo
 

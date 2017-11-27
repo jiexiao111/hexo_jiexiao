@@ -19,9 +19,43 @@ Tensorflow API 整理，方便自己查阅
 ### Defining new operations
 
 #### tf.TensorShape
-TODO
+* 功能
+表示某个 shape 的 Tensor
 
 ## Constants, Sequences, and Random Values
+
+### Constant Value Tensors
+
+#### tf.fill
+* 功能
+创建元素为同一标量的 Tensor
+* 描述
+```
+fill(
+    dims,
+    value,
+    name=None
+)
+
+Args:
+dims:  A Tensor of type int32. 1-D. Represents the shape of the output tensor.
+value: A Tensor. 0-D (scalar). Value to fill the returned tensor.
+name:  A name for the operation (optional).
+
+Returns:
+A Tensor. Has the same type as value.
+```
+* 示例
+```python
+$ ipython
+In [1]: import tensorflow as tf
+In [2]: tmp = tf.fill([2, 3], 9)
+In [3]: with tf.Session().as_default():
+   ...:     tmp.eval()
+Out[3]:
+array([[9, 9, 9],
+       [9, 9, 9]], dtype=int32)
+```
 
 ### Sequences
 
@@ -418,7 +452,55 @@ In [4]: print_dataset(a.filter(lambda x: x > 6))
 ```
 
 ### make_initializable_iterator
-TODO
+* 功能
+创建一个 Dataset 的迭代器，可以对比 make_one_shot_iterator
+* 描述
+```
+make_initializable_iterator(shared_name=None)
+
+Args:
+shared_name: (Optional.) If non-empty, the returned iterator will be shared under the given name across multiple sessions that share the same devices (e.g. when using a remote server).
+
+Returns:
+An Iterator over the elements of this dataset.
+```
+* 示例
+```python
+$ ipython
+In [1]: from tensorflow.python.data import Dataset
+In [2]: import tensorflow as tf
+In [3]: dataset = Dataset.range(5)
+In [4]: d_iter = dataset.make_initializable_iterator()
+In [5]: with tf.Session() as sess:
+   ...:     sess.run(d_iter.initializer)
+   ...:     print(d_iter.get_next().eval())
+   ...:     sess.run(d_iter.initializer)
+   ...:     print(d_iter.get_next().eval())
+   ...:
+0
+0
+```
+
+### make_one_shot_iterator
+* 功能
+创建一个 Dataset 的迭代器，可以对比 make_initializable_iterator, 主要区别是：返回的迭代器不能调用 initializer，所以只能遍历一次
+* 描述
+```
+make_one_shot_iterator()
+```
+* 示例
+```
+$ ipython
+In [1]: from tensorflow.python.data import Dataset
+In [2]: import tensorflow as tf
+In [3]: dataset = Dataset.range(5)
+In [4]: d_iter = dataset.make_one_shot_iterator()
+In [5]: with tf.Session() as sess:
+   ...:     print(d_iter.get_next().eval())
+   ...:     print(d_iter.get_next().eval())
+0
+1
+```
 
 ### map
 * 功能
@@ -460,7 +542,72 @@ In [3]: print_dataset(a.map(lambda x: x * 2))
 ```
 
 ### padded_batch
-TODO
+* 功能
+将 Dataset 分为固定大小的 ``batch_size``, 同时将每个 batch 进行 padding，padding 长度默认为当前 batch 中的最大值
+* 描述
+```
+padded_batch(
+    batch_size,
+    padded_shapes,
+    padding_values=None
+)
+
+Args:
+batch_size:     A tf.int64 scalar tf.Tensor, 每个 batch 的大小
+padded_shapes:  Dataset 中每个数据的 shape，如果出现 tf.TensorShape([None]) 则表示 padding 至当前 batch 中的最大值
+padding_values: (Optional.)  padding 的值，默认为 0 或者 ''
+
+Returns:
+A Dataset.
+```
+* 示例
+```python
+$ ipython
+In [1]: load /root/workspace/tmp.py
+In [2]: # %load /root/workspace/tmp.py
+   ...: import tensorflow as tf
+   ...: from tensorflow.python.data import Dataset
+   ...: def print_dataset(d):
+   ...:     d_iter = d.make_one_shot_iterator()
+   ...:     with tf.Session() as sess:
+   ...:         while True:
+   ...:             try:
+   ...:                 print(sess.run(d_iter.get_next()))
+   ...:             except tf.errors.OutOfRangeError:
+   ...:                 break
+In [3]: dataset = tf.data.Dataset.range(10)
+In [4]: dataset = dataset.map(lambda x: {'x': tf.fill([tf.cast(x, tf.int32)], x), 'y': tf.fill([tf.cast(x, tf.int32)], x)})
+In [5]: print_dataset(dataset) # 这里有 10 个元素，且每个元素包含的子项不一样多
+{'x': array([], dtype=int64), 'y': array([], dtype=int64)}
+{'x': array([1]), 'y': array([1])}
+{'x': array([2, 2]), 'y': array([2, 2])}
+{'x': array([3, 3, 3]), 'y': array([3, 3, 3])}
+{'x': array([4, 4, 4, 4]), 'y': array([4, 4, 4, 4])}
+{'x': array([5, 5, 5, 5, 5]), 'y': array([5, 5, 5, 5, 5])}
+{'x': array([6, 6, 6, 6, 6, 6]), 'y': array([6, 6, 6, 6, 6, 6])}
+{'x': array([7, 7, 7, 7, 7, 7, 7]), 'y': array([7, 7, 7, 7, 7, 7, 7])}
+{'x': array([8, 8, 8, 8, 8, 8, 8, 8]), 'y': array([8, 8, 8, 8, 8, 8, 8, 8])}
+{'x': array([9, 9, 9, 9, 9, 9, 9, 9, 9]), 'y': array([9, 9, 9, 9, 9, 9, 9, 9, 9])}
+In [6]: dataset = dataset.padded_batch(4, padded_shapes={'x': [None], 'y': [None]})
+In [7]: print_dataset(dataset) # 这里只剩下 3 个 batch 了，每个 batch 中的元素的子项数量是一致的，都是当前 batch 中的最大值
+{'x': array([[0, 0, 0],
+       [1, 0, 0],
+       [2, 2, 0],
+       [3, 3, 3]]), 'y': array([[0, 0, 0],
+       [1, 0, 0],
+       [2, 2, 0],
+       [3, 3, 3]])}
+{'x': array([[4, 4, 4, 4, 0, 0, 0],
+       [5, 5, 5, 5, 5, 0, 0],
+       [6, 6, 6, 6, 6, 6, 0],
+       [7, 7, 7, 7, 7, 7, 7]]), 'y': array([[4, 4, 4, 4, 0, 0, 0],
+       [5, 5, 5, 5, 5, 0, 0],
+       [6, 6, 6, 6, 6, 6, 0],
+       [7, 7, 7, 7, 7, 7, 7]])}
+{'x': array([[8, 8, 8, 8, 8, 8, 8, 8, 0],
+       [9, 9, 9, 9, 9, 9, 9, 9, 9]]), 'y': array([[8, 8, 8, 8, 8, 8, 8, 8, 0],
+       [9, 9, 9, 9, 9, 9, 9, 9, 9]])}
+```
 
 ### prefetch
 * 功能
@@ -689,7 +836,27 @@ b'palmer'
 # tf.contrib.data
 
 ## tf.contrib.data.group_by_window
+* 功能
 TODO
+* 描述
+```
+group_by_window(
+    key_func,
+    reduce_func,
+    window_size=None,
+    window_size_func=None
+)
+
+Args:
+key_func: 将 Tensor 映射为一个 ID。典型场景：根据训练数据的输入输出长度，产生一个合适的 bucket id。
+reduce_func: A function mapping a key and a dataset of up to batch_size consecutive elements matching that key to another dataset.
+window_size: A tf.int64 scalar tf.Tensor, representing the number of consecutive elements matching the same key to combine in a single batch, which will be passed to reduce_func. Mutually exclusive with window_size_func.
+window_size_func: A function mapping a key to a tf.int64 scalar tf.Tensor, representing the number of consecutive elements matching the same key to combine in a single batch, which will be passed to reduce_func. Mutually exclusive with window_size.
+
+Returns:
+A Dataset transformation function, which can be passed to tf.data.Dataset.apply.
+```
+* 示例
 
 # tf.contrib.lookup
 
