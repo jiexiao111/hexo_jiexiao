@@ -16,30 +16,30 @@ tags:
 [Tensorflow 的 NMT 项目 github 地址](https://github.com/tensorflow/nmt#encoder)
 ```python
 nmt
-    nmt.py                       # 训练入口文件
-    train.py                     #
+    nmt.py                       # 训练入口文件，主要实现参数解析
+    train.py                     # 训练
+    inference.py                 # 评估
+    inference_test.py            # inference 单元测试
     model.py                     # 不带 Attention 结构的模型
+    model_test.py                # model 单元测试
     attention_model.py           # 不指定 --attention_architecture 时，带 Attention 结构的模型
     gnmt_model.py                # --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
-    model_test.py                #
-    inference_test.py            #
-    model_helper.py              #
-    inference.py                 #
+    model_helper.py              # 构造模型的通用函数
     scripts                      #
-        bleu.py                  #
+        bleu.py                  # bleu 评分
         rouge.py                 #
     utils                        #
-        iterator_utils.py        #
-        __init__.py              #
-        misc_utils_test.py       #
-        misc_utils.py            #
-        vocab_utils.py           #
-        evaluation_utils_test.py #
-        common_test_utils.py     #
-        iterator_utils_test.py   #
-        vocab_utils_test.py      #
-        nmt_utils.py             #
-        evaluation_utils.py      #
+        __init__.py              # 模块
+        iterator_utils.py        # 构造输入输出的通用函数
+        iterator_utils_test.py   # iter 单元测试
+        misc_utils.py            # 其他
+        misc_utils_test.py       # misc 单元测试
+        vocab_utils.py           # 构造词典
+        vocab_utils_test.py      # vocab 单元测试
+        evaluation_utils.py      # 预测相关
+        evaluation_utils_test.py # eval 单元测试
+        nmt_utils.py             # 翻译
+        common_test_utils.py     # common 单元测试
 ```
 
 # 参数说明
