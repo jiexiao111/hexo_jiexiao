@@ -408,6 +408,93 @@ array([[[[ 9, 10, 11],
          [ 0,  1,  2]]]], dtype=int32)
 ```
 
+## Variables
+
+### Sharing Variables
+
+#### tf.random_uniform_initializer
+* 功能
+变量初始化的值符合均匀分布
+* 描述
+```
+__init__(
+    minval=0,
+    maxval=None,
+    seed=None,
+    dtype=tf.float32
+)
+
+Args:
+
+minval: A python scalar or a scalar tensor. Lower bound of the range of random values to generate.
+maxval: A python scalar or a scalar tensor. Upper bound of the range of random values to generate. Defaults to 1 for float types.
+seed: A Python integer. Used to create random seeds. See tf.set_random_seed for behavior.
+dtype: The data type.
+```
+* 示例
+```
+$ ipython3
+In [1]: import tensorflow as tf
+In [2]: import matplotlib.pyplot as plt
+In [3]: a1 = tf.get_variable(name='a1', shape=[2000], initializer=tf.random_uniform_initializer(-1, 1))
+In [4]: sess = tf.Session()
+In [5]: sess.run(tf.global_variables_initializer())
+In [6]: tmp = sess.run(a1)
+In [7]: plt.hist(tmp, 100)
+In [8]: plt.show()
+```
+![tf.random_uniform_initializer](/images/tensorflow_api/random_uniform_initializer.png)
+
+#### tf.VariableScope
+
+##### set_initializer
+* 功能
+设置当前 scope 下的变量初始化函数，
+* 描述
+```
+set_initializer(initializer)
+```
+* 示例
+```python
+$ ipython3
+In [1]: import matplotlib.pyplot as plt
+In [2]: import tensorflow as tf
+In [3]: with tf.variable_scope('my'):
+   ...:     a1 = tf.get_variable(name='a1', shape=[1000])
+   ...:     tf.get_variable_scope().set_initializer(tf.keras.initializers.glorot_normal())
+   ...:     a2 = tf.get_variable(name='a2', shape=[1000])
+In [4]: a3 = tf.get_variable(name='a3', shape=[1000])
+In [5]: sess = tf.Session()
+In [6]: sess.run(tf.global_variables_initializer())
+In [7]: tmp1, tmp2, tmp3 = sess.run([a1, a2, a3])
+In [8]: plt.hist(tmp1) # 可以看出初始化的值并不符合正态分布，所以 set_initializer 必须在变量定义前执行
+Out[8]:
+(array([  99.,   85.,   95.,  109.,   86.,  103.,  101.,  111.,  101.,  110.]),
+ array([ -5.47123924e-02,  -4.37659476e-02,  -3.28195028e-02,
+         -2.18730580e-02,  -1.09266132e-02,   1.98315829e-05,
+          1.09662764e-02,   2.19127212e-02,   3.28591660e-02,
+          4.38056108e-02,   5.47520556e-02]),
+ <a list of 10 Patch objects>)
+In [9]: plt.show()
+In [10]: plt.hist(tmp2) # 这里就对了
+Out[10]:
+Out[10]:
+(array([  33.,   61.,   99.,  157.,  168.,  160.,  132.,  103.,   61.,   26.]),
+ array([-0.0629639 , -0.05034959, -0.03773528, -0.02512098, -0.01250667,
+         0.00010763,  0.01272194,  0.02533624,  0.03795055,  0.05056485,
+         0.06317916]),
+ <a list of 10 Patch objects>)
+In [11]: plt.show()
+In [12]: plt.hist(tmp3) # 这里已经不属于同一个 scope 了，所以分布也不符合正态分布
+Out[12]:
+(array([  98.,  109.,   81.,  112.,   69.,   92.,   97.,  110.,  118.,  114.]),
+ array([-0.0544718 , -0.04354969, -0.03262758, -0.02170548, -0.01078337,
+         0.00013874,  0.01106084,  0.02198295,  0.03290506,  0.04382716,
+         0.05474927]),
+ <a list of 10 Patch objects>)
+In [13]: plt.show()
+```
+
 # tf.data
 
 ## tf.data.Dataset
