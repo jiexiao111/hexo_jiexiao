@@ -102,7 +102,7 @@ nmt
 --src_max_len_infer            #
 --tgt_max_len_infer            #
 ```
-## Default settings works well (rarely need to change)
+## Default settings works well
 ```python
 --unit_type                    #
 --forget_bias                  #

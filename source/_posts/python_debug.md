@@ -171,3 +171,21 @@ The program finished and will be restarted
 -> from time import sleep
 (Pdb)
 ```
+
+# ipython 粘贴多行代码
+在 IPython 升级至 6.* 版本后，多行粘贴就只能使用 %cpaste 命令了
+```
+$ ipython
+In [1]: %cpaste
+Pasting code; enter '--' alone on the line to stop or use Ctrl-D.
+:import os
+def print_dir(rootDir):
+  list_dirs = os.walk(rootDir)
+  for root, dirs, files in list_dirs:
+    for d in dirs:
+      print(os.path.join(root, d))
+    for f in files:
+      print(os.path.join(root, f)):::::::
+:--
+```
+
