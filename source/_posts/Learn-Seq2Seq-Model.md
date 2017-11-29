@@ -16,30 +16,30 @@ tags:
 [Tensorflow 的 NMT 项目 github 地址](https://github.com/tensorflow/nmt#encoder)
 ```python
 nmt
-    nmt.py                       # 训练入口文件
-    train.py                     #
+    nmt.py                       # 训练入口文件，主要实现参数解析
+    train.py                     # 训练
+    inference.py                 # 评估
+    inference_test.py            # inference 单元测试
     model.py                     # 不带 Attention 结构的模型
+    model_test.py                # model 单元测试
     attention_model.py           # 不指定 --attention_architecture 时，带 Attention 结构的模型
     gnmt_model.py                # --attention_architecture 被指定为 gnmt 或 gnmt_v2 时，带 Attention 结构的模型
-    model_test.py                #
-    inference_test.py            #
-    model_helper.py              #
-    inference.py                 #
+    model_helper.py              # 构造模型的通用函数
     scripts                      #
-        bleu.py                  #
+        bleu.py                  # bleu 评分
         rouge.py                 #
     utils                        #
-        iterator_utils.py        #
-        __init__.py              #
-        misc_utils_test.py       #
-        misc_utils.py            #
-        vocab_utils.py           #
-        evaluation_utils_test.py #
-        common_test_utils.py     #
-        iterator_utils_test.py   #
-        vocab_utils_test.py      #
-        nmt_utils.py             #
-        evaluation_utils.py      #
+        __init__.py              # 模块
+        iterator_utils.py        # 构造输入输出的通用函数
+        iterator_utils_test.py   # iter 单元测试
+        misc_utils.py            # 其他
+        misc_utils_test.py       # misc 单元测试
+        vocab_utils.py           # 构造词典
+        vocab_utils_test.py      # vocab 单元测试
+        evaluation_utils.py      # 预测相关
+        evaluation_utils_test.py # eval 单元测试
+        nmt_utils.py             # 翻译
+        common_test_utils.py     # common 单元测试
 ```
 
 # 参数说明
@@ -48,7 +48,7 @@ nmt
 ```python
 --num_units                    # 每层网络的神经元个数，默认 32，Demo 中使用了 128
 --num_layers                   # 网络的深度，默认使用 2
---encoder_type                 #
+--encoder_type                 # 编码层的结构，默认 uni（单向 RNN），可以选择 bi（双向 RNN），gnmt（单双混合）
 --residual                     #
 --time_major                   #
 --num_embeddings_partitions    #
@@ -151,39 +151,43 @@ nmt
 ```python
 main
   run_main
-    create_or_load_hparams                      #
-    train                                       #
-      create_train_model                        #
-        create_vocab_tables                     # 创建 token 与 id 的映射字典
-        get_iterator                            # 将训练数据处理成符合条件的输入输出
-          key_func                              # 训练数据按 bucket 分组
-          key_func                              # 训练数据按 bucket 分组
-          BatchedInput                          # 通过 name 访问 get_iterator 返回值的便利函数
-        AttentionModel:__init__                 # model_creator 可能对应不同的 BaseModel 子类
-          BaseModel:__init__                    #
-            get_initializer                     #
-            BaseModel:init_embeddings           #
-            BaseModel:build_graph               #
-              Model:_build_encoder              #
-              BaseModel:_build_decoder          #
-              get_device_str                    #
-              BaseModel:_compute_loss           #
-            BaseModel:_get_learning_rate_warmup #
-            BaseModel:_get_learning_rate_decay  #
-            gradient_clip                       #
-      create_eval_model                         #
-      create_infer_model                        #
-      load_data                                 #
-      get_config_proto                          #
-      create_or_load_model                      #
-      run_full_eval                             #
-      init_stats                                #
-      update_stats                              #
-      check_stats                               #
-      add_summary                               #
-      run_sample_decode                         #
-      run_internal_eval                         #
-      run_external_eval                         #
+    create_or_load_hparams                       #
+    train                                        #
+      create_train_model                         # 构建训练模型、输入输出、字典
+        create_vocab_tables                      # 创建 token 与 id 的映射字典
+        get_iterator                             # 将训练数据处理成符合条件的输入输出
+          key_func                               # 训练数据按 bucket 分组
+          key_func                               # 训练数据按 bucket 分组
+          BatchedInput                           # 通过 name 访问 get_iterator 返回值的便利函数
+        AttentionModel:__init__                  # model_creator 可能对应不同的 BaseModel 子类
+          BaseModel:__init__                     # 构建训练模型
+            get_initializer                      # 选择 Variable 的初始化函数
+            BaseModel:init_embeddings            # 创建 word embedding 矩阵
+            BaseModel:build_graph                # 构建计算图
+              Model:_build_encoder               # 根据配置创建 uni/bi 结构的编码层，gnmt 结构重写了该函数
+                _build_encoder_cell              # 创建编码层，直接调用了 create_rnn_cell，目前无重写
+                create_rnn_cell                  # 创建单层或者多层 RNN
+                _cell_list                       # 创建多层 RNN
+                _single_cell                     # 创建单层 RNN
+              BaseModel:_build_decoder           #
+              get_device_str                     #
+              BaseModel:_compute_loss            #
+            BaseModel:_get_learning_rate_warmup  #
+            BaseModel:_get_learning_rate_decay   #
+            gradient_clip                        #
+      create_eval_model                          #
+      create_infer_model                         #
+      load_data                                  #
+      get_config_proto                           #
+      create_or_load_model                       #
+      run_full_eval                              #
+      init_stats                                 #
+      update_stats                               #
+      check_stats                                #
+      add_summary                                #
+      run_sample_decode                          #
+      run_internal_eval                          #
+      run_external_eval                          #
 ```
 
 # API 说明
