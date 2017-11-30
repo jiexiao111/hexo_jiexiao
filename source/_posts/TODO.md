@@ -121,9 +121,6 @@ net start w32time
 # python 性能分析
 (http://python.jobbole.com/87621/)
 
-# ubunt 无法 mount 文件
-apt-get install -y cifs-utils
-
 # 机器学习教程
 [斯坦福大学 CS231n 卷积神经网络与图像识别](http://cs231n.stanford.edu/)
 [吴恩达 Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning)
@@ -144,3 +141,437 @@ rm /var/lib/dpkg/updates/*
 
 
 [「 Neural Networks and Deep Learning 」中文翻译（连载完毕）](https://hit-scir.gitbooks.io/neural-networks-and-deep-learning-zh_cn/content/)
+
+# ubuntu 执行 mount 报错
+ubuntu 下如果 mount 的是 window 的共享目录，会出现以下错误：
+```
+# mount -t cifs -o XXX_PATH LOCAL_PATH
+mount: XXX_PATH is write-protected, mounting read-only
+mount: cannot mount XXX_PATH read-only
+```
+执行以下命令即可：
+```
+apt-get install -y cifs-utils
+```
+
+# Flask 单元测试
+[官方网站](https://pythonhosted.org/Flask-Testing/)
+
+官方给出的例子如下：
+```
+#coding=utf8
+from flask import Flask,jsonify
+from flask_testing import TestCase
+import unittest
+
+app = Flask(__name__)
+
+@app.route("/ajax/")
+def some_json():
+    return jsonify(success=True)
+
+class TestViews(TestCase):
+    def create_app(self):
+        app.config['TESTING'] = True
+        return app
+
+    def test_some_json(self):
+        response = self.client.get("/ajax/")
+        '''''
+               判断还回的 JSON 对像是不是{'success':True}
+        '''
+        self.assertEqual(response.json, dict(success=True))
+
+if  __name__ =='__main__':
+    unittest.main()
+```
+
+# Structuring Your TensorFlow Models
+https://github.com/tensorflow/models/blob/master/tutorials/rnn/ptb/ptb_word_lm.py
+存在的问题：整个 Graph 都定义在 PTBModel 的 init 函数中，可读性和重用性不太好
+
+https://github.com/tensorflow/models/blob/master/tutorials/embedding/word2vec_optimized.py
+存在的问题：直接将整个 init 函数拆分成了多份，但是整个计算图依然在 build_graph 一个函数中实现，正常的看代码的顺序是 main——train——self._train_thread_body——self._train——train——build_graph——__init__
+较为冗长的调用关系，重复的命名，无法直观的看出 train 就是我们计算图中关键的节点。根本原因是 build_graph 中集合了整张图的描述。
+
+按照我们的正常思维，计算图会有输入、预测函数、损失函数、优化函数、输出，如果按照以上部分将计算图分割，将能提高重用性和可读性
+http://danijar.com/structuring-your-tensorflow-models/
+弄两张 Scopes 对比，没有添加 Scopes 时的调试信息
+
+# 数组名退化
+数组名退化
+
+2016 年 2 月 1 日
+10:41
+
+个人的浅显认识， 欢迎批评指正. 
+
+1. 什么是数组类型？ 
+
+下面是 C99 中原话： 
+An array type describes a contiguously allocated nonempty set of objects with a 
+particular member object type, called the element type.36) Array types are characterized by their element type and by the number of elements in the array. An array type is said to be derived from its element type, and if its element type is T , the array type is sometimes called ‘‘array of T ’’. The construction of an array type from an element type is called ‘‘array type derivation’’.  
+
+很显然， 数组类型也是一种数据类型， 其本质功能和其他类型无异：定义该类型的数据所占内存空间的大小以及可以对该类型数据进行的操作（及如何操作）. 
+
+2. 数组类型定义的数据是什么？它是变量还是常量？ 
+char s[10] = "china"; 
+在这个例子中， 数组类型为 array of 10 chars（姑且这样写）, 定义的数据显然是一个数组 s. 
+
+下面是 C99 中原话： 
+  An lvalue is an expression with an object type or an incomplete type other than void; if an lvalue does not designate an object when it is evaluated, the behavior is undefined. When an object is said to have a particular type, the type is specified by the lvalue used to designate the object. A modifiable lvalue is an lvalue that does not have array type, does not have an incomplete type, does not have a const-qualified type, and if it is a structure or union, does not have any member (including, recursively, any member or element of all contained aggregates or unions) with a const-qualified type. 
+
+看了上面的定义， 大家应该明白了 modifiable lvalue 和 lvalue 的区别， 大家也应该注意到 array type 定义的是 lvalue 而不是 modifiable lvalue. 所以说 s 是 lvalue. 
+
+s 指代的是整个数组， s 的内容显然是指整个数组中的数据， 它是 china\0****（这里*表示任意别的字符）.s 的内容是可以改变的， 从这个意义上来说， s 显然是个变量. 
+
+3. 数组什么时候会"退化" 
+
+下面是 C99 中原话： 
+Except when it is the operand of the sizeof operator or the unary & operator, or is a string literal used to initialize an array, an expression that has type ‘‘array of type’’ is converted to an expression with type ‘‘pointer to type’’ that points to the initial element of the array object and is not an lvalue. 
+
+上面这句话说的很清楚了， 数组在除了 3 种情况外， 其他时候都要"退化"成指向首元素的指针. 
+比如对 char s[10] = "china"; 
+这 3 中例外情况是： 
+(1) sizeof(s) 
+(2) &s; 
+(3) 用来初始化 s 的"china"; 
+
+
+除了上述 3 种情况外，s 都会退化成 &s[0], 这就是数组变量的操作方式 
+
+4. 数组与指针有什么不同？ 
+4.1 初始化的不同 
+char s[] = "china"; 
+char *p = "china"; 
+
+在第一句中，以 &s[0] 开始的连续 6 个字节内存分别被赋值为： 
+'c', 'h', 'i', 'n', 'a', '\0' 
+
+第二句中，p 被初始化为程序 data 段的某个地址，该地址是字符串"china"的首地址 
+
+4.2 sizeof 的不同 
+
+sizeof 就是要求一种数据（类型）所占内存的字节数. 对于 4.1 中的 s 和 p 
+sizeof(s) 应为 6, 而 sizeof(p) 应为一个"指针"的大小. 
+
+这个结果可以从 1 中对于数组类型的定义和 3 中数组什么时候不会"退化"中得出来. 
+
+4.3 & 操作符 
+
+对于 & 操作符， 数组同样不会退化. 
+4.1 中的 s 和 p 分别取地址后，其意义为： 
+&s 的类型为 pointer to array of 6 chars. 
+&p 的类型为 pointer to pointer to char. 
+
+4.4 s 退化后为什么不可修改 
+
+除 3 种情况外，数组 s 在表达式中都会退化为"指向数组首元素的指针", 既 &s[0] 
+
+举个例子 
+int a; 
+(&a)++; // 你想对谁 ++? 这显然是不对的 
+
+对 (&s[0])++ 操作犹如 (&a)++, 同样是不对的，这就导致退化后的 s 变成不可修改的了. 
+
+4.5 二维数组与二级指针 
+
+char s[10]; 与 char *p; 
+char s2[10][8]; 与 char **p2; 
+
+s 与 p 的关系，s2 与 p2 的关系，两者相同吗？ 
+紧扣定义的时候又到了. 
+除 3 种情况外，数组在表达式中都会退化为"指向数组首元素的指针". 
+
+s 退化后称为 &s[0], 类型为 pointer to char, 与 p 相同 
+s2 退化后称为 &s2[0], 类型为 pointer to array of 8 chars, 与 p2 不同 
+&s2[0] 时 s2[0] 还未退化，表示一个包含 8 个字节的数组
+
+4.6 数组作为函数参数 
+
+毫无疑问， 数组还是会退化. 
+
+void func(char s[10]); <===> void func(char *s); 
+
+void func(char s[10][8]); <===> void func(char (*s)[8]); 
+
+4.7 在一个文件中定义 char s[8], 在另外一个文件中声明 extern char *s. 这样可以吗？ 
+
+---------file1.c--------- 
+char s[8]; 
+
+---------file2.c--------- 
+extern char *s; 
+
+
+答案是不可以. 一般来说，在 file2.c 中使用*s 会引起 core dump, 这是为什么呢？ 
+
+先考虑 int 的例子. 
+---------file1.c--------- 
+int a; 
+
+---------file2.c--------- 
+extern int a; 
+
+file1.c 和 file2.c 经过编译后， 在 file2.o 的符号表中， a 的地址是尚未解析的 
+file1.o 和 file2.o 在链接后， file2.o 中 a 的地址被确定。假设此地址为 0xbf8eafae 
+
+file2.o 中对该地址的使用，完全是按照声明 extern int a; 进行的，即 0xbf8eafae 会被认为是整形 a 的地址 
+比如 a = 2; 其伪代码会对应为 *((int *)0xbf8eafae) = 2; 
+
+现在再看原来的例子. 
+
+---------file1.c--------- 
+char s[8]; 
+
+---------file2.c--------- 
+extern char *s; 
+
+同样， file1.c 和 file2.c 经过编译后， 在 file2.o 的符号表中， s 的地址是尚未解析的 
+file1.o 和 file2.o 在链接后， file2.o 中 s 的地址被确定。假设此地址为 0xbf8eafae 
+
+file2.o 中对该地址的使用，完全是按照声明 extern char *s; 进行的，即 0xbf8eafae 会被认为是指针 s 的地址 
+比如 *s = 2; 其伪代码会对应为 *(*((char **)0xbf8eafae)) = 2; 
+
+*((char **)0xbf8eafae) 会是什么结果呢？ 
+这个操作的意思是：将 0xbf8eafae 做为一个二级字符指针， 将 0xbf8eafae 为始址的 4 个字节 (32 位机）作为一级字符指针 
+也就是将 file1.o 中的 s[0], s[1], s[2], s[3] 拼接成一个字符指针. 
+
+
+那么*(*((char **)0xbf8eafae)) = 2; 的结果就是对 file1.o 中 s[0], s[1], s[2], s[3] 拼接成的这个地址对应 
+的内存赋值为 2. 
+这样怎么会正确呢？ 
+
+
+下面看看正确的写法： 
+
+---------file1.c--------- 
+char s[8]; 
+
+---------file2.c--------- 
+extern char s[]; 
+
+
+同样， file1.c 和 file2.c 经过编译后， 在 file2.o 的符号表中， s 的地址是尚未解析的 
+file1.o 和 file2.o 在链接后， file2.o 中 s 的地址被确定。假设此地址为 0xbf8eafae 
+
+file2.o 中对该地址的使用，完全是按照声明 extern char s[]; 进行的，即 0xbf8eafae 会被认为是数组 s 的地址 
+比如 *s = 2; 其伪代码会对应为 *(*((char (*)[])0xbf8eafae)) = 2; 
+
+*((char (*)[])0xbf8eafae) 会是什么结果呢？ 
+这个操作的意思是：将 0xbf8eafae 做为一个指向字符数组的指针， 然后对该指针进行*操作. 
+这就用到了数组的一个重要性质：  
+对于数组 char aaa[10]; 来说， &aaa[0], &aaa, *(&aaa) 在数值上是相同的（其实， *(&aaa) 之所以在程序中 
+会在值上等于 &aaa[0], 这也是退化的结果： *(&aaa) 就是数组名 aaa, aaa 退化为 &aaa[0]). 
+所以， *((char (*)[])0xbf8eafae) 的结果在值上还是 0xbf8eafae, 在类型上退化成"指向数组首元素的指针" 
+
+
+那么*(*((char (*)[])0xbf8eafae)) = 2; 
+其伪代码就成为*((char *)0xbf8eafae) = 2; 即将数组 s 的第一个元素设为 2 
+
+
+5. 小结论 
+
+(a). 数组类型是一种特殊类型， 它定义的是数组变量， 是 lvalue 但不是 modifiable lvalue 
+(b). 除了 3 种情况外 (sizeof, &, 用做数组初始化的字符串数组）, 数组会退化成"指向数组首元素的指针"
+
+(c). 不要将数组名简单的看作不可修改的相应的指针， 它们还是有很多不同的
+
+
+# 二分查找
+```c
+int bin_find(int* nums, int numsSize, int target) {
+    int hi = numsSize - 1;
+    int low = 0;
+    int mid;
+    while (hi >= low) {
+        mid = low + (hi - low) / 2;
+        if (target == nums[mid]) {
+            return mid;
+        }
+        else if (target > nums[mid]) {
+            low = mid + 1;
+        }
+        else {
+            hi = mid - 1;
+        }
+    }
+    return -1;
+
+}
+```
+# 双向链表
+```c
+#include <stdio.h>
+
+#define prefetch(X) X
+#define offset_of(type, member) ((size_t)&((type *)0)->member)
+#define container_of(ptr, type, member) ((type *)((unsigned char *)ptr - offset_of(type,member)))
+
+/* XXX list 结构体定义 */
+struct list_head {
+    struct list_head *next, *prev;
+};
+
+#define LIST_HEAD_INIT(name) { &(name), &(name) }
+
+/* XXX 局部、全局 list 初始化接口 */
+#define LIST_HEAD(name) struct list_head name = LIST_HEAD_INIT(name)
+
+/* XXX 初始化已经存在的 list 头节点对象 */
+static inline void INIT_LIST_HEAD(struct list_head *list)
+{
+    list->next = list;
+    list->prev = list;
+}
+
+/* 插入元素的内部实现 */
+static inline void __list_add(struct list_head *nnew,
+        struct list_head *prev,
+        struct list_head *next)
+{
+    next->prev = nnew;
+    nnew->next = next;
+    nnew->prev = prev;
+    prev->next =nnew;
+}
+
+/* XXX 将元素插入链表头部 */
+static inline void list_add(struct list_head *nnew, struct list_head *head)
+{
+    __list_add(nnew, head, head->next);
+}
+
+/* XXX 将元素插入链表尾部 */
+static inline void list_add_tail(struct list_head *nnew, struct list_head *head)
+{
+    __list_add(nnew, head->prev, head);
+}
+
+/* 删除元素的内部实现 */
+static inline void __list_del(struct list_head * prev, struct list_head * next)
+{
+    next->prev = prev;
+    prev->next = next;
+}
+
+/* XXX 删除指定元素 */
+static inline void list_del(struct list_head *entry)
+{
+    __list_del(entry->prev, entry->next);
+}
+
+/* XXX 判断该节点是否为尾节点 */
+static inline int list_is_last(const struct list_head *list,
+        const struct list_head *head)
+{
+    return list->next == head;
+}
+
+/* XXX 判断链表是否为空，仅检查后向指针 */
+static inline int list_empty(const struct list_head *head)
+{
+    return head->next == head;
+}
+
+/* XXX 判断链表中是否仅有一个元素 */
+static inline int list_is_singular(const struct list_head *head)
+{
+    return !list_empty(head) && (head->next == head->prev);
+}
+
+#define list_entry(ptr, type, member) container_of(ptr, type, member)
+
+#define list_first_entry(ptr, type, member) list_entry((ptr)->next, type, member)
+
+#define list_last_entry(ptr, type, member) list_entry((ptr)->prev, type, member)
+
+#define list_for_each_entry(type_pos, pos, head, member)                  \
+    for (pos = list_entry((head)->next, type_pos, member);                \
+            &pos->member != (head);                                       \
+            pos = list_entry(pos->member.next, type_pos, member))
+
+#define list_for_each_entry_safe(type_pos, pos, ptr, head, member)        \
+    for (pos = list_entry((head)->next, type_pos, member),                \
+            ptr = list_entry(pos->member.next, type_pos, member);         \
+            &pos->member != (head);                                       \
+            pos = ptr, ptr = list_entry(ptr->member.next, type_pos, member))
+
+#define list_for_each_entry_reverse(type_pos, pos, head, member)          \
+        for (pos = list_entry((head)->prev, type_pos, member);            \
+                &pos->member != (head);                                   \
+                pos = list_entry(pos->member.prev, type_pos, member))
+
+#define list_for_each_entry_safe_reverse(type_pos, pos, n, head, member)  \
+    for (pos = list_entry((head)->prev, type_pos, member),                \
+            n = list_entry(pos->member.prev, type_pos, member);           \
+            &pos->member != (head);                                       \
+            pos = n, n = list_entry(n->member.prev, type_pos, member))
+
+/* 示例 */
+#include <stdlib.h>
+
+typedef struct _list_demo_t{
+    int value;
+    struct list_head node;
+} list_demo_t;
+
+int main()
+{
+    LIST_HEAD (local_list);
+    printf("list_empty [%d]\n", list_empty(&local_list));
+
+    list_demo_t* list_node_1 = (list_demo_t*)malloc(sizeof(list_demo_t));
+    list_node_1->value = 1;
+    list_demo_t* list_node_2 = (list_demo_t*)malloc(sizeof(list_demo_t));
+    list_node_2->value = 2;
+    list_demo_t* list_node_3 = (list_demo_t*)malloc(sizeof(list_demo_t));
+    list_node_3->value = 3;
+    list_demo_t* list_node_4 = (list_demo_t*)malloc(sizeof(list_demo_t));
+    list_node_4->value = 4;
+    list_demo_t* list_node_5 = (list_demo_t*)malloc(sizeof(list_demo_t));
+    list_node_5->value = 5;
+    list_demo_t* list_node_6 = (list_demo_t*)malloc(sizeof(list_demo_t));
+    list_node_6->value = 6;
+    list_add(&list_node_1->node, &local_list);
+    list_add(&list_node_2->node, &local_list);
+    list_add(&list_node_3->node, &local_list);
+    list_add_tail(&list_node_4->node, &local_list);
+    list_add_tail(&list_node_5->node, &local_list);
+    list_add_tail(&list_node_6->node, &local_list);
+    printf("list_empty [%d]\n", list_empty(&local_list));
+
+    list_demo_t* tmp;
+    list_demo_t* for_safe;
+    printf("list_for_each_entry\n");
+    list_for_each_entry(list_demo_t, tmp, &local_list, node)
+    {
+        printf("[%d]\n", tmp->value);
+    }
+
+    printf("list_first_entry [%d]\n", list_first_entry(&local_list, list_demo_t, node)->value);
+    list_del(&list_first_entry(&local_list, list_demo_t, node)->node);
+    printf("list_first_entry [%d]\n", list_first_entry(&local_list, list_demo_t, node)->value);
+    printf("list_last_entry [%d]\n", list_last_entry(&local_list, list_demo_t, node)->value);
+    list_del(&list_last_entry(&local_list, list_demo_t, node)->node);
+    printf("list_last_entry [%d]\n", list_last_entry(&local_list, list_demo_t, node)->value);
+
+    printf("list_for_each_entry_safe\n");
+    list_for_each_entry_safe(list_demo_t, tmp, for_safe, &local_list, node)
+    {
+        printf("[%d]\n", tmp->value);
+    }
+    printf("list_for_each_entry_safe_reverse\n");
+    list_for_each_entry_safe_reverse(list_demo_t, tmp, for_safe, &local_list, node)
+    {
+        list_del(&tmp->node);
+        printf("[%d]\n", tmp->value);
+        free(tmp);
+    }
+    printf("list_for_each_entry_reverse\n");
+    list_for_each_entry_reverse(list_demo_t, tmp, &local_list, node)
+    {
+        printf("[%d]\n", tmp->value);
+    }
+}
+```

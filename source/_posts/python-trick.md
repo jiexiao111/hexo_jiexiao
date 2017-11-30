@@ -48,3 +48,13 @@ $ ipython
 In [1]: sum([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [])
 Out[1]: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
+# numpy 打印完整数组
+```python
+import numpy as np
+np.set_printoptions(threshold=np.nan)
+```
+
+# 查看历史命令
+```
+vi ~/.python_history
+```
