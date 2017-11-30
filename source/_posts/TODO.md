@@ -142,3 +142,5 @@ rm /var/lib/dpkg/updates/*
 [在线体验](https://www.sharelatex.com/project)
 《102 分钟学会 latex》
 
+
+[「 Neural Networks and Deep Learning 」中文翻译（连载完毕）](https://hit-scir.gitbooks.io/neural-networks-and-deep-learning-zh_cn/content/)
