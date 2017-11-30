@@ -1,7 +1,9 @@
 ---
 title: argparse 函数
 date: 2017-11-22 17:18:40
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}

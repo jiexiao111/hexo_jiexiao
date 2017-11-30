@@ -2,7 +2,7 @@
 title: 常用操作汇总
 categories: 工具使用
 tags:
-  - 工具使用
+  - 汇总
 ---
 
 {% note default %}

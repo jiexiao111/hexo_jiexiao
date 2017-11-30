@@ -1,7 +1,9 @@
 ---
 title: mysql 安装备忘
 date: 2017-11-21 15:17:15
+categories: 工具使用
 tags:
+  - 数据库
 ---
 
 {% note default %}

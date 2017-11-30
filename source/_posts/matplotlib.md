@@ -1,7 +1,9 @@
 ---
 title: matplotlib 学习
 date: 2017-10-28 21:11:53
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}

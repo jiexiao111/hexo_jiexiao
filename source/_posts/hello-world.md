@@ -2,7 +2,6 @@
 title: Markdown 语法示例
 categories: 工具使用
 tags:
-  - 工具使用
   - markdown
 photos:
   - http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg

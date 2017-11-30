@@ -1,7 +1,9 @@
 ---
 title: Pandas 使用总结
 date: 2017-11-28 14:27:02
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}

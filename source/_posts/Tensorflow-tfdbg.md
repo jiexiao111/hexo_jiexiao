@@ -1,7 +1,9 @@
 ---
 title: Tensorflow tfdbg
 date: 2017-10-17 19:26:06
+categories: 机器学习
 tags:
+  - Tensorflow
 ---
 
 {% note default %}

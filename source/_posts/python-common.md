@@ -1,7 +1,9 @@
 ---
 title: python 常用三方库
 date: 2017-11-28 16:58:11
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}
