@@ -18,7 +18,7 @@ tags:
 * 描述
 ```python
 __init__(self,
- iterable=None,  # 必选参数
+ iterable=None,  # 进度条跟踪控的迭代器
  desc=None,
  total=None,     # 有些 iter 无法获取完整长度，需要自行计算
  leave=True,
