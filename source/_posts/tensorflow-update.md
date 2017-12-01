@@ -1,7 +1,9 @@
 ---
 title: tensorflow update 注意事项
 date: 2017-11-22 15:21:55
+categories: 机器学习
 tags:
+  - Tensorflow
 ---
 
 

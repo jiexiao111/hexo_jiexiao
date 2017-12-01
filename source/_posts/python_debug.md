@@ -1,7 +1,9 @@
 ---
 title: python 调试技巧
 date: 2017-11-23 16:52:43
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}

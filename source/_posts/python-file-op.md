@@ -1,7 +1,9 @@
 ---
 title: python 文件操作相关函数
 date: 2017-11-28 10:23:25
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}

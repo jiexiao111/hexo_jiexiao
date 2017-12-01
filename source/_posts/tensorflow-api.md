@@ -1,7 +1,9 @@
 ---
 title: Tensorflow API 整理
 date: 2017-11-25 15:04:15
+categories: 机器学习
 tags:
+  - Tensorflow
 ---
 
 {% note default %}

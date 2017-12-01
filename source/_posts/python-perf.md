@@ -1,7 +1,9 @@
 ---
 title: python 性能分析
 date: 2017-11-08 19:24:43
+categories: 编程语言
 tags:
+  - python
 ---
 
 <!-- 文章开头都用它了，整齐才好看 -->

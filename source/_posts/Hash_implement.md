@@ -1,18 +1,17 @@
 ﻿---
 title: Hash 实现
-categories: C语言
+categories: 编程语言
 tags:
-  - hash
-  - c语言
+  - c 语言
 ---
 
 {% note default %}
-C语言标准库中未实现hashtable, 在编程练习时经常使用该数据结构，以备不时之需
+C 语言标准库中未实现 hashtable, 在编程练习时经常使用该数据结构，以备不时之需
 {% endnote %}
 
 <!--more-->
 
---- 
+---
 
 ## 实现如下：
 
@@ -123,7 +122,7 @@ typedef struct _xxx_hash_bucket_head {
 
 typedef struct _xxx_hashtable {
     xxx_hash_bucket_head *tbl;         // hash 表中的 hash 桶
-    s8_t *name;                        // hash 表的名称, 未使用
+    s8_t *name;                        // hash 表的名称，未使用
     u32_t cnt;                         // 保存关键字 hash 后的最大值
     u32_t element_cnt;                 // 记录当前 hash 表中的元素数量
     u32_t offset;                      // hlist_node 成员与包含该成员结构体的地址偏移
@@ -295,7 +294,7 @@ static s32_t demo_compare(void *pkt, void *pkt2)
 {
     if (((hlist_demo_t*)pkt)->m_value == ((hlist_demo_t*)pkt2)->m_value) {
         return 0;
-    } 
+    }
     return -1;
 }
 

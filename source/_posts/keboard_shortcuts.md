@@ -2,7 +2,7 @@
 title: 常用快捷键汇总
 categories: 工具使用
 tags:
-  - 快捷键
+  - 汇总
 ---
 
 {% note default %}

@@ -1,7 +1,10 @@
 ---
 title: Seq2Seq 模型分析及 Tensorflow NMT 源码分析
 date: 2017-10-14 10:05:05
+categories: 机器学习
 tags:
+  - Tensorflow
+  - NLP
 ---
 
 {% note default %}

@@ -1,7 +1,9 @@
 ---
 title: tensorboard
 date: 2017-11-29 21:18:37
+categories: 机器学习
 tags:
+  - Tensorflow
 ---
 
 <!-- 文章开头都用它了，整齐才好看 -->

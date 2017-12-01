@@ -1,7 +1,9 @@
 ---
 title: Python Trick
 date: 2017-11-29 19:50:32
+categories: 编程语言
 tags:
+  - python
 ---
 
 {% note default %}

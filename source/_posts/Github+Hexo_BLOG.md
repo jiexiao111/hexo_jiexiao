@@ -1,9 +1,8 @@
 ---
 title: 使用 Github + Hexo 搭建个人博客
-categories: 个人博客
+categories: 工具使用
 tags:
   - hexo
-  - 博客
 ---
 
 {% note default %}
