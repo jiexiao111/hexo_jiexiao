@@ -151,6 +151,7 @@ nmt
 ```
 
 # 函数调用关系
+注意：如果要对照 ``Tensorboard`` 中的 ``Graph`` 看代码要记得在 ``Tensorboard`` 左侧的下拉选项中选择 ``train_log``, 否则看不到预处理相关节点
 ```python
 main
   run_main
@@ -166,7 +167,7 @@ main
           BaseModel:__init__                     # 构建训练模型
             get_initializer                      # 选择 Variable 的初始化函数
             BaseModel:init_embeddings            # 创建 word embedding 矩阵
-            BaseModel:build_graph                # 构建计算图
+            BaseModel:build_graph                # 构建 Seq2Seq 计算图
               Model:_build_encoder               # 根据配置创建 uni/bi 结构的编码层，gnmt 结构重写了该函数
                 _build_encoder_cell              # 创建编码层，直接调用了 create_rnn_cell，目前无重写
                 create_rnn_cell                  # 创建单层或者多层 RNN

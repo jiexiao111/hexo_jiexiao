@@ -66,6 +66,8 @@ Plugin 'SimpylFold'
 Plugin 'Yggdroot/indentLine' 
 Plugin 'w0rp/ale'
 
+Plugin 'lervag/vimtex'
+
 " END 定义需要的插件
 call vundle#end()            
 filetype plugin indent on   
