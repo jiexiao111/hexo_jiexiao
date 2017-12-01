@@ -213,8 +213,8 @@ set tw=500
 set ai "Auto indent
 set si "Smart indent
 
-" 设置不要自动换行
-set nowrap
+" 设置自动换行
+set wrap
 
 
 """"""""""""""""""""""""""""""
