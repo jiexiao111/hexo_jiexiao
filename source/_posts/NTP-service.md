@@ -6,6 +6,16 @@ tags:
   - linux
 ---
 
+<!-- 文章开头都用它了，整齐才好看 -->
+{% note default %}
+用 putty 在 linux 上写代码，如果 Windows 和 linux 时间不一致，每次保存时 vim 都会报错，非常麻烦
+{% endnote %}
+
+<!--more-->
+
+---
+
+
 # ntp 服务方式：
 * 编辑 ``/etc/ntp.conf`` 中的 ``pool 10.169.103.58 iburst`` 行，指定需要同步的 IP
 * service ntp start
