@@ -16,8 +16,28 @@ tags:
 ---
 
 # 安装插件
-[Tagxedo](http://www.tagxedo.com/app.html) 这个网站需要安装 [Silverlight 插件 ](https://www.microsoft.com/getsilverlight/get-started/install/default?reason=unsupportedbrowser&_helpmsg=ChromeOnMacIsUnsupported#sysreq)
-需要注意的是，我直接点击``install for Macintosh``是不行的，需要拷贝链接，然后拿到迅雷里下载
+[Tagxedo](http://www.tagxedo.com/app.html) 这个网站需要安装 [Silverlight 插件 ](https://www.microsoft.com/getsilverlight/get-started/install/default?reason=unsupportedbrowser&_helpmsg=ChromeOnMacIsUnsupported#sysreq), 需要注意的是，我直接点击``install for Macintosh``是不行的，需要拷贝链接，然后拿到迅雷里下载。安装后重新打开浏览器依然无法显示。仔细看了下说明，才发现 Chrome 不支持 Silverligth
+![1](/images/create_tag_cloud/1.png)
+
+# 上传标签
+![2](/images/create_tag_cloud/2.png)
+
+# 调整颜色
+![3](/images/create_tag_cloud/3.png)
+
+# 调整形状
+![4](/images/create_tag_cloud/4.png)
+
+# 保存
+![5](/images/create_tag_cloud/5.png)
+
+# 最终效果
+![6](/images/create_tag_cloud/6.png)
+
+# 设置中文词连续显示
+家里的 VPN 太懒了，演示不了中文标签，但是中文标签一定会出现每个字被分开显示的问题，可以通过以下设置修改
+![7](/images/create_tag_cloud/7.png)
+
 
 # 参考
 [教你如何制作高大上的标签云](http://www.jianshu.com/p/ccf280c197c9)
