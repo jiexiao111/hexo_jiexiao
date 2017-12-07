@@ -144,6 +144,50 @@ Out[4]: array([False, False,  True,  True], dtype=bool)
 * 功能
 取 min...
 
+### Reduction
+
+#### tf.reduce_max
+* 功能
+根据指定维度，获取最大值
+* 描述
+```
+reduce_max(
+    input_tensor,
+    axis=None,
+    keep_dims=False,
+    name=None,
+    reduction_indices=None
+)
+
+Args:
+input_tensor: The tensor to reduce. Should have numeric type.
+axis: The dimensions to reduce. If None (the default), reduces all dimensions. Must be in the range [-rank(input_tensor), rank(input_tensor)).
+keep_dims: If true, retains reduced dimensions with length 1.
+name: A name for the operation (optional).
+reduction_indices: The old (deprecated) name for axis.
+
+Returns:
+The reduced tensor.
+```
+* 示例
+```
+$ ipython
+In [1]: import tensorflow as tf
+In [2]: tmp = tf.reshape(tf.range(15), [3, -1])
+In [3]: sess = tf.Session()
+In [4]: sess.run(tmp)
+Out[4]:
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]], dtype=int32)
+In [5]: sess.run(tf.reduce_max(tmp))
+Out[5]: 14
+In [6]: sess.run(tf.reduce_max(tmp, 0))
+Out[6]: array([10, 11, 12, 13, 14], dtype=int32)
+In [7]: sess.run(tf.reduce_max(tmp, 1))
+Out[7]: array([ 4,  9, 14], dtype=int32)
+```
+
 ## Strings
 
 ### Splitting
