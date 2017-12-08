@@ -144,6 +144,34 @@ Out[4]: array([False, False,  True,  True], dtype=bool)
 * 功能
 取 min...
 
+#### tf.round
+* 功能
+Rounds the values of a tensor to the nearest integer, element-wise.
+可以简单的理解为四舍五入
+* 描述
+```
+round(
+    x,
+    name=None
+)
+
+Args:
+x: A Tensor of type float32 or float64.
+name: A name for the operation (optional).
+
+Returns:
+A Tensor of same shape and type as x.
+```
+* 示例
+```python
+$ ipython
+In [1]: import tensorflow as tf
+In [2]: x = tf.constant([1.1, 1.5, 1.6, -1.1, -1.5, -1.6])
+In [3]: sess = tf.Session()
+In [4]: sess.run(tf.round(x))
+Out[4]: array([ 1.,  2.,  2., -1., -2., -2.], dtype=float32)
+```
+
 ### Reduction
 
 #### tf.reduce_max
@@ -170,7 +198,7 @@ Returns:
 The reduced tensor.
 ```
 * 示例
-```
+```python
 $ ipython
 In [1]: import tensorflow as tf
 In [2]: tmp = tf.reshape(tf.range(15), [3, -1])

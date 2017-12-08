@@ -118,3 +118,7 @@ https://github.com/tensorflow/models/blob/master/tutorials/embedding/word2vec_op
 http://danijar.com/structuring-your-tensorflow-models/
 弄两张 Scopes 对比，没有添加 Scopes 时的调试信息
 
+# 删除除了某个文件的其他文件
+```
+rm -rf !(*.zip)
+```
