@@ -122,3 +122,27 @@ http://danijar.com/structuring-your-tensorflow-models/
 ```
 rm -rf !(*.zip)
 ```
+
+# 解压至压缩文件名创建的目录下
+```python
+import os
+
+file_names = os.listdir()
+zip_files = [x for x in file_names if os.path.splitext(x)[1] == '.zip']
+unzip_cmds = ['unzip %s -d %s' % (x, os.path.splitext(x)[0]) for x in zip_files]
+
+for cmd in unzip_cmds:
+    os.system(cmd)
+```
+# 解压目录下的所有文件
+```python
+import os
+import argparse
+
+file_names = os.walk()
+zip_files = [(root, file) for root, dirs, files in file_names for file in files if os.path.splitext(file)[1] == '.zip']
+unzip_cmds = ['unzip -o %s -d %s' % (os.path.join(x[0], x[1]), x[0]) for x in zip_files]
+
+for cmd in unzip_cmds:
+    os.system(cmd)
+```
