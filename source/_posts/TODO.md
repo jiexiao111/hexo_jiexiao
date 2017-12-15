@@ -146,3 +146,13 @@ unzip_cmds = ['unzip -o %s -d %s' % (os.path.join(x[0], x[1]), x[0]) for x in zi
 for cmd in unzip_cmds:
     os.system(cmd)
 ```
+# outlook 联系人组
+https://support.office.com/zh-cn/article/%E5%9C%A8-Outlook%E2%80%8B%E2%80%8B-%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%81%94%E7%B3%BB%E4%BA%BA%E7%BB%84%E6%88%96%E9%80%9A%E8%AE%AF%E7%BB%84%E5%88%97%E8%A1%A8-88ff6c60-0a1d-4b54-8c9d-9e1a71bc3023?ui=zh-CN&rs=zh-CN&ad=CN
+
+# python 读取文件编码错误
+```
+open(file_name, encoding=encode_type, errors='ignore')
+```
+
+# python request 乱码
+http://xiaorui.cc/2016/02/19/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90python-requests%E5%BA%93%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/
