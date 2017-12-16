@@ -78,9 +78,7 @@ In [2]: # %load /Users/jiexiao/workspace/tmp2.py
    ...: with tf.name_scope('loss'):
    ...:     loss = tf.reduce_mean(tf.square(y - in_y))
    ...:
-   ...: with tf.name_scope('optimizer'):
-   ...:     optimizer = tf.train.GradientDescentOptimizer(0.7)
-   ...:
+   ...: optimizer = tf.train.GradientDescentOptimizer(0.7)
    ...: with tf.name_scope('train'):
    ...:     train = optimizer.minimize(loss)
    ...:
@@ -91,12 +89,16 @@ In [2]: # %load /Users/jiexiao/workspace/tmp2.py
 这样看起来就非常棒了
 ![3](/images/Tensorboard/3.png)
 
-# tf.summary.scalar
-# tf.summary.histogram
+# 动起来
+只有计算图，是不能训练的，我们需要定义一个循环，让计算图 run 起来，另外，我们还需要训练数据，训练一元一次方程需要的数据我们很容易构建出来
 
-# tf.summary.image
-# tf.summary.audio
-# tf.summary.text
+# 各种图
+* tf.summary.scalar
+* tf.summary.histogram
+
+* tf.summary.image
+* tf.summary.audio
+* tf.summary.text
 
 # 参考
 [tensorflow 第一个简单案例](http://www.jianshu.com/p/d6606d9204c2)
