@@ -118,3 +118,41 @@ https://github.com/tensorflow/models/blob/master/tutorials/embedding/word2vec_op
 http://danijar.com/structuring-your-tensorflow-models/
 弄两张 Scopes 对比，没有添加 Scopes 时的调试信息
 
+# 删除除了某个文件的其他文件
+```
+rm -rf !(*.zip)
+```
+
+# 解压至压缩文件名创建的目录下
+```python
+import os
+
+file_names = os.listdir()
+zip_files = [x for x in file_names if os.path.splitext(x)[1] == '.zip']
+unzip_cmds = ['unzip %s -d %s' % (x, os.path.splitext(x)[0]) for x in zip_files]
+
+for cmd in unzip_cmds:
+    os.system(cmd)
+```
+# 解压目录下的所有文件
+```python
+import os
+import argparse
+
+file_names = os.walk()
+zip_files = [(root, file) for root, dirs, files in file_names for file in files if os.path.splitext(file)[1] == '.zip']
+unzip_cmds = ['unzip -o %s -d %s' % (os.path.join(x[0], x[1]), x[0]) for x in zip_files]
+
+for cmd in unzip_cmds:
+    os.system(cmd)
+```
+# outlook 联系人组
+https://support.office.com/zh-cn/article/%E5%9C%A8-Outlook%E2%80%8B%E2%80%8B-%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%81%94%E7%B3%BB%E4%BA%BA%E7%BB%84%E6%88%96%E9%80%9A%E8%AE%AF%E7%BB%84%E5%88%97%E8%A1%A8-88ff6c60-0a1d-4b54-8c9d-9e1a71bc3023?ui=zh-CN&rs=zh-CN&ad=CN
+
+# python 读取文件编码错误
+```
+open(file_name, encoding=encode_type, errors='ignore')
+```
+
+# python request 乱码
+http://xiaorui.cc/2016/02/19/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90python-requests%E5%BA%93%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/

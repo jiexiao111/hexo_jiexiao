@@ -100,8 +100,8 @@ nmt
 ```
 ## Sequence lengths
 ```python
---src_max_len                  # 输入数据的最大长度，默认 50
---tgt_max_len                  # 输出数据的最大长度，默认 50
+--src_max_len                  # 训练输入数据的最大长度，默认 50
+--tgt_max_len                  # 训练输出数据的最大长度，默认 50
 --src_max_len_infer            #
 --tgt_max_len_infer            #
 ```
@@ -157,7 +157,7 @@ main
   run_main
     create_or_load_hparams                       #
     train                                        #
-      create_train_model                         # 构建训练模型、输入输出、字典
+      create_train_model                         # 构建训练模型、输入输出、字典，指定 mode 为 TRAIN
         create_vocab_tables                      # 创建 token 与 id 的映射字典
         get_iterator                             # 将训练数据处理成符合条件的输入输出
           key_func                               # 训练数据按 bucket 分组
@@ -174,6 +174,8 @@ main
                 _cell_list                       # 创建多层 RNN
                 _single_cell                     # 创建单层 RNN
               BaseModel:_build_decoder           #
+                BaseModel:_get_infer_maximum_iterations    #
+                Model:_build_decoder_cell # 每种模型都重写了该函数
               get_device_str                     #
               BaseModel:_compute_loss            #
             BaseModel:_get_learning_rate_warmup  #
