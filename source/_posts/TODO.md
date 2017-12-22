@@ -51,6 +51,9 @@ source activate py2
 [良心 GitHub 项目：各种机器学习任务的顶级结果（论文）汇总）](https://github.com//RedditSota/state-of-the-art-result-for-machine-learning-problems)
 
 # apt-get 非正常退出后，出现 dpkg –configure -a 时，暴力解决
+rm /var/lib/apt/lists/lock
+rm /var/cache/apt/archives/lock
+rm /var/lib/dpkg/lock
 rm /var/lib/dpkg/updates/*
 
 # latex
@@ -156,3 +159,10 @@ open(file_name, encoding=encode_type, errors='ignore')
 
 # python request 乱码
 http://xiaorui.cc/2016/02/19/%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90python-requests%E5%BA%93%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/
+
+# 5885 服务器启动报错
+```
+For success boot, you have to switch the auto-pxe on or permit the pxe request in Web-UI
+Could not boot: Error 0x00000001 (http://ipxe.org/00000001)
+```
+Google 了一下``PXE``发现是无盘启动技术，第一反应是启动顺序出错，默认进入了网络启动，于是在启动时按下``F11``进入启动顺序配置界面选择硬盘启动
