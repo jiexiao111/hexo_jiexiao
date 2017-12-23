@@ -166,3 +166,35 @@ For success boot, you have to switch the auto-pxe on or permit the pxe request i
 Could not boot: Error 0x00000001 (http://ipxe.org/00000001)
 ```
 Google 了一下``PXE``发现是无盘启动技术，第一反应是启动顺序出错，默认进入了网络启动，于是在启动时按下``F11``进入启动顺序配置界面选择硬盘启动
+
+# jupyter 配置按章节折叠
+```
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+pip install jupyter_nbextensions_configurator
+jupyter nbextensions_configurator enable --user
+```
+在``Nbextensions``选项卡中勾选``Collapsible Headings``
+http://blog.csdn.net/w371500241/article/details/78561237
+
+# apt-get 安装告警
+```
+dpkg: warning: files list file for package 'x' missing; assuming package has no files currently installed
+```
+从告警来看，貌似是说假设这个包已经安装了，但是没有文件？网上找到的办法就是重新安装所有告警的包，但是从后续的工作来看，这些告警都是无害的。
+```
+apt-get install -y "xxx" | grep "warning: files list file for package '" | grep -Po "[^'\n ]+'" | grep -Po "[^']+" |xargs -I {} apt-get install --reinstall {}
+```
+
+# bazel 构建报错
+```
+# root @ ubuntu in ~/workspace/mount/models-master [9:26:56]
+$ bazel build -c opt textsum/...
+.............................
+INFO: Analysed 7 targets (14 packages loaded).
+INFO: Found 7 targets...
+Unhandled exception thrown during build; message: /root/workspace/mount/models-master/bazel-out (Operation not supported)
+INFO: Elapsed time: 5.124s
+FAILED: Build did NOT complete successfully
+```
+尝试了很多办法，最后发现这个错误的原因是 bazel 执行的路径不能在 mount 目录，拷贝出去即可
