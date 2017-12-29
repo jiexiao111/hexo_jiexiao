@@ -3,6 +3,11 @@ install:
 	apt-get install -y zsh
 	chsh -s /bin/zsh
 	curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+	# 安装配置文件
+	python3 ./vim_zsh_tmux/install.py
+	# 安装 vim
+	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	vim +PluginInstall +qall
 
 all:
 	# 安装 hexo 如果需要代理配置如下
@@ -23,5 +28,5 @@ all:
 	pip install flake8
 
 config:
-	# 安装配置文件
-	python3 ./vim_zsh_tmux/install.py
+
+

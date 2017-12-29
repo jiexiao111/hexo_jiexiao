@@ -16,16 +16,16 @@ def create_link(src, dst):
             os.link(src, dst)
         else:
             os.symlink(src, dst)
-        print("成功安装 %s" % dst)
+        print("成功配置 %s" % dst)
     elif os.stat(src) == os.stat(dst):
-        print("已经安装 %s 不需要重新安装" % dst)
+        print("已经配置 %s 不需要重新配置" % dst)
     else:
         os.rename(dst, dst_bak)
         if not os.path.isdir(src):
             os.link(src, dst)
         else:
             os.symlink(src, dst)
-        print("备份 %s 为 %s 成功安装 %s" % (dst, dst_bak, dst))
+        print("备份 %s 为 %s 成功配置 %s" % (dst, dst_bak, dst))
 
 
 create_link('./.vimrc', '~/.vimrc')
