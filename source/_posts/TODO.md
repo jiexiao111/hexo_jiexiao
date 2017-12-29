@@ -204,3 +204,9 @@ mac 系统中，如果 tmux 下 vim 和系统的剪切板无法通用，可以�
 $ tmux show-option -gv default-command
 reattach-to-user-namespace -l /bin/zsh
 ```
+
+# ssh 超时断开
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config_bak
+sed -i "s/#ClientAliveInterval 0/ClientAliveInterval 60/g" /etc/ssh/sshd_config
+sed -i "s/#ClientAliveCountMax3/ClientAliveCountMax 3/g" /etc/ssh/sshd_config
+service sshd restart

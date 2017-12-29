@@ -81,6 +81,16 @@ sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g" /etc/ssh/sshd_co
 service sshd restart
 ```
 
+# 重装系统后，ssh 失败
+错误如下：
+```
+$ ssh root@45.32.90.198
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+```
+编辑 ``vi ~/.ssh/known_hosts``，删除 ``45.32.90.198`` 相关信息
+
 # 参考
 [vultr 官方帮助网页](https://www.vultr.com/docs/how-do-i-generate-ssh-keys/)
 [ssh 通过密钥进行连接](https://www.cnblogs.com/zydev/p/5779927.html)

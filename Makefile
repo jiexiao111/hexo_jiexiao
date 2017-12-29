@@ -4,10 +4,6 @@ install:
 	chsh -s /bin/zsh
 	curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 
-config:
-	# 安装配置文件
-	python3 ./vim_zsh_tmux/install.py
-
 all:
 	# 安装 hexo 如果需要代理配置如下
 	# npm config set proxy http://username:password@server:port
@@ -26,3 +22,6 @@ all:
 	pip install mypy
 	pip install flake8
 
+config:
+	# 安装配置文件
+	python3 ./vim_zsh_tmux/install.py

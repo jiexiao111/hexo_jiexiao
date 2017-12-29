@@ -9,6 +9,9 @@ def create_link(src, dst):
     dst_bak = dst + '_bak'
 
     if not os.path.exists(dst):
+        if not os.path.exists(os.path.dirname(dst)):
+            print("未安装组件，放弃配置 %s" % dst)
+            return
         if not os.path.isdir(src):
             os.link(src, dst)
         else:
