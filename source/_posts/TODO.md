@@ -14,15 +14,6 @@ tags:
 
 ---
 
-# 多版本切换 anaconda
-[http://www.jianshu.com/p/d2e15200ee9b]
-```
-# 显示可用的 python 环境
-conda info --envs
-# 激活 python 环境
-source activate py2
-```
-
 # 学习 git
 以下文件包含 git 常用命令的缩写
 ```
@@ -198,3 +189,18 @@ INFO: Elapsed time: 5.124s
 FAILED: Build did NOT complete successfully
 ```
 尝试了很多办法，最后发现这个错误的原因是 bazel 执行的路径不能在 mount 目录，拷贝出去即可
+
+# 优化配置
+## 调整 pep8 行内最大字符数
+如果需要调整 pep8 的最大行字符数，可以直接更改一下文件
+bundle/Python-mode-klen/pymode/libs/pylama/lint/pylama_pep8/pep8.py
+```
+MAX_LINE_LENGTH = 79
+```
+
+## vim 与系统剪切板连接
+mac 系统中，如果 tmux 下 vim 和系统的剪切板无法通用，可以通过以下命令查看是否启用 ``reattach-to-user-namespace``
+```
+$ tmux show-option -gv default-command
+reattach-to-user-namespace -l /bin/zsh
+```

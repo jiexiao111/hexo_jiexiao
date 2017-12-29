@@ -1,4 +1,13 @@
-# 为了方便 git 管理, 将所有配置文件保存至同一个目录
+install:
+	# 安装 zsh 配置 oh-my-zsh
+	apt-get install -y zsh
+	chsh -s /bin/zsh
+	curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+config:
+	# 安装配置文件
+	python3 ./vim_zsh_tmux/install.py
+
 all:
 	# 安装 hexo 如果需要代理配置如下
 	# npm config set proxy http://username:password@server:port
@@ -8,8 +17,6 @@ all:
 	-git clone https://github.com/powerline/fonts.git --depth=1
 	sh ./fonts/install.sh
 	-rm -rf fonts
-	# 安装配置文件
-	python3 ./vim_zsh_tmux/install.py
 	# 安装 tmux 状态栏, 需要手工执行, Ctrl + b, i
 	-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 	tmux source ~/.tmux.conf

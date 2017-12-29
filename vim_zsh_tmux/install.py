@@ -31,5 +31,4 @@ create_link('./.zshrc', '~/.zshrc')
 create_link('.tmux.conf', '~/.tmux.conf')
 create_link('./.style.yapf', '~/.style.yapf')
 create_link('ipython_config.py', '~/.ipython/profile_default/ipython_config.py')
-create_link('jupyter_notebook_config.py',
-            '~/.jupyter/jupyter_notebook_config.py')
+create_link('jupyter_notebook_config.py', '~/.jupyter/jupyter_notebook_config.py')
