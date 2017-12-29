@@ -11,25 +11,16 @@ install:
 	apt-get install -y ctags
 	# 编译 youcompleteme
 	apt-get install -y build-essential cmake
-	apt-get install python-dev python3-dev
-	cd ~/.vim/bundle/YouCompleteMe
-	./install.py --clang-completer
-
-all:
+	apt-get install -y python-dev python3-dev
+	python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer 2>&1
 	# 安装 hexo 如果需要代理配置如下
 	# npm config set proxy http://username:password@server:port
 	# npm config set https-proxy http://username:pawword@server:port
 	npm install
 	# 安装 powerline 字体, 安装后需要在 item2/putty 等工具中使用该字体
-	-git clone https://github.com/powerline/fonts.git --depth=1
+	git clone https://github.com/powerline/fonts.git --depth=1
 	sh ./fonts/install.sh
-	-rm -rf fonts
+	rm -rf fonts
 	# 安装 tmux 状态栏, 需要手工执行, Ctrl + b, i
-	-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 	tmux source ~/.tmux.conf
-	apt-get install xsel
-	pip install yapf
-	pip install pylint
-	pip install mypy
-	pip install flake8
-

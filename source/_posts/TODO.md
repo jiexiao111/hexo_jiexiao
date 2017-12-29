@@ -215,3 +215,13 @@ service sshd restart
 sed -i "s/#PermitRootLogin without-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 service ssh restart
 
+# 代码格式化工具
+```
+pip install yapf
+```
+
+# 代理配置
+```
+# npm config set proxy http://username:password@server:port
+# npm config set https-proxy http://username:pawword@server:port
+```

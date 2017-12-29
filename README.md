@@ -25,5 +25,5 @@ cd hexo_jiexiao
 ```
 tmux
 make install
+Ctrl + b, i
 ```
-
