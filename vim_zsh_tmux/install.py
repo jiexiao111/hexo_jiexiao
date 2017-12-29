@@ -26,6 +26,7 @@ def create_link(src, dst):
 
 
 create_link('./.vimrc', '~/.vimrc')
+create_link('./gdbinit', '~/.gdbinit')
 create_link('./vimrcs', '~/.vim_config')
 create_link('./.zshrc', '~/.zshrc')
 create_link('.tmux.conf', '~/.tmux.conf')
