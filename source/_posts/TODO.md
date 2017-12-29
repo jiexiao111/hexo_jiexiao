@@ -210,3 +210,8 @@ cp /etc/ssh/sshd_config /etc/ssh/sshd_config_bak
 sed -i "s/#ClientAliveInterval 0/ClientAliveInterval 60/g" /etc/ssh/sshd_config
 sed -i "s/#ClientAliveCountMax3/ClientAliveCountMax 3/g" /etc/ssh/sshd_config
 service sshd restart
+
+# 配置 Ubuntu 可以通过 ssh 连接
+sed -i "s/#PermitRootLogin without-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
+service ssh restart
+

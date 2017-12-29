@@ -8,6 +8,12 @@ install:
 	# 安装 vim
 	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 	vim +PluginInstall +qall
+	apt-get install -y ctags
+	# 编译 youcompleteme
+	apt-get install -y build-essential cmake
+	apt-get install python-dev python3-dev
+	cd ~/.vim/bundle/YouCompleteMe
+	./install.py --clang-completer
 
 all:
 	# 安装 hexo 如果需要代理配置如下
@@ -26,7 +32,4 @@ all:
 	pip install pylint
 	pip install mypy
 	pip install flake8
-
-config:
-
 

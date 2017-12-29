@@ -24,7 +24,6 @@ cd hexo_jiexiao
 * 配置
 ```
 tmux
-make config
+make install
 ```
-
 
