@@ -16,7 +16,6 @@ vim:
 	# 编译 youcompleteme
 	apt-get install -y build-essential cmake
 	apt-get install -y python-dev python3-dev
-	python ~/.vim/bundle/YouCompleteMe/install.py --clang-completer 2>&1
 
 tmux:
 	# 安装 powerline 字体, 安装后需要在 item2/putty 等工具中使用该字体
@@ -31,12 +30,7 @@ tmux:
 
 npm:
 	# 安装 node.js
-	wget https://nodejs.org/dist/v8.9.3/node-v8.9.3.pkg
-	tar -vxf node-v8.9.3-linux-x64.tar.xz -C /usr/
-	echo 'export PATH="/usr/node-v6.11.3-linux-x64/bin:$PATH' >> ~/.bashrc
-	echo 'export PATH="/usr/node-v6.11.3-linux-x64/bin:$PATH' >> ~/.zshrc
-	source ~/.bashrc
-	source ~/.zshrc
+	apt-get install -y npm
 	# 安装 hexo 如果需要代理配置如下
 	# npm config set proxy http://username:password@server:port
 	# npm config set https-proxy http://username:pawword@server:port
