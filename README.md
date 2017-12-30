@@ -21,9 +21,34 @@ cd hexo_jiexiao
 参考博客 https://jiexiao111.github.io/2017/10/15/Github+Hexo_BLOG.html
 ``安装 node.js``和``安装 hexo``
 
-# 配置
+# 安装 tmux
 ```
 tmux
-make install
-Ctrl + b, i
+make tmux
+Ctrl + b, Shift + i
+```
+
+# 安装 vim
+```
+make vim
+```
+
+# 安装 zsh
+```
+make zsh
+```
+
+# 安装 npm
+```
+make npm
+```
+
+# 安装 yapf
+```
+make yapf
+```
+
+# 安装 other
+```
+make other
 ```
