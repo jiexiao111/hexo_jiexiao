@@ -1,7 +1,9 @@
 ---
 title: 链表
 date: 2017-11-30 22:37:47
+categories: 编程语言
 tags:
+  - c 语言
 ---
 
 {% note default %}
