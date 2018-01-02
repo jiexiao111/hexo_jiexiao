@@ -1,5 +1,10 @@
 import os
+import argparse
 
+parser = argparse.ArgumentParser('Create File Link.')
+parser.add_argument('-s', type=str, help='source file.')
+parser.add_argument('-d', type=str, help='destination file.')
+Flag = parser.parse_args()
 
 def create_link(src, dst):
 
@@ -9,27 +14,22 @@ def create_link(src, dst):
     dst_bak = dst + '_bak'
 
     if not os.path.exists(dst):
+        if not os.path.exists(os.path.dirname(dst)):
+            print("未安装组件，放弃配置 %s" % dst)
+            return
         if not os.path.isdir(src):
             os.link(src, dst)
         else:
             os.symlink(src, dst)
-        print("成功安装 %s" % dst)
+        print("成功配置 %s" % dst)
     elif os.stat(src) == os.stat(dst):
-        print("已经安装 %s 不需要重新安装" % dst)
+        print("已经配置 %s 不需要重新配置" % dst)
     else:
         os.rename(dst, dst_bak)
         if not os.path.isdir(src):
             os.link(src, dst)
         else:
             os.symlink(src, dst)
-        print("备份 %s 为 %s 成功安装 %s" % (dst, dst_bak, dst))
+        print("备份 %s 为 %s 成功配置 %s" % (dst, dst_bak, dst))
 
-
-create_link('./.vimrc', '~/.vimrc')
-create_link('./vimrcs', '~/.vim_config')
-create_link('./.zshrc', '~/.zshrc')
-create_link('.tmux.conf', '~/.tmux.conf')
-create_link('./.style.yapf', '~/.style.yapf')
-create_link('ipython_config.py', '~/.ipython/profile_default/ipython_config.py')
-create_link('jupyter_notebook_config.py',
-            '~/.jupyter/jupyter_notebook_config.py')
+create_link(Flag.s, Flag.d)
