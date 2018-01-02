@@ -27,6 +27,22 @@ wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
 ```
 其中 ``5.0.1`` 表示 ``anaconda`` 的版本，``x86_64`` 表示 64 位操作系统
 
+# 安装多版本 anaconda
+```
+bash Anaconda3-4.4.0-Linux-x86_64.sh
+
+bash Anaconda2-4.4.0-Linux-x86_64.sh -b -p $HOME/anaconda3/envs/py2
+rm -f $HOME/anaconda3/envs/py2/bin/conda*
+rm -f $HOME/anaconda3/envs/py2/conda-meta/conda-*
+rm -f $HOME/anaconda3/envs/py2/bin/activate
+rm -f $HOME/anaconda3/envs/py2/bin/deactivate
+
+cd $HOME/anaconda3/envs/py2/bin
+ln -s ../../../bin/conda .
+ln -s ../../../bin/activate .
+ln -s ../../../bin/deactivate .
+```
+
 # 多版本切换 anaconda
 [http://www.jianshu.com/p/d2e15200ee9b]
 ```
