@@ -1,5 +1,5 @@
 ---
-title: linux_proxy_config
+title: Linux 下代理配置
 date: 2018-01-02 10:32:53
 categories: 操作系统
 tags:
@@ -54,4 +54,22 @@ git config --global https.proxy https://china\\\USERNAME:PASSWD@URL:PORT
 # pip
 ```
 pip3 --proxy=http://USERNAME:PASSWD@URL:PORT install tensorflow
+```
+
+# conda
+```
+$ cat ~/.condarc
+channels:
+- defaults
+
+# Show channel URLs when displaying what is going to be downloaded and
+# in 'conda list'. The default is False.
+show_channel_urls: True
+allow_other_channels: True
+
+proxy_servers:
+    http: http://USERNAME:PASSWD@URL:PORT
+    https: http://USERNAME:PASSWD@URL:PORT
+
+ssl_verify: False
 ```
