@@ -44,7 +44,7 @@ yapf:
 
 other:
 	# gdb 配置文件
-	@python3 ./vim_zsh_tmux/install.py -s './gdbinit'-d '~/.gdbinit'
+	@python3 ./vim_zsh_tmux/install.py -s './gdbinit' -d '~/.gdbinit'
 	# ipython 配置文件
 	@python3 ./vim_zsh_tmux/install.py -s 'ipython_config.py' -d '~/.ipython/profile_default/ipython_config.py'
 	# jupyter 配置文件

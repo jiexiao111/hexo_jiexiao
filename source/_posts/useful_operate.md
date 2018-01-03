@@ -29,11 +29,16 @@ tags:
 jupyter nbconvert --to markdown README.ipynb
 ```
 
-## jupyter 取消密码
-* 生成配置文件
+## 生成 jupyter 配置文件
 ```shell
 jupyter notebook --generate --allow-root
 ```
+
+## 生成 ipython 配置文件
+```
+ipython profile create
+```
+## jupyter 取消密码
 
 * 编辑 /root/.jupyter/jupyter_notebook_config.py，然后重启 jupyter
 ```shell
@@ -75,6 +80,9 @@ line2
 ---
 
 # git
+## 修改默认编辑器为 vim
+git config --global core.editor vim
+
 ## 保存提交密码
 * 更好的方式是使用秘钥
 ```shell
