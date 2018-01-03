@@ -1,5 +1,6 @@
 ---
 title: 使用 Github + Hexo 搭建个人博客
+date: 2017-11-11 11:11:11
 categories: 工具使用
 tags:
   - hexo

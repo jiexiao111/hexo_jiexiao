@@ -93,6 +93,101 @@ Out[2]: array([ 3. ,  2.5,  2. ,  1.5], dtype=float32)
 
 ## Control Flow
 
+### Debugging Operations
+
+[Tensorflow 之调试 (Debug) 及打印变量](http://www.cnblogs.com/huangshiyu13/p/6721805.html)
+[TensorFlow 打印 tensor 值](http://blog.csdn.net/qq_34484472/article/details/75049179)
+
+#### tf.Print
+* 功能
+在 Graph 在 Evalue 的时候打印数据
+* 描述
+```
+Print(
+    input_,
+    data,
+    message=None,
+    first_n=None,
+    summarize=None,
+    name=None
+)
+
+Args:
+input_: 打印的触发条件，即运算到该 tensor 时，打印变量
+data: 需要被打印的 tensor 的列表
+message: 消息前缀
+first_n: 一个 Session 中，如果多次对 input_ 执行 eval, 仅打印 first_n 次，默认 -1，即不限制
+summarize: 每个 tensor 仅显示前 N 个数据，默认为 3 个
+name: 操作名
+
+Returns:
+返回与 input_完全一样的 tensor 所以可以在 map 等函数中添加 tf.Print
+```
+* 示例
+基础使用
+```python
+In [1]: import tensorflow as tf
+In [2]: tmp1 = tf.range(5)
+In [3]: tmp2 = tf.constant(3)
+In [4]: tmp3 = tmp1 * tmp2
+In [5]: with tf.Session() as sess:
+   ...:     tmp3.eval()
+Out[5]: array([ 0,  3,  6,  9, 12], dtype=int32)
+In [6]: tmp1 = tf.Print(tmp1, [tmp1, tmp2])
+In [8]: tmp3 = tmp1 * tmp2
+In [9]: with tf.Session() as sess:
+   ...:     tmp3.eval()
+2017-12-29 15:41:37.697189: I tensorflow/core/kernels/logging_ops.cc:79] [0 1 2...][3] # 在 tmp3 执行 eval 时，tmp1 肯定也执行了 eval，所以同时打印了 tmp1/tmp2 的值
+Out[9]: array([ 0,  3,  6,  9, 12], dtype=int32)
+```
+	参数使用示例
+	```python
+	In [1]: import tensorflow as tf
+	In [2]: tmp1 = tf.range(5)
+	In [3]: tmp2 = tf.constant(3)
+	In [4]: tmp1 = tf.Print(tmp1, [tmp1, tmp2], message='前缀', summarize=5)
+	In [5]: tmp3 = tmp1 * tmp2
+	In [6]: with tf.Session() as sess:
+	   ...:     tmp3.eval()
+	   ...:     tmp3.eval()
+	2017-12-29 15:50:05.553299: I tensorflow/core/kernels/logging_ops.cc:79] 前缀 [0 1 2 3 4][3] # 注意 print 了两次，且将 tmp1 的 5 个元素都打印了，'前缀'与设置一直
+	Out[6]: array([ 0,  3,  6,  9, 12], dtype=int32)
+	2017-12-29 15:50:05.559873: I tensorflow/core/kernels/logging_ops.cc:79] 前缀 [0 1 2 3 4][3]
+	Out[6]: array([ 0,  3,  6,  9, 12], dtype=int32)
+	In [10]: tmp1 = tf.range(5)
+	In [11]: tmp1 = tf.Print(tmp1, [tmp1, tmp2], message='前缀', summarize=5, first_n=1)
+	In [12]: tmp3 = tmp1 * tmp2
+	In [13]: with tf.Session() as sess:
+		...:     tmp3.eval()
+		...:     tmp3.eval()
+	2017-12-29 15:50:56.213895: I tensorflow/core/kernels/logging_ops.cc:79] 前缀 [0 1 2 3 4][3] # 注意 Print 了一次
+	Out[13]: array([ 0,  3,  6,  9, 12], dtype=int32)
+	Out[13]: array([ 0,  3,  6,  9, 12], dtype=int32)
+	```
+	通过 tf.Print 打印 Dataset 对象
+	```python
+	In [1]: import tensorflow as tf
+	In [2]: tmp1 = tf.data.Dataset.range(5)
+	In [3]: tmp1 = tmp1.map(lambda x: tf.Print(x, [x]))
+	In [4]: tmp2 = tmp1.filter(lambda x: x > 3)
+	In [5]: def print_dataset(d):
+	   ...:     d_iter = d.make_one_shot_iterator()
+	   ...:     with tf.Session() as sess:
+	   ...:         tf.tables_initializer().run()
+	   ...:         while True:
+	   ...:             try:
+	   ...:                 print(sess.run(d_iter.get_next()))
+	   ...:             except tf.errors.OutOfRangeError:
+	   ...:                 break
+	In [6]: print_dataset(tmp2)
+	2017-12-29 17:54:52.859170: I tensorflow/core/kernels/logging_ops.cc:79] [0]
+	2017-12-29 17:54:52.862444: I tensorflow/core/kernels/logging_ops.cc:79] [1]
+	2017-12-29 17:54:52.862759: I tensorflow/core/kernels/logging_ops.cc:79] [2]
+	2017-12-29 17:54:52.862956: I tensorflow/core/kernels/logging_ops.cc:79] [3]
+	2017-12-29 17:54:52.863270: I tensorflow/core/kernels/logging_ops.cc:79] [4]
+	4
+	```
+
 ### Logical Operators
 
 #### tf.logical_and/tf.logical_or/tf.logical_xor/tf.logical_not

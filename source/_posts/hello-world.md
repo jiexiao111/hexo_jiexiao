@@ -1,5 +1,6 @@
 ---
 title: Markdown 语法示例
+date: 2017-11-11 11:11:11
 categories: 工具使用
 tags:
   - markdown
@@ -387,11 +388,68 @@ baz | baz  | baz
 |   100000  | sysdba | 数据库表模型汇总 |  |
 
 ## 表格中插入 | 和代码块
+```
 语法                      | 说明
 -----                     | -----
 `a += x;`                 | 表格中插入代码
 a &#124;= y;              | 表格中插入 &#124;
 <code>a &#124;= y;</code> | 表格代码中插入 &#124;
+```
+
+语法                      | 说明
+-----                     | -----
+`a += x;`                 | 表格中插入代码
+a &#124;= y;              | 表格中插入 &#124;
+<code>a &#124;= y;</code> | 表格代码中插入 &#124;
+
+# 设置表格宽度
+```
+<style>
+table th:nth-of-type(1) {
+    width: 100px;
+}
+table th:nth-of-type(2) {
+    width: 300px;
+}
+table th {
+    font-weight: bold; /*加粗*/
+    font-size: 12pt;
+    text-align: center !important; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
+    background: rgba(158,188,226,0.2); /*背景色*/
+}
+</style>
+
+|别名                | 命令                                                                                                                               |
+|--------------      |---------------------               |
+|g                   | git                                |
+|ga                  | git add                            |
+|gaa                 | git add --all                      |
+|gapa                | git add --patch                    |
+
+```
+
+<style>
+table th:nth-of-type(1) {
+    width: 100px;
+}
+table th:nth-of-type(2) {
+    width: 300px;
+}
+table th {
+    font-weight: bold; /*加粗*/
+    font-size: 12pt;
+    text-align: center !important; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
+    background: rgba(158,188,226,0.2); /*背景色*/
+}
+</style>
+
+|别名                | 命令                                                                                                                               |
+|--------------      |---------------------               |
+|g                   | git                                |
+|ga                  | git add                            |
+|gaa                 | git add --all                      |
+|gapa                | git add --patch                    |
+
 
 ---
 

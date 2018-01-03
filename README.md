@@ -17,9 +17,10 @@ cd hexo_jiexiao
 # 安装 anaconda
 参考博客 https://jiexiao111.github.io/2017/12/29/ubuntu-install-anaconda.html
 
-# 安装 hexo
-参考博客 https://jiexiao111.github.io/2017/10/15/Github+Hexo_BLOG.html
-``安装 node.js``和``安装 hexo``
+# 安装 zsh
+```
+make zsh
+```
 
 # 安装 tmux
 ```
@@ -31,11 +32,8 @@ Ctrl + b, Shift + i
 # 安装 vim
 ```
 make vim
-```
-
-# 安装 zsh
-```
-make zsh
+cd ~/.vim/bundle/YouCompleteMe
+./install.py --clang-completer
 ```
 
 # 安装 npm
