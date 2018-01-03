@@ -28,11 +28,16 @@ tags:
 jupyter nbconvert --to markdown README.ipynb
 ```
 
-## jupyter 取消密码
-* 生成配置文件
+## 生成 jupyter 配置文件
 ```shell
 jupyter notebook --generate --allow-root
 ```
+
+## 生成 ipython 配置文件
+```
+ipython profile create
+```
+## jupyter 取消密码
 
 * 编辑 /root/.jupyter/jupyter_notebook_config.py，然后重启 jupyter
 ```shell
