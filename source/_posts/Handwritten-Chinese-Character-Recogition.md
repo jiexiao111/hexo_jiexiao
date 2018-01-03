@@ -56,6 +56,7 @@ def read_from_gnt_dir(gnt_dir=train_data_dir):
 
 # 在 Tensorboard 中显示图片
 
+http://www.blogs8.cn/posts/Ezqbef9
 # 参考
 [手写汉字识别](http://blog.csdn.net/u014365862/article/details/53869837)
 [使用 Tensorboard 显示图片](https://www.cnblogs.com/tengge/p/6390148.html)
