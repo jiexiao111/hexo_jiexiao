@@ -80,6 +80,9 @@ line2
 ---
 
 # git
+## 修改默认编辑器为 vim
+git config --global core.editor vim
+
 ## 保存提交密码
 * 更好的方式是使用秘钥
 ```shell
