@@ -140,9 +140,9 @@ nmt
 --infer_batch_size             #
 --inference_output_file        #
 --inference_ref_file           #
---beam_width                   #
+--beam_width                   # 暂时没搞懂意图，但是在 inference 后，将结果写入文件时，影响 --num_translations_per_input 参数
 --length_penalty_weight        #
---num_translations_per_input   #
+--num_translations_per_input   # 模型在 inference 过程中，推荐的输出个数
 ```
 ## Job info
 ```python
@@ -152,48 +152,59 @@ nmt
 
 # 函数调用关系
 注意：如果要对照 ``Tensorboard`` 中的 ``Graph`` 看代码要记得在 ``Tensorboard`` 左侧的下拉选项中选择 ``train_log``, 否则看不到预处理相关节点
+
 ```python
 main
   run_main
-    create_or_load_hparams                       #
-    train                                        #
-      create_train_model                         # 构建训练模型、输入输出、字典，指定 mode 为 TRAIN
-        create_vocab_tables                      # 创建 token 与 id 的映射字典
-        get_iterator                             # 将训练数据处理成符合条件的输入输出
-          key_func                               # 训练数据按 bucket 分组
-          key_func                               # 训练数据按 bucket 分组
-          BatchedInput                           # 通过 name 访问 get_iterator 返回值的便利函数
-        AttentionModel:__init__                  # model_creator 可能对应不同的 BaseModel 子类
-          BaseModel:__init__                     # 构建训练模型
-            get_initializer                      # 选择 Variable 的初始化函数
-            BaseModel:init_embeddings            # 创建 word embedding 矩阵
-            BaseModel:build_graph                # 构建 Seq2Seq 计算图
-              Model:_build_encoder               # 根据配置创建 uni/bi 结构的编码层，gnmt 结构重写了该函数
-                _build_encoder_cell              # 创建编码层，直接调用了 create_rnn_cell，目前无重写
-                create_rnn_cell                  # 创建单层或者多层 RNN
-                _cell_list                       # 创建多层 RNN
-                _single_cell                     # 创建单层 RNN
-              BaseModel:_build_decoder           #
-                BaseModel:_get_infer_maximum_iterations    #
-                Model:_build_decoder_cell # 每种模型都重写了该函数
-              get_device_str                     #
-              BaseModel:_compute_loss            #
-            BaseModel:_get_learning_rate_warmup  #
-            BaseModel:_get_learning_rate_decay   #
-            gradient_clip                        #
-      create_eval_model                          #
-      create_infer_model                         #
-      load_data                                  #
-      get_config_proto                           #
-      create_or_load_model                       #
-      run_full_eval                              #
-      init_stats                                 #
-      update_stats                               #
-      check_stats                                #
-      add_summary                                #
-      run_sample_decode                          #
-      run_internal_eval                          #
-      run_external_eval                          #
+    create_or_load_hparams                               #
+    train                                                #
+      create_train_model                                 # 构建训练模型、输入输出、字典，指定 mode 为 TRAIN
+        create_vocab_tables                              # 创建 token 与 id 的映射字典
+        get_iterator                                     # 将训练数据处理成符合条件的输入输出
+          key_func                                       # 训练数据按 bucket 分组
+          key_func                                       # 训练数据按 bucket 分组
+          BatchedInput                                   # 通过 name 访问 get_iterator 返回值的便利函数
+        AttentionModel:__init__                          # model_creator 可能对应不同的 BaseModel 子类
+          BaseModel:__init__                             # 构建训练模型
+            get_initializer                              # 选择 Variable 的初始化函数
+            BaseModel:init_embeddings                    # 创建 word embedding 矩阵
+            BaseModel:build_graph                        # 构建 Seq2Seq 计算图
+              Model:_build_encoder                       # 根据配置创建 uni/bi 结构的编码层，gnmt 结构重写了该函数
+                _build_encoder_cell                      # 创建编码层，直接调用了 create_rnn_cell，目前无重写
+                create_rnn_cell                          # 创建单层或者多层 RNN
+                _cell_list                               # 创建多层 RNN
+                _single_cell                             # 创建单层 RNN
+              BaseModel:_build_decoder                   #
+                BaseModel:_get_infer_maximum_iterations  #
+                Model:_build_decoder_cell                # 每种模型都重写了该函数
+              get_device_str                             #
+              BaseModel:_compute_loss                    #
+            BaseModel:_get_learning_rate_warmup          #
+            BaseModel:_get_learning_rate_decay           #
+            gradient_clip                                #
+      create_eval_model                                  #
+      create_infer_model                                 #
+      load_data                                          #
+      get_config_proto                                   #
+      create_or_load_model                               #
+      run_full_eval                                      #
+        run_sample_decode                                # 抽样打印预测结果
+          create_or_load_model                           # 加载 infer 模型
+          _sample_decode                                 # 抽取一个测试集中的一个样本，输出 nmt 的预测结果
+        run_internal_eval                                # 获取验证集、测试集的混淆值
+          create_or_load_model                           # 加载 infer 模型
+          _internal_eval                                 # 获取混淆值，写入 tensorborad，注意 eval 的数据在这里喂入
+            compute_perplexity                           # 计算混淆值
+              BaseModel:eval                             # 计算 eval_loss/predict_count/batch_size
+              safe_exp                                   # 执行表达式，如果出现上溢则返回 inf
+        run_external_eval                                # 计算测试和验证集的 bleu/rouge/accuracy
+          create_or_load_model                           # 加载 infer 模型
+            _external_eval #
+        _format_results                                  # 格式化字符串，将 ppl/[bleu/rouge/accuracy] 的结果格式化
+      init_stats                                         #
+      update_stats                                       #
+      check_stats                                        #
+      add_summary                                        #
 ```
 
 # API 说明
