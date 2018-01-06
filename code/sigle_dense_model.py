@@ -1,13 +1,14 @@
+import os
 from keras.preprocessing import image
 from keras.models import Sequential
 from keras.layers import Flatten, Dense
 from keras.optimizers import Nadam, Adam, SGD
 from keras.callbacks import TensorBoard, ModelCheckpoint
-batch_size = 512
+batch_size = 64
 
-train_dir = '/aiml/data/mnist_train/'
-test_dir = '/aiml/data/mnist_test/'
-log_dir = '/aiml/dfs/checkpoint/'
+train_dir = '/aiml/data/train/'
+test_dir = '/aiml/data/test/'
+log_dir = '/aiml/dfs/checkpoint/train'
 pix = 28
 
 train_data = image.ImageDataGenerator(samplewise_std_normalization=True)
@@ -41,4 +42,4 @@ def sigle_dense_model():
     model.compile(Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 s_d_model = sigle_dense_model()
-s_d_model.fit_generator(train_gen, steps_per_epoch=num_train//batch_size, epochs=4, validation_data=test_gen, validation_steps=num_test//batch_size, callbacks=[check_cb, board_cb])
+s_d_model.fit_generator(train_gen, steps_per_epoch=2, epochs=4, validation_data=test_gen, validation_steps=1, callbacks=[check_cb, board_cb])
