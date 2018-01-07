@@ -13,3 +13,4 @@ zqmillet/
 gif
 tmp*
 log*
+*.pyc
