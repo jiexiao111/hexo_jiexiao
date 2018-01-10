@@ -83,7 +83,7 @@ nmt
 ```
 ## data
 ```python
---src                          # 源文件后缀 #
+--src                          # 源文件后缀
 --tgt                          # 目标文件后缀
 --train_prefix                 # 训练数据文件全路径，不包含后缀
 --dev_prefix                   # 验证数据文件全路径，不包含后缀
