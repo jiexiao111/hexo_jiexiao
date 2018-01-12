@@ -73,3 +73,9 @@ proxy_servers:
 
 ssl_verify: False
 ```
+
+# apt-get
+$ cat /etc/apt/apt.conf
+Acquire::http::Proxy "http://j00295211:tangting_1@proxyhk.huawei.com:8080";
+Acquire::https::Proxy "http://j00295211:tangting_1@proxyhk.huawei.com:8080";
+
