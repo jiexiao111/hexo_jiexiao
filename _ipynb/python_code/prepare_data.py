@@ -3,6 +3,7 @@
 import os
 import numpy as np
 import struct
+import random
 import pickle
 import PIL.Image
 from numpy.ctypeslib import ndpointer
@@ -10,9 +11,14 @@ from ctypes import *
 from keras.preprocessing import image
 from skimage import exposure, filters
 import skimage.morphology as sm
+from multiprocessing import Pool
+
 
 train_gnt_dir = '/aiml/data/Handwriting_Recognition/HWDB1.1trn_gnt/'
 test_gnt_dir = '/aiml/data/Handwriting_Recognition/HWDB1.1tst_gnt/'
+
+train_zip = '/aiml/data/train.zip'
+test_zip = '/aiml/data/test.zip'
 
 train_dir = '/aiml/data/train/'
 test_dir = '/aiml/data/test/'
@@ -64,7 +70,10 @@ def resize_with_c(origin_img):
         origin_img_ctype[i]= int(origin_img[i])
 
     # 调用 C++ 接口处理
-    pdll = CDLL('./code/HCCR_v5/resize_img.so')
+    so_file = './code/HCCR_v5/resize_img.so'
+    if not os.path.exists(so_file):
+        so_file = './resize_img.so'
+    pdll = CDLL(so_file)
     pdll.process.argtypes = [c_ubyte * len(origin_img), c_ushort, c_ushort]
     pdll.process.restype = ndpointer(dtype=c_int, shape=(64, 64))
     resize_img = pdll.process(origin_img_ctype, width, height)
@@ -92,50 +101,82 @@ def create_image_dir(gnt_dir, dst_dir, char_dict, flag=False):
         if train_counter % 10000 == 0:
             print("Create file: %d" % train_counter)
     return train_counter
-
-def preprocess_1(x):
-    x = filters.gaussian(x, sigma=1)
-    x = exposure.rescale_intensity(x)
     return x
 
-def preprocess_2(x):
-    x = sm.dilation(x, sm.square(2))
-    x = exposure.rescale_intensity(x)
+def unzip_cb(x):
+    os.system('unzip %s -d %s' % (x[0], x[1]))
+
+# 全局变量虽然丑，但是 Keras 的回调函数怎么传参数确实不知道
+global_config = {}
+
+def preprocess_fun(x, gaussian_sigma, dilation_square, threshold_otsu, rescale_intensity, norm_input):
+    if norm_input:
+        std_px = 63.556923
+        mean_px = 222.517471
+        x = x - mean_px / std_px
+    if threshold_otsu:
+        thresh = filters.threshold_otsu(x) #返回一个阈值
+        x = (x <= thresh )* 1.0 #根据阈值进行分割
+    if gaussian_sigma > 0:
+        x = exposure.rescale_intensity(x)
+        x = filters.gaussian(x, sigma=gaussian_sigma)
+    if dilation_square > 0:
+        x = sm.dilation(x.reshape(64, 64), sm.square(dilation_square))
+        x = x.reshape(64, 64, 1)
+    if rescale_intensity:
+        x = exposure.rescale_intensity(x)
     return x
 
-def preprocess_3(x):
-    x = filters.gaussian(x, sigma=1)
-    x = sm.dilation(x, sm.square(2))
-    x = exposure.rescale_intensity(x)
+def train_preprocess(x):
+    global global_config
+    gaussian_train_max = global_config['gaussian_train_max']
+    gaussian_train_min = global_config['gaussian_train_min']
+    gaussian_test = global_config['gaussian_test']
+    dilation_train_max = global_config['dilation_train_max']
+    dilation_train_min = global_config['dilation_train_min']
+    dilation_test = global_config['dilation_test']
+    rescale_intensity = global_config['rescale_intensity']
+    threshold_otsu = global_config['threshold_otsu']
+    norm_input = global_config['norm_input']
+
+    if gaussian_train_max > 0:
+        gaussian_sigma = random.random() * gaussian_train_max
+    else:
+        gaussian_sigma = gaussian_test
+
+    if dilation_train_max > 0:
+        dilation_square = random.randint(dilation_train_min, dilation_train_max)
+    else:
+        dilation_square = dilation_test
+
+    x = preprocess_fun(x, gaussian_sigma, dilation_square,
+                       threshold_otsu, rescale_intensity, norm_input)
+
     return x
 
-# TODO 浮点
-def return_0_2():
-    return random.random() * 2
+def test_preprocess(x):
+    global global_config
+    gaussian_test = global_config['gaussian_test']
+    dilation_test = global_config['dilation_test']
+    rescale_intensity = global_config['rescale_intensity']
+    threshold_otsu = global_config['threshold_otsu']
+    norm_input = global_config['norm_input']
 
-# TODO 整数
-def return_1_3():
-    return random.randint(1,3)
-
-def preprocess_4(x):
-    x = filters.gaussian(x, sigma=return_0_2())
-    x = exposure.rescale_intensity(x)
+    x = preprocess_fun(x, gaussian_test, dilation_test,
+                       threshold_otsu, rescale_intensity, norm_input)
     return x
 
-def preprocess_5(x):
-    x = sm.dilation(x, sm.square(return_1_3()))
-    x = exposure.rescale_intensity(x)
-    return x
+def prepare_data(pix, batch_size, pre_config):
+    global global_config
+    global_config = pre_config
+    print(global_config)
+    # 解压数据集
+    if os.path.exists(train_zip) and not os.path.exists(train_dir):
+        pool = Pool(2)
+        pool.map(unzip_cb, [(test_zip, '/aiml/data'), (train_zip, '/aiml/data')])
 
-def preprocess_6(x):
-    x = filters.gaussian(x, sigma=return_0_2())
-    x = sm.dilation(x, sm.square(return_1_3()))
-    x = exposure.rescale_intensity(x)
-    return x
-
-def prepare_data(pix, batch_size):
     # 生成训练集
-    if os.path.exists(train_gnt_dir):
+    if os.path.exists(train_gnt_dir) and not os.path.exists(train_dir):
         # 生成分类字典
         char_dict = create_dict()
         counter = create_image_dir(train_gnt_dir, train_dir, char_dict)
@@ -144,7 +185,7 @@ def prepare_data(pix, batch_size):
         print("Cannot find train gnt: " + train_gnt_dir)
 
     # 生成测试集
-    if os.path.exists(test_gnt_dir):
+    if os.path.exists(test_gnt_dir) and not os.path.exists(test_dir):
         counter = create_image_dir(test_gnt_dir, test_dir, char_dict)
         print("Finish create test data: %d." % counter)
     else:
@@ -152,8 +193,8 @@ def prepare_data(pix, batch_size):
 
     print("Finish create_image_dir.")
 
-    train_data = image.ImageDataGenerator(preprocessing_function=preprocess_1)
-    test_data = image.ImageDataGenerator(preprocessing_function=preprocess_1)
+    train_data = image.ImageDataGenerator(preprocessing_function=train_preprocess)
+    test_data = image.ImageDataGenerator(preprocessing_function=test_preprocess)
 
     train_gen = train_data.flow_from_directory(train_dir, color_mode='grayscale', target_size=(pix, pix), batch_size=batch_size)
     test_gen = train_data.flow_from_directory(test_dir, color_mode='grayscale', target_size=(pix, pix), batch_size=batch_size)
@@ -180,7 +221,7 @@ def prepare_data(pix, batch_size):
     # 查看返回的标签类型，“categorical” 表示为 one-hot 标签
     print("Target Type: " + train_gen.class_mode)
     print("Total class: %d" % num_class)
-    print("Total train sample: %d, test sample: %d.: " % (num_train, num_test))
+    print("Total train sample: %d, test sample: %d." % (num_train, num_test))
     print("Input shape: " + str(image_shape))
     print("Image value: [%d, %d]" % (image_min, image_max))
 
