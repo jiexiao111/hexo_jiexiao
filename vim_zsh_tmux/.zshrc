@@ -94,7 +94,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export PATH="/usr/node-v6.11.3-linux-x64/bin:$PATH"
+export PATH="/usr/local/Cellar/node/9.4.0/bin:$PATH"
+export PATH="/Users/anaconda3/bin:$PATH"
 
 # 解决 tmux 中 vim 配色异常
 alias tmux="TERM=screen-256color-bce tmux"
