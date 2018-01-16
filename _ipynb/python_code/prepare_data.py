@@ -5,6 +5,7 @@ import numpy as np
 import struct
 import random
 import pickle
+import scipy
 import PIL.Image
 from numpy.ctypeslib import ndpointer
 from ctypes import *
@@ -22,6 +23,12 @@ test_zip = '/aiml/data/test.zip'
 
 train_dir = '/aiml/data/train/'
 test_dir = '/aiml/data/test/'
+
+DEBUG = True
+if not DEBUG:
+    infer_dir = '/aiml/data/'
+else:
+    infer_dir = '/aiml/data/test_bak/00001'
 
 # 读取图像和对应的汉字
 def read_from_gnt_dir(gnt_dir=train_gnt_dir):
@@ -48,6 +55,12 @@ def read_from_gnt_dir(gnt_dir=train_gnt_dir):
 
 # 建立图像分类的字典
 def create_dict(gnt_dir=train_gnt_dir):
+    print("Start create dict.")
+    if os.path.exists('char_dict.pkl'):
+        f = open('char_dict.pkl', 'rb')
+        char_dict = pickle.load(f)
+        print("Dict file is exists.")
+        return char_dict
     char_set = set()
     for _, tagcode in read_from_gnt_dir(gnt_dir):
         tagcode_unicode = struct.pack('>H', tagcode).decode('gb2312')
@@ -60,6 +73,21 @@ def create_dict(gnt_dir=train_gnt_dir):
     f.close()
     return char_dict
 
+def resize_with_python(img):
+    # 补方
+    pad_size = abs(img.shape[0]-img.shape[1]) // 2
+    if img.shape[0] < img.shape[1]:
+        pad_dims = ((pad_size, pad_size), (0, 0))
+    else:
+        pad_dims = ((0, 0), (pad_size, pad_size))
+        img = np.lib.pad(img, pad_dims, mode='constant', constant_values=255)
+    # 缩放
+    img = scipy.misc.imresize(img, (64 - 4*2, 64 - 4*2))
+    img = np.lib.pad(img, ((4, 4), (4, 4)), mode='constant', constant_values=255)
+    assert img.shape == (64, 64)
+
+    return img
+
 def resize_with_c(origin_img):
 # 转化为 ctyes 类型的输入
     height, width = origin_img.shape
@@ -70,9 +98,11 @@ def resize_with_c(origin_img):
         origin_img_ctype[i]= int(origin_img[i])
 
     # 调用 C++ 接口处理
-    so_file = './code/HCCR_v5/resize_img.so'
+    so_file = '/aiml/code/resize_img.so'
     if not os.path.exists(so_file):
         so_file = './resize_img.so'
+    if not os.path.exists(so_file):
+        so_file = './code/HCCR_v5/resize_img.so'
     pdll = CDLL(so_file)
     pdll.process.argtypes = [c_ubyte * len(origin_img), c_ushort, c_ushort]
     pdll.process.restype = ndpointer(dtype=c_int, shape=(64, 64))
@@ -87,7 +117,7 @@ def create_image_dir(gnt_dir, dst_dir, char_dict, flag=False):
     train_counter = 0
     for image, tagcode in read_from_gnt_dir(gnt_dir):
         tagcode_unicode = struct.pack('>H', tagcode).decode('gb2312')
-        resize_img = resize_with_c(image)
+        resize_img = resize_with_python(image)
         if resize_img.shape != (64, 64):
             print("Error resize!")
         if flag:
@@ -227,6 +257,28 @@ def prepare_data(pix, batch_size, pre_config):
 
     return train_gen, test_gen, num_class
 
+def get_resize_pixs(resize_fun):
+    img_list = []
+    if DEBUG:
+        file_names = os.listdir(infer_dir)
+    else:
+        file_names = [str(x) + '.png' for x in np.arange(500) + 1]
+
+    for file_name in file_names:
+        image_origin = PIL.Image.open(os.path.join(infer_dir, file_name))
+        resize_img = resize_fun(np.array(image_origin.convert('L')))
+        if resize_img.shape != (64, 64):
+            print("Error resize!")
+        img_list.append(resize_img)
+    return img_list
+
+def get_inference_pix(pre_config, img_list):
+    global global_config
+    global_config = pre_config
+    preprocess_list =  [test_preprocess(x) for x in img_list]
+    preprocess_list = np.array(preprocess_list).reshape(len(preprocess_list), 64, 64, 1)
+    return preprocess_list
+
 if __name__=='__main__':
 
     # 生成分类字典
@@ -234,14 +286,14 @@ if __name__=='__main__':
 
     # 生成训练集
     if os.path.exists(train_gnt_dir):
-        counter = create_image_dir(train_gnt_dir, train_dir, char_dict, True)
+        counter = create_image_dir(train_gnt_dir, train_dir, char_dict, False)
         print("Finish create train data: %d." % counter)
     else:
         print("Cannot find train gnt: " + train_gnt_dir)
 
-    x_train_once = np.expand_dims(x_train_once,1)
-    mean_px = x_train_once.mean().astype(np.float32)
-    std_px = x_train_once.std().astype(np.float32)
+    # x_train_once = np.expand_dims(x_train_once,1)
+    # mean_px = x_train_once.mean().astype(np.float32)
+    # std_px = x_train_once.std().astype(np.float32)
 
     # 生成测试集
     if os.path.exists(test_gnt_dir):
@@ -250,5 +302,5 @@ if __name__=='__main__':
     else:
         print("Cannot find test gnt: " + test_gnt_dir)
 
-    print("Mean: %f STD: %f" % (mean_px, std_px))
-    print("Finish create_image_dir.")
+    # print("Mean: %f STD: %f" % (mean_px, std_px))
+    # print("Finish create_image_dir.")
