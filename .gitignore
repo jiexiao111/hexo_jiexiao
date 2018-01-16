@@ -14,3 +14,7 @@ gif
 tmp*
 log*
 *.pyc
+*.dat
+*.so
+*.hdf5
+*.txt
