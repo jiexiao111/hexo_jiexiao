@@ -64,6 +64,10 @@ board_cb = TensorBoard(log_dir=log_dir, histogram_freq=False, write_graph=False,
 # 开始训练
 print("Begin train.")
 print("batch_size: %d, learn_rate: %f, learn_decay: %f" % (batch_size, learn_rate, learn_decay))
+weights_file = '/aiml/code/weights.hdf5'
+if os.path.exists(weights_file):
+    print("Load weights.")
+    model.load_weights(weights_file)
 model.fit_generator(train_gen, steps_per_epoch=steps_per_epoch, epochs=max_epochs,
                     validation_data=test_gen, validation_steps=steps_per_test,
                     callbacks=[check_cb, board_cb, reduce_cb])

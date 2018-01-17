@@ -28,7 +28,7 @@ DEBUG = True
 if not DEBUG:
     infer_dir = '/aiml/data/'
 else:
-    infer_dir = '/aiml/data/test_bak/00001'
+    infer_dir = '/aiml/data/test_bak/00002'
 
 # 读取图像和对应的汉字
 def read_from_gnt_dir(gnt_dir=train_gnt_dir):
@@ -88,8 +88,10 @@ def resize_with_python(img):
 
     return img
 
+# 来不及了，能用就行
+pdll = None
 def resize_with_c(origin_img):
-# 转化为 ctyes 类型的输入
+    # 转化为 ctyes 类型的输入
     height, width = origin_img.shape
     origin_img = origin_img.flatten()
     origin_img = np.array(origin_img).astype(np.uint16)
@@ -97,13 +99,17 @@ def resize_with_c(origin_img):
     for i in np.arange(len(origin_img)):
         origin_img_ctype[i]= int(origin_img[i])
 
-    # 调用 C++ 接口处理
-    so_file = '/aiml/code/resize_img.so'
-    if not os.path.exists(so_file):
-        so_file = './resize_img.so'
-    if not os.path.exists(so_file):
-        so_file = './code/HCCR_v5/resize_img.so'
-    pdll = CDLL(so_file)
+    global pdll
+    if not pdll:
+        print("Hell")
+        # 调用 C++ 接口处理
+        so_file = '/aiml/code/resize_img.so'
+        if not os.path.exists(so_file):
+            so_file = './resize_img.so'
+        if not os.path.exists(so_file):
+            so_file = './code/HCCR_v5/resize_img.so'
+        pdll = CDLL(so_file)
+
     pdll.process.argtypes = [c_ubyte * len(origin_img), c_ushort, c_ushort]
     pdll.process.restype = ndpointer(dtype=c_int, shape=(64, 64))
     resize_img = pdll.process(origin_img_ctype, width, height)
