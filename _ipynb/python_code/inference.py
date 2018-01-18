@@ -27,13 +27,14 @@ pre_config = {'gaussian_train_max': -1,
               'rescale_intensity': False,
               'norm_input': False}
 infer_pixs = get_inference_pix(pre_config, resize_pixs)
-
-model_1 = load_model('/aiml/code/Resnet_6_14_2.hdf5')
+model_1 = load_model('/aiml/code/Resnet_6_14_1.hdf5')
 all_preds.append(model_1.predict(infer_pixs))
-model_2 = load_model('/aiml/code/Resnet_6_14_1.hdf5')
+model_2 = load_model('/aiml/code/Resnet_6_14_2.hdf5')
 all_preds.append(model_2.predict(infer_pixs))
+model_5 = load_model('/aiml/code/Resnet_6_14_3.hdf5')
+all_preds.append(model_5.predict(infer_pixs))
 
-# Resnet_6_8
+Resnet_6_8
 pre_config = {'gaussian_train_max': 2,
               'gaussian_train_min':  0,
               'gaussian_test': 1,
@@ -44,10 +45,26 @@ pre_config = {'gaussian_train_max': 2,
               'rescale_intensity': True,
               'norm_input': False}
 infer_pixs = get_inference_pix(pre_config, resize_pixs)
-
 model_3 = load_model('/aiml/code/Resnet_6_08_1.hdf5')
 all_preds.append(model_3.predict(infer_pixs))
+model_4 = load_model('/aiml/code/Resnet_6_08_2.hdf5')
+all_preds.append(model_4.predict(infer_pixs))
+model_6 = load_model('/aiml/code/Resnet_6_08_3.hdf5')
+all_preds.append(model_6.predict(infer_pixs))
 
+# Resnet_6_13
+# pre_config = {'gaussian_train_max': 2,
+#               'gaussian_train_min':  0,
+#               'gaussian_test': 1,
+#               'dilation_train_max': 3,
+#               'dilation_train_min': 1,
+#               'dilation_test': 2,
+#               'threshold_otsu': True,
+#               'rescale_intensity': True,
+#               'norm_input': True}
+# infer_pixs = get_inference_pix(pre_config, resize_pixs)
+# model_5 = load_model('/aiml/code/Resnet_6_13_1.hdf5')
+# all_preds.append(model_5.predict(infer_pixs))
 
 # argmax
 infer_result = np.stack(all_preds).mean(axis=0)
