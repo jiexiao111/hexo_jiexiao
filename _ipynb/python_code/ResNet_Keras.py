@@ -177,8 +177,8 @@ class ResnetBuilder(object):
         block_fn = _get_block(block_fn)
 
         input = Input(shape=input_shape)
-        conv1 = _conv_bn_relu(filters=64, kernel_size=(7, 7), strides=(2, 2))(input)
-        pool1 = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding="same")(conv1)
+        conv1 = _conv_bn_relu(filters=64, kernel_size=(3, 3))(input)
+        pool1 = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding="same")(conv1)
 
         block = pool1
         filters = 64
@@ -193,7 +193,9 @@ class ResnetBuilder(object):
         block_shape = K.int_shape(block)
         pool2 = AveragePooling2D(pool_size=(block_shape[ROW_AXIS], block_shape[COL_AXIS]), strides=(1, 1))(block)
         flatten1 = Flatten()(pool2)
-        dense = Dense(units=num_outputs, kernel_initializer="he_normal", activation="softmax")(flatten1)
+        dense = Dense(units=1024, name="fc1", activation="relu")(flatten1)
+        dense = Dense(units=1024, name="fc2", activation="relu")(dense)
+        dense = Dense(units=num_outputs, kernel_initializer="he_normal", activation="softmax")(dense)
 
         model = Model(inputs=input, outputs=dense)
         return model
@@ -218,3 +220,16 @@ class ResnetBuilder(object):
     @staticmethod
     def build_resnet_152(input_shape, num_outputs):
         return ResnetBuilder.build(input_shape, num_outputs, bottleneck, [3, 8, 36, 3])
+
+def check_print():
+    # 建立 ResNet_18
+    model = ResnetBuilder.build_resnet_18((64, 64, 1), 3755)
+
+    # 打印网络数据概况
+    model.summary()
+
+    # 打印模型结构
+    plot_model(model,to_file='ResNet18.png')
+
+if __name__=='__main__':
+    check_print()
