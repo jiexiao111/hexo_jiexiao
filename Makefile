@@ -2,7 +2,7 @@ zsh:
 	# 安装 zsh 配置 oh-my-zsh
 	apt-get install -y zsh
 	chsh -s /bin/zsh
-	@curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+	@curl -L -k https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 	@python3 ./vim_zsh_tmux/install.py -s './.zshrc' -d '~/.zshrc'
 
 vim:

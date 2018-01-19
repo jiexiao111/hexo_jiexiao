@@ -75,7 +75,14 @@ ssl_verify: False
 ```
 
 # apt-get
+```
 $ cat /etc/apt/apt.conf
-Acquire::http::Proxy "http://j00295211:tangting_1@proxyhk.huawei.com:8080";
-Acquire::https::Proxy "http://j00295211:tangting_1@proxyhk.huawei.com:8080";
+Acquire::http::Proxy "http://USERNAME:PASSWD@URL:PORT";
+Acquire::https::Proxy "http://USERNAME:PASSWD@URL:PORT";
+```
 
+# yum
+cat /etc/yum.conf
+proxy=http://URL:PORT
+proxy_username=USERNAME
+proxy_password=PASSWD
