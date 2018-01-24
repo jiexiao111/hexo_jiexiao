@@ -123,18 +123,18 @@ nmt
 ```
 ## Misc
 ```python
---num_gpus                     # GPU 个数，默认 1
+--num_gpus                     # GPU 个数，默认 1，默认情况下多 GPU 无法获得性能提升
 --log_device_placement         #
 --metrics                      # 翻译结果的评价函数，默认 bleu，可以多选，如，(bleu,rouge,accuracy)
 --steps_per_external_eval      #
 --scope                        #
 --hparams_path                 #
 --random_seed                  #
---override_loaded_hparams      #
+--override_loaded_hparams      # 如果不指定该参数，则训练参数从 hparams 文件中读取
 ```
 ## Inference
 ```python
---ckpt
+--ckpt                         #
 --inference_input_file         # 预测阶段的输入文件，用于区分训练和预测阶段
 --inference_list               #
 --infer_batch_size             #
