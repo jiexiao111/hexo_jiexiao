@@ -1,13 +1,13 @@
 1. 安装 git 和 make
-```
-apt-get install -y git make
-```
+    ```
+    apt-get install -y git make
+    ```
 
 1. git clone 工程
-```
-git clone --recursive https://github.com/jiexiao111/hexo_jiexiao.git
-cd hexo_jiexiao
-```
+    ```
+    git clone --recursive https://github.com/jiexiao111/hexo_jiexiao.git
+    cd hexo_jiexiao
+    ```
 
 1. 配置 shadowsocks
 ```
