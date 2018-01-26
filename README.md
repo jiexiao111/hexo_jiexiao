@@ -10,45 +10,45 @@
     ```
 
 1. 配置 shadowsocks
-```
-./shadowsocks-go.sh
-bash ruisu.sh
-bash serverspeeder.sh
-```
+    ```
+    ./shadowsocks-go.sh
+    bash ruisu.sh
+    bash serverspeeder.sh
+    ```
 
 1. 安装 anaconda
-参考博客 https://jiexiao111.github.io/2017/12/29/ubuntu-install-anaconda.html
+    参考博客 https://jiexiao111.github.io/2017/12/29/ubuntu-install-anaconda.html
 
 1. 安装 zsh
-```
-make zsh
-```
+    ```
+    make zsh
+    ```
 
 1. 安装 tmux
-```
-tmux
-make tmux
-Ctrl + b, Shift + i
-```
+    ```
+    tmux
+    make tmux
+    Ctrl + b, Shift + i
+    ```
 
 1. 安装 vim
-```
-make vim
-cd ~/.vim/bundle/YouCompleteMe
-./install.py --clang-completer
-```
+    ```
+    make vim
+    cd ~/.vim/bundle/YouCompleteMe
+    ./install.py --clang-completer
+    ```
 
 1. 安装 npm
-```
-make npm
-```
+    ```
+    make npm
+    ```
 
 1. 安装 yapf
-```
-make yapf
-```
+    ```
+    make yapf
+    ```
 
 1. 安装 other
-```
-make other
-```
+    ```
+    make other
+    ```
