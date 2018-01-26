@@ -12,6 +12,8 @@ cd hexo_jiexiao
 # 配置 shadowsocks
 ```
 ./shadowsocks-go.sh
+bash ruisu.sh
+bash serverspeeder.sh
 ```
 
 # 安装 anaconda
