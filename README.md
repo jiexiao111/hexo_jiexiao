@@ -3,13 +3,13 @@
 apt-get install -y git make
 ```
 
-## git clone 工程
+* git clone 工程
 ```
 git clone --recursive https://github.com/jiexiao111/hexo_jiexiao.git
 cd hexo_jiexiao
 ```
 
-# 配置 shadowsocks
+* 配置 shadowsocks
 ```
 ./shadowsocks-go.sh
 bash ruisu.sh
