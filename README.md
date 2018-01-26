@@ -3,7 +3,7 @@
 apt-get install -y git make
 ```
 
-# git clone 工程
+## git clone 工程
 ```
 git clone --recursive https://github.com/jiexiao111/hexo_jiexiao.git
 cd hexo_jiexiao
