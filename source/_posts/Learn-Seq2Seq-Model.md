@@ -51,6 +51,8 @@ nmt
 ```python
 --num_units                    # 每层网络的神经元个数，默认 32，Demo 中使用了 128
 --num_layers                   # 网络的深度，默认使用 2
+--num_encoder_layers           # encodeer 的层数，默认等于 --num_layers
+--num_decoder_layers           # decodeer 的层数，默认等于 --num_layers
 --encoder_type                 # 编码层的结构，默认 uni（单向 RNN），可以选择 bi（双向 RNN），gnmt（单双混合）
 --residual                     #
 --time_major                   #
@@ -69,10 +71,7 @@ nmt
 --learning_rate                #
 --warmup_steps                 #
 --warmup_scheme                #
---start_decay_step             #
---decay_steps                  #
---decay_factor                 #
---learning_rate_decay_scheme   #
+--decay_scheme                 # 学习率 decay 的策略，可以选三种：luong5/luong10/luong234 在 --num_train_steps 超过 0.5/0.5/0.66 后，学习率减半 5/10/4 次
 --num_train_steps              # 训练次数，默认 12000
 --colocate_gradients_with_ops  #
 ```

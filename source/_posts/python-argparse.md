@@ -40,5 +40,10 @@ optional arguments:
 
 使用时可以通过 ``FLAG.c`` 进行引用
 
+# 设置必选参数
+```
+parser.add_argument('-c', type=str, required=True)
+```
+
 # 参考
 [argparse - 命令行选项与参数解析（译）](http://blog.xiayf.cn/2013/03/30/argparse/)

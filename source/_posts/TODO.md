@@ -225,3 +225,7 @@ pip install yapf
 # npm config set proxy http://username:password@server:port
 # npm config set https-proxy http://username:pawword@server:port
 ```
+
+# tar 错误
+tar: XXXXXX: Cannot change ownership to uid XXX, gid XXXX: Operation not permitted
+使用 -no-same-owner 选项
