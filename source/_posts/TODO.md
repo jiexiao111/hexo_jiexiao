@@ -265,3 +265,6 @@ dpkg -i ../git_2.7.4-0ubuntu1_amd64.deb
 Can't drop privileges for downloading as file 'git_2.7.4.orig.tar.xz' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
 sudo chown _apt /var/lib/update-notifier/package-data-downloads/partial/
 
+# git 忘记 ``--recursive``
+git submodule init
+git submodule update
