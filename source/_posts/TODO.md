@@ -229,3 +229,39 @@ pip install yapf
 # tar 错误
 tar: XXXXXX: Cannot change ownership to uid XXX, gid XXXX: Operation not permitted
 使用 -no-same-owner 选项
+
+# UnicodeEncodeError: 'ascii' codec can't encode character u'xxx' in position xxx: ordinal not in range(128)
+export LC_ALL='en_US.utf8'
+https://stackoverflow.com/questions/9942594/unicodeencodeerror-ascii-codec-cant-encode-character-u-xa0-in-position-20
+
+# git 错误处理
+错误：
+fatal: unable to access 'https://github.com/robbyrussell/oh-my-zsh.git/': server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
+错误：Peer's Certificate issuer is not recognized.
+方案：
+git config --global http.sslVerify false
+
+错误：error: RPC failed; curl 56 GnuTLS recv error (-110): The TLS connection was non-properly terminated
+方案：
+apt-get install build-essential fakeroot dpkg-dev
+mkdir ~/git-openssl
+cd ~/git-openssl
+apt-get source git
+apt-get build-dep git
+apt-get install libcurl4-openssl-dev
+dpkg-source -x git_2.7.4-0ubuntu1.dsc
+cd git-2.7.4
+
+修改 vi debian/control
+libcurl4-gnutls-dev 改为 libcurl4-openssl-dev
+
+编辑 vi debian/rules
+删除 TEST =test
+
+dpkg-buildpackage -rfakeroot -b
+dpkg -i ../git_2.7.4-0ubuntu1_amd64.deb
+
+
+Can't drop privileges for downloading as file 'git_2.7.4.orig.tar.xz' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+sudo chown _apt /var/lib/update-notifier/package-data-downloads/partial/
+
