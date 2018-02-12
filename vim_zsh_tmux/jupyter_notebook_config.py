@@ -127,7 +127,7 @@
 #  connection, or for offline use of the notebook.
 #
 #  When disabled, equations etc. will appear as their untransformed TeX source.
-#c.NotebookApp.enable_mathjax = True
+c.NotebookApp.enable_mathjax = True
 
 ## extra paths to look for Javascript notebook extensions
 #c.NotebookApp.extra_nbextensions_path = []
