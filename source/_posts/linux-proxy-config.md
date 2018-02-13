@@ -82,7 +82,9 @@ Acquire::https::Proxy "http://USERNAME:PASSWD@URL:PORT";
 ```
 
 # yum
+```
 cat /etc/yum.conf
 proxy=http://URL:PORT
 proxy_username=USERNAME
 proxy_password=PASSWD
+```
