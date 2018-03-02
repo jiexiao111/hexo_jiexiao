@@ -229,17 +229,17 @@ gco -- filename
 | gmtvim         |                              | ``git mergetool --no-prompt --tool = vimdiff``
 
 # git stash 保存工作进度
-| Alias                | Brief                                                            | CMD
-| --------------       | ----                                                             | ------------------------
-| gsta                 |                                                                  | git stash save
-| gstaa                |                                                                  | git stash apply
-| gstd                 |                                                                  | git stash drop
-| gstl                 |                                                                  | git stash list
-| gstp                 |                                                                  | git stash pop
-| gstc                 |                                                                  | git stash clear
-| gsts                 |                                                                  | git stash show --text
-| gwip                 |                                                                  | [见 gwip 章节](#gwip)
-| gunwip         |                                                                                            | [见 gunwip 章节](#gunwip)
+| Alias          | Brief | CMD
+| -------------- | ----  | ------------------------
+| gsta           |       | git stash save
+| gstaa          |       | git stash apply
+| gstd           |       | git stash drop
+| gstl           |       | git stash list
+| gstp           |       | git stash pop
+| gstc           |       | git stash clear
+| gsts           |       | git stash show --text
+| gwip           |       | [见 gwip 章节](#gwip)
+| gunwip         |       | [见 gunwip 章节](#gunwip)
 
 # 杂项
 | Alias          | Brief                     | CMD
