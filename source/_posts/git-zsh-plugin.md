@@ -239,7 +239,7 @@ gco -- filename
 | gstc           |       | git stash clear
 | gsts           |       | git stash show --text
 | gwip           |       | [见 gwip 章节](#gwip)
-| gunwip         |         | [见 gunwip 章节](#gunwip)
+| gunwip         |       | [见 gunwip 章节](#gunwip)
 
 # 杂项
 | Alias          | Brief                     | CMD
