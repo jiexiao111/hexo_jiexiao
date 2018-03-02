@@ -268,3 +268,5 @@ sudo chown _apt /var/lib/update-notifier/package-data-downloads/partial/
 # git 忘记 ``--recursive``
 git submodule init
 git submodule update
+
+http://blog.csdn.net/stupid_3/article/details/79167983
