@@ -16,6 +16,9 @@ vim:
 	# 编译 youcompleteme
 	apt-get install -y build-essential cmake
 	apt-get install -y python-dev python3-dev
+	# gocode 安装
+	go get github.com/nsf/gocode
+	go install github.com/nsf/gocode
 
 tmux:
 	# 安装 powerline 字体, 安装后需要在 item2/putty 等工具中使用该字体
