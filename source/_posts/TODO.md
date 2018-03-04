@@ -262,8 +262,10 @@ dpkg-buildpackage -rfakeroot -b
 dpkg -i ../git_2.7.4-0ubuntu1_amd64.deb
 
 
+```
 Can't drop privileges for downloading as file 'git_2.7.4.orig.tar.xz' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
 sudo chown _apt /var/lib/update-notifier/package-data-downloads/partial/
+```
 
 # git 忘记 ``--recursive``
 git submodule init
@@ -275,3 +277,5 @@ http://blog.csdn.net/stupid_3/article/details/79167983
 grep -F -f a.txt b.txt
 文件差集
 grep -F -v -f a.txt b.txt
+
+MAC 在安装 YCM 时，必须使用系统自带的 python 不能使用 anaconda 的 python
