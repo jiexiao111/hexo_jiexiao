@@ -270,3 +270,8 @@ git submodule init
 git submodule update
 
 http://blog.csdn.net/stupid_3/article/details/79167983
+
+文件交集
+grep -F -f a.txt b.txt
+文件差集
+grep -F -v -f a.txt b.txt
