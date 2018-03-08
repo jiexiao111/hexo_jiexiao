@@ -334,6 +334,7 @@ $ find . -path './node-v6.11.3-linux-x64' -prune -o -print |head
 ./textsum/data/bin_data_train
 ./textsum/data/text_data_test.txt
 
+# root @ ubuntu in /usr [11:26:06]
 $ find /usr/ \( -path /usr/node-v6.11.3-linux-x64 -o -path /usr/textsum -o -path /usr/share \) -prune -o -print |head
 /usr/
 /usr/local
