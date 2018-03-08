@@ -279,3 +279,70 @@ grep -F -f a.txt b.txt
 grep -F -v -f a.txt b.txt
 
 MAC 在安装 YCM 时，必须使用系统自带的 python 不能使用 anaconda 的 python
+
+# find 命令技巧
+排除某类文件
+```
+find ./cache ! -name '*.html'
+```
+排除某个目录
+```
+find . -path './includes' -prune -o -print
+```
+排除多个目录
+```
+find /usr/ \( -path /usr/node-v6.11.3-linux-x64 -o -path /usr/textsum \) -prune -o -print |head
+```
+示例
+```
+# root @ ubuntu in /usr [11:25:33]
+$ find . |head
+.
+./node-v6.11.3-linux-x64
+./node-v6.11.3-linux-x64/CHANGELOG.md
+./node-v6.11.3-linux-x64/share
+./node-v6.11.3-linux-x64/share/man
+./node-v6.11.3-linux-x64/share/man/man1
+./node-v6.11.3-linux-x64/share/man/man1/node.1
+./node-v6.11.3-linux-x64/share/doc
+./node-v6.11.3-linux-x64/share/doc/node
+./node-v6.11.3-linux-x64/share/doc/node/lldb_commands.py
+
+# root @ ubuntu in /usr [11:25:44]
+$ find . ! -name "*.md" |head
+.
+./node-v6.11.3-linux-x64
+./node-v6.11.3-linux-x64/share
+./node-v6.11.3-linux-x64/share/man
+./node-v6.11.3-linux-x64/share/man/man1
+./node-v6.11.3-linux-x64/share/man/man1/node.1
+./node-v6.11.3-linux-x64/share/doc
+./node-v6.11.3-linux-x64/share/doc/node
+./node-v6.11.3-linux-x64/share/doc/node/lldb_commands.py
+./node-v6.11.3-linux-x64/share/doc/node/gdbinit
+
+# root @ ubuntu in /usr [11:26:06]
+$ find . -path './node-v6.11.3-linux-x64' -prune -o -print |head
+.
+./textsum
+./textsum/data
+./textsum/data/text_data1
+./textsum/data/text_data_train.txt
+./textsum/data/data_convert_example.py
+./textsum/data/vocab
+./textsum/data/training
+./textsum/data/bin_data_train
+./textsum/data/text_data_test.txt
+
+$ find /usr/ \( -path /usr/node-v6.11.3-linux-x64 -o -path /usr/textsum -o -path /usr/share \) -prune -o -print |head
+/usr/
+/usr/local
+/usr/local/man
+/usr/local/share
+/usr/local/share/jupyter
+/usr/local/share/jupyter/nbextensions
+/usr/local/share/jupyter/nbextensions/jupyter-js-widgets
+/usr/local/share/jupyter/nbextensions/jupyter-js-widgets/extension.js.map
+/usr/local/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
+/usr/local/share/jupyter/kernels
+```
