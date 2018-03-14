@@ -347,3 +347,19 @@ $ find /usr/ \( -path /usr/node-v6.11.3-linux-x64 -o -path /usr/textsum -o -path
 /usr/local/share/jupyter/nbextensions/jupyter-js-widgets/extension.js
 /usr/local/share/jupyter/kernels
 ```
+
+# ag 搜索特定文件
+首先查询支持的文件类型
+```
+ag --list-file-types
+```
+然后按文件类型搜索关键字
+```
+ag xxx --python
+```
+
+# grep 递归搜索
+```
+grep -rn xxxx /dir
+```
+-n 是行号  -r 是递归
