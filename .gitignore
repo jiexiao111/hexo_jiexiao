@@ -18,3 +18,4 @@ log*
 *.so
 *.hdf5
 *.txt
+**/.ipynb_checkpoints
