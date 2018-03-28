@@ -66,7 +66,8 @@ Plugin 'SimpylFold'
 Plugin 'Yggdroot/indentLine' 
 Plugin 'w0rp/ale'
 
-Plugin 'lervag/vimtex'
+" 查看 csv
+Plugin 'chrisbra/csv.vim'
 
 " END 定义需要的插件
 call vundle#end()            
@@ -380,3 +381,25 @@ function! Fold_Bug()
         setlocal foldtext=foldtext()\ .\ SimpylFoldText()
     endif
 endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => chrisbra/csv.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function MySTL()
+    if has("statusline")
+		hi User1 term=standout ctermfg=0 ctermbg=11 guifg=Black guibg=Yellow
+        let stl = ...
+        if exists("*CSV_WCol")
+                let csv = '%1*%{&ft=~"csv" ? CSV_WCol("Name") . " " . CSV_WCol() : ""}%*'
+        else
+				let csv = ''
+        endif
+        return stl.csv
+    endif
+endfunc
+set stl=%!MySTL()
+let b:csv_arrange_align   = 'l*'
+let g:csv_autocmd_arrange = 1
+let g:csv_autocmd_arrange_size = 1024*1024
+let g:csv_strict_columns  = 1
