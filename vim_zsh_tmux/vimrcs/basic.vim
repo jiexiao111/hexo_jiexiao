@@ -214,7 +214,8 @@ set ai "Auto indent
 set si "Smart indent
 
 " 设置自动换行
-set wrap
+set nowrap
+autocmd FileType python,c,cpp set wrap
 
 
 """"""""""""""""""""""""""""""
