@@ -363,3 +363,13 @@ ag xxx --python
 grep -rn xxxx /dir
 ```
 -n 是行号  -r 是递归
+
+# python __future__ 模块
+主要作用是在 python2 中引入 python3 的特性
+## absolute_import
+在 Python 2.4 或之前，Python 会先查找当前目录下有没有 string.py, 若找到了，则引入该模块。如果使用 absolute_import
+则会引用标准库中的 string.py, 通过 from . import string 引入自定义的 string.py
+## division
+python2 中的 ``/`` 在两侧均为整数时，结果也为整数，python3 中 ``/`` 为精确除法，两侧整数结果依然为浮点，如果想实现取整则使用 ``//``
+## print_function
+禁用 ``print "xxx"`` 格式的调用
