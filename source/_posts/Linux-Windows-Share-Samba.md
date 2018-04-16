@@ -22,8 +22,8 @@ sudo apt-get install samba
 ## 创建共享目录，并修改权限
 ```
 mkdir /home/gzd/smbshare
-// 由于 Windows 下的文件夹需可读可写可执行，需更改权限为 777
-sudo chmod 777 /home/gzd/smbshare
+// 由于 Windows 下的文件夹需可读可写可执行，需更改权限为 755
+sudo chmod 755 /home/gzd/smbshare
 ```
 ## 修改配置文件 ``vim /etc/samba/smb.conf``，增加以下内容
 ```

@@ -373,3 +373,6 @@ grep -rn xxxx /dir
 python2 中的 ``/`` 在两侧均为整数时，结果也为整数，python3 中 ``/`` 为精确除法，两侧整数结果依然为浮点，如果想实现取整则使用 ``//``
 ## print_function
 禁用 ``print "xxx"`` 格式的调用
+
+# 机器学习资料
+http://d0evi1.com/tecbook/
