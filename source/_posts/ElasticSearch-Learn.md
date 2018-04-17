@@ -229,3 +229,54 @@ curl -H "Content-Type: application/json" 'localhost:9200/accounts/person/_search
 }'
 ```
 
+测试分词
+```
+curl -X GET "http://localhost:9200/_analyze" -H 'Content-Type: application/json' -d'
+{
+  "analyzer" : "standard",
+  "text" : "this_is a testapple 揭晓"
+}
+'
+```
+可以看到``this_is``、``testapple``没有被切分，而``揭晓``被切分了
+```
+{
+  "tokens": [
+    {
+      "token": "this_is",
+      "start_offset": 0,
+      "end_offset": 7,
+      "type": "<ALPHANUM>",
+      "position": 0
+    },
+    {
+      "token": "a",
+      "start_offset": 8,
+      "end_offset": 9,
+      "type": "<ALPHANUM>",
+      "position": 1
+    },
+    {
+      "token": "testapple",
+      "start_offset": 10,
+      "end_offset": 19,
+      "type": "<ALPHANUM>",
+      "position": 2
+    },
+    {
+      "token": "揭",
+      "start_offset": 20,
+      "end_offset": 21,
+      "type": "<IDEOGRAPHIC>",
+      "position": 3
+    },
+    {
+      "token": "晓",
+      "start_offset": 21,
+      "end_offset": 22,
+      "type": "<IDEOGRAPHIC>",
+      "position": 4
+    }
+  ]
+}
+```
