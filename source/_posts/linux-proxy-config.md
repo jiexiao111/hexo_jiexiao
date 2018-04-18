@@ -55,6 +55,13 @@ git config --global https.proxy https://china\\\USERNAME:PASSWD@URL:PORT
 ```
 pip3 --proxy=http://USERNAME:PASSWD@URL:PORT install tensorflow
 ```
+```
+$ cat ~/.pip/pip.conf
+[global]
+trusted-host = mirrors.aliyun.com
+index-url = http://mirrors.aliyun.com/pypi/simple
+proxy = http://USERNAME:PASSWD@proxyhk.huawei.com:8080
+```
 
 # conda
 ```

@@ -235,9 +235,9 @@ curl -X GET "http://localhost:9200/_analyze" -H 'Content-Type: application/json'
 {
   "analyzer" : "standard",
   "text" : "this_is a testapple 揭晓"
-}
-'
+}'
 ```
+
 可以看到``this_is``、``testapple``没有被切分，而``揭晓``被切分了
 ```
 {
@@ -280,3 +280,37 @@ curl -X GET "http://localhost:9200/_analyze" -H 'Content-Type: application/json'
   ]
 }
 ```
+
+## 增量同步 mysql
+利用插件还是不靠谱，自己写代码比较放心
+
+https://blog.csdn.net/yeyuma/article/details/50240595#quote
+
+安装 logstash 参考 https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elk-stack-on-ubuntu-14-04#install-logstash
+```
+echo 'deb http://packages.elastic.co/logstash/2.2/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash-2.2.x.list
+apt-get update
+apt-get install logstash
+```
+
+update 时出现错误
+```
+W: GPG error: http://packages.elastic.co/logstash/2.2/debian stable Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY D27D666CD88E42B4
+```
+
+解决办法，执行之前配置一下全局代理
+```
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D27D666CD88E42B4
+```
+
+安装 gem
+```
+apt-get install gem
+```
+
+安装 logstash-input-jdbc，记得配置全局代理
+```
+/opt/logstash/bin/plugin install logstash-input-jdbc
+```
+
+## python 实现 mysql 同步
