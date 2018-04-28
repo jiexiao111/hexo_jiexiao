@@ -377,6 +377,12 @@ git reset --soft [commit_id] 就可以回滚到某一个 commit，然后保留�
 
 ---
 
+# FAQ
+## git clone 时显示 Filename too long
+```
+git config --global core.longpaths true
+```
+
 # 参考
 [oh-my-zsh:Plugin:Git](https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git)
 [Git 常用命令速查表](http://www.jb51.net/article/55442.htm)
