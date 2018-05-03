@@ -19,3 +19,5 @@ log*
 *.hdf5
 *.txt
 **/.ipynb_checkpoints
+*-Copy*.ipynb
+*-my*.ipynb
