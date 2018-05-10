@@ -30,6 +30,13 @@ https://segmentfault.com/a/1190000011661882]
 https://marcobonzanini.com/2015/02/09/phrase-match-and-proximity-search-in-elasticsearch/
 
 # 安装
+安装 java
+```
+apt-get install openjdk-8-jdk
+
+```
+
+安装 es
 ```
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.tar.gz --no-check-certificate
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.tar.gz.sha512 --no-check-certificate
@@ -47,6 +54,13 @@ useradd elsearch -g elsearch -p elasticsearch
 更改 elasticsearch-6.2.3 文件夹及内部文件的所属用户及组为 elsearch:elsearch
 ```
 chown -R elsearch:elsearch elasticsearch-6.2.3
+```
+
+安装 ik 中文分词
+```
+cd /ES_PATH/elasticsearch-6.2.3
+wget --no-check-certificate https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.3/elasticsearch-analysis-ik-6.2.3.zip
+unzip elasticsearch-analysis-ik-6.2.3.zip -d plugins
 ```
 
 # 启动

@@ -1057,6 +1057,7 @@ man	快速打开 man 帮助		:source $VIMRUNTIME/ftplugin/man.vim
 {% endnote %}
 * 参考
 <http://www.cnblogs.com/congbo/archive/2012/08/30/2649420.html>
+[tmux 命令](https://gist.github.com/ryerh/14b7c24dfd623ef8edc7)
 
 ---
 
