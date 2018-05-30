@@ -173,3 +173,101 @@ print('Lines with a: %s, Lines with b: %s' % (numAs, numBs))
 Lines with a: 61, Lines with b: 30
 ```
 
+# Spark 使用 kafka 数据源
+## 参考
+	http://dblab.xmu.edu.cn/blog/1532/
+	http://dblab.xmu.edu.cn/blog/1743-2/
+
+## spark 准备
+### jar 包下载
+```
+cd /usr/local/spark/jars
+wget http://central.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-8_2.11/2.3.0/spark-streaming-kafka-0-8_2.11-2.3.0.jar
+    http://central.maven.org/maven2/org/apache/spark/spark-streaming_2.11/2.3.0/spark-streaming_2.11-2.3.0.jar
+mkdir kafka
+mv spark-streaming-kafka-0-8_2.11-2.3.0.jar kafka
+```
+### 编辑配置文件
+```
+/usr/local/spark/conf/spark-env.sh
+export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath):$(/usr/local/hbase/bin/hbase classpath):/usr/local/spark/examples/jars/*:/usr/local/spark/jars/kafka/*:/usr/local/kafka/libs/*
+```
+### scala 安装
+```
+wget --no-check-certificate https://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz
+tar -zxf scala-2.11.8.tgz -C /usr/local
+mv scala-2.11.8 scala
+```
+## 测试
+写入以下至 debug_spark_wordcount.py 文件
+```
+from __future__ import print_function
+
+import sys
+
+from pyspark import SparkContext
+from pyspark.streaming import StreamingContext
+from pyspark.streaming.kafka import KafkaUtils
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: kafka_wordcount.py <zk> <topic>", file=sys.stderr)
+        exit(-1)
+
+    sc = SparkContext(appName="PythonStreamingKafkaWordCount")
+    ssc = StreamingContext(sc, 1)
+
+    zkQuorum, topic = sys.argv[1:]
+    kvs = KafkaUtils.createStream(ssc, zkQuorum, "spark-streaming-consumer", {topic: 1})
+    lines = kvs.map(lambda x: x[1])
+    counts = lines.flatMap(lambda line: line.split(" ")) \
+        .map(lambda word: (word, 1)) \
+        .reduceByKey(lambda a, b: a+b)
+    counts.pprint()
+
+    ssc.start()
+    ssc.awaitTermination()
+```
+### 启动 zk
+```
+cd /usr/local/kafka
+./bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+### 启动 kafka
+```
+cd /usr/local/kafka
+bin/kafka-server-start.sh config/server.properties
+```
+### 创建 Topic
+```
+// 这个 topic 叫 wordsendertest，2181 是 zookeeper 默认的端口号，partition 是 topic 里面的分区数，replication-factor 是备份的数量，在 kafka 集群中使用，这里单机版就不用备份了
+cd /usr/local/kafka
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic wordsendertest
+```
+### 查看 Topic 创建是否成功
+```
+// 可以用 list 列出所有创建的 topics, 来查看上面创建的 topic 是否存在
+./bin/kafka-topics.sh --list --zookeeper localhost:2181
+```
+### 启动 producer
+```
+./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic wordsendertest
+```
+### 启动 consumer
+```
+cd /usr/local/kafka
+./bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic wordsendertest --from-beginning
+```
+### 启动 wordcount
+首先要结束 consumer，然后开始测试
+```
+python3 debug_spark_wordcount.py localhost:2181 wordsendertest
+```
+
+# TODO
+版本之间的匹配是怎么样的需要进一步测试
+scala 版本是 2.11.8
+jar 版本是 spark-streaming-kafka-0-8_2.11-2.3.0.jar
+kafka 版本是 kafka_2.11-0.8.2.1
+spark 版本 spark-2.3.0-bin-without-hadoop
+java 版本 1.8.0_151
