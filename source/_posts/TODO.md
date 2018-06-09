@@ -376,3 +376,12 @@ python2 中的 ``/`` 在两侧均为整数时，结果也为整数，python3 中
 
 # 机器学习资料
 http://d0evi1.com/tecbook/
+
+# 命令提示符修改
+https://blog.csdn.net/a280606790/article/details/8513298
+```
+export PS1="\e[1;36m# \e[1;32mAITest_1 \e[0;37min \e[1;33m\w \e[0;37m[\t]\e[m \$ "
+```
+
+# 叹号的用法
+https://linuxstory.org/mysterious-ten-operator-in-linux/

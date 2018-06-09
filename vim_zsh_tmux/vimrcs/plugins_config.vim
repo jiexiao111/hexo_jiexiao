@@ -143,9 +143,9 @@ let g:NERDTreeQuitOnOpen=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <F9> :TagbarToggle<CR>
 let g:tagbar_left = 1
-autocmd FileType * nested :call tagbar#autoopen(0)
-autocmd BufEnter * nested :call tagbar#autoopen(0)
-autocmd VimEnter * nested :call tagbar#autoopen(1)
+" autocmd FileType * nested :call tagbar#autoopen(0)
+" autocmd BufEnter * nested :call tagbar#autoopen(0)
+" autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Snippets
