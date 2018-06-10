@@ -14,7 +14,9 @@ func diplay_list(lst *list.List) {
 func diplay_list_reverse(lst *list.List) {
     // Back 返回最后一个节点，Prev 倒序的下一个节点
     for x := lst.Back(); x != nil; x = x.Prev() {
-        fmt.Print(x.Value)
+        // NOTE 注意，x.Value 的类型转换
+        var tmp int = x.Value.(int)
+        fmt.Print(tmp)
     }
     fmt.Println()
 }
@@ -28,6 +30,9 @@ func main() {
         lst.PushBack(i)
     }
     diplay_list(lst)
+
+    fmt.Print("Reverse display: ")
+    diplay_list_reverse(lst)
 
     fmt.Println("Len: ", lst.Len())
 
