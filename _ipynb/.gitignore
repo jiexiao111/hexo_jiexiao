@@ -1,3 +1,5 @@
 *.png
 *.pkl
 Untitled*
+MNIST_data
+minimalsample

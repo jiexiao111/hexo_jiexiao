@@ -18,3 +18,16 @@ print("a: ", a)
 print("b: ", b)
 print("c: ", c)
 print("d: ", d)
+
+# NOTE 运算符 * 执行的是浅拷贝
+tmp = [0] * 3
+tmp[0] = 3
+print("Set tmp[0]:", tmp)
+
+tmp = [[0] * 3] * 3
+tmp[0][0] = 3
+print("Init with *, Set tmp[0][0]:", tmp)
+
+tmp = [[0 for col in range(3)] for row in range(3)]
+tmp[0][0] = 3
+print("Init with range, Set tmp[0][0]:", tmp)

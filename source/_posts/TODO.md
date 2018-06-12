@@ -385,3 +385,6 @@ export PS1="\e[1;36m# \e[1;32mAITest_1 \e[0;37min \e[1;33m\w \e[0;37m[\t]\e[m \$
 
 # 叹号的用法
 https://linuxstory.org/mysterious-ten-operator-in-linux/
+
+# 字符绘图小工具
+http://stable.ascii-flow.appspot.com/#Draw

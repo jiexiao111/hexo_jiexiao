@@ -31,4 +31,10 @@ func main() {
 
     // 合并切片
     fmt.Println("append(nums_make, nums_init...)):", append(nums_make, nums_init...))
+
+    // 多维切片
+    numRows := 3
+    buf := make([][]rune, numRows)
+    buf[0] = append(buf[0], 1)
+    fmt.Println("multislice", buf)
 }
