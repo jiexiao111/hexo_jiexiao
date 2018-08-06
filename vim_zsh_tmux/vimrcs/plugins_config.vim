@@ -381,7 +381,7 @@ function! Fold_Bug()
         setlocal foldtext=foldtext()\ .\ SimpylFoldText()
     endif
 endfunction
-
+set foldlevelstart=99
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => chrisbra/csv.vim
