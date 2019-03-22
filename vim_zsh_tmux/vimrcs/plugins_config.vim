@@ -57,7 +57,7 @@ Plugin 'Tagbar'
 
 " Markdown
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+" Plugin 'plasticboy/vim-markdown'
 Plugin 'hotoo/pangu.vim'
 
 " python
@@ -65,6 +65,7 @@ Plugin 'Python-mode-klen'
 Plugin 'SimpylFold'
 Plugin 'Yggdroot/indentLine' 
 Plugin 'w0rp/ale'
+Plugin 'vim-flake8'
 
 " 查看 csv
 Plugin 'chrisbra/csv.vim'
@@ -228,6 +229,8 @@ let g:UltiSnipsExpandTrigger = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
+let g:ycm_confirm_extra_conf = 0
+
 "nnoremap <leader>gh :YcmCompleter GoToInclude<CR>
 nnoremap <leader>gp :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
@@ -303,7 +306,7 @@ nmap <Leader>W <Plug>(easymotion-overwin-w)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => vim-markdown 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:vim_markdown_folding_disabled = 0
+let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_folding_style_pythonic = 1
 map <F4> :Toc<CR>:vertical res40<CR>
 
@@ -375,7 +378,7 @@ nmap <F7> :ALEToggle<CR>
 autocmd BufEnter * nested :call Fold_Bug()
 function! Fold_Bug()
     setlocal foldexpr=SimpylFold(v:lnum)
-    setlocal foldmethod=expr
+    setlocal foldmethod=indent
 
     if exists('SimpylFold_docstring_preview') && SimpylFold_docstring_preview
         setlocal foldtext=foldtext()\ .\ SimpylFoldText()
@@ -403,3 +406,9 @@ let b:csv_arrange_align   = 'l*'
 let g:csv_autocmd_arrange = 1
 let g:csv_autocmd_arrange_size = 1024*1024
 let g:csv_strict_columns  = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => flake8
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 记得安装 pip install flake8
+autocmd BufWritePost *.py call Flake8()
